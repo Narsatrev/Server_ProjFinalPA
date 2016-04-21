@@ -68,11 +68,15 @@ int serve(int s) {
 
         ////////         
         char *archivo_peticion;        
+        //Obtener el URI del archivo de peticion
         if(strstr(command, "GET") != NULL){
+            //El primer tokern del strtok siempre sera GET si se cumple la condicion
+            //por lo que el segundo necesariamente debe ser el URI
             archivo_peticion = strtok(command," ");
             archivo_peticion = strtok(NULL," ");
+            //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
             if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
-                    archivo_peticion="index.html";
+                    archivo_peticion="/index.html";
             }
             printf("TOKEN: %s\n", archivo_peticion);
         }
@@ -116,7 +120,10 @@ int serve(int s) {
 
     FILE *da;
     int tamano;
-    da=fopen("/home/ec2-user/var/www/html/index.html", "r");
+    url_archivo="/home/ec2-user/var/www/html";
+    strncpy(url_archivo, archivo_peticion, sizeof(archivo_peticion));
+    
+    da=fopen(url_archivo, "r");
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
