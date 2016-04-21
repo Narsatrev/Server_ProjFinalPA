@@ -21,7 +21,7 @@ mediante GET y POST para ejecutar archivos .php (o bien el lenguaje de tu elecci
 
 ***De manera Individual*** - se hará una demo el 03/05/16 haciendo apuntar cualquier
  navegador a la dirección donde estará instalado tu servidor (en AWS).
-
+w
 Evaluación según la siguiente tabla:
 50 - Entrega solo .html.
 +10 - Entrega páginas completas (con imágenes).
