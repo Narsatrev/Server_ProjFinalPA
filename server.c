@@ -86,7 +86,7 @@ int serve(int s) {
     strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
     printf("%s\n", fechaHora);
 
-    /////////////////////PRUEBA TIEMPO
+    /////////////////////PRUEBA TIEMPO-> falta darle formato
 
     sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
     writeLine(s, command, strlen(command));
