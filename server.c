@@ -55,6 +55,7 @@ int writeLine(int s, char *line, int total_size) {
     return 0;
 }
 
+
 int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
