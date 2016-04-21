@@ -58,6 +58,8 @@ int writeLine(int s, char *line, int total_size) {
 int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
+    char *url_archivo;
+
 
     while(1) {
         r = readLine(s, command, &size);
@@ -69,6 +71,9 @@ int serve(int s) {
         if(strstr(command, "GET") != NULL){
             archivo_peticion = strtok(command," ");
             archivo_peticion = strtok(NULL," ");
+            if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion)){
+                    archivo_peticion="index.html";
+            }
             printf("TOKEN: %s\n", archivo_peticion);
         }
         ////////->->->->->
