@@ -82,7 +82,7 @@ int serve(int s) {
 
     sleep(1);
 
-    sprintf(command, "HTTP/1.0 404 OK\r\n");
+    sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
 
     //PRUEBA TIEMPO
