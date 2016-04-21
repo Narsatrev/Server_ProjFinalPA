@@ -73,17 +73,22 @@ int serve(int s) {
     sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
 
+    /////////////////////PRUEBA TIEMPO
+
     //fecha y hora actual
     time_t tiempo = time(NULL);
     //estructura de tiempo que contiene los componentes de la fecha desglosados
     //metodo localtime que extrae componentes de tiempo
     struct tm *tiempo_s = localtime(&tiempo);
-    char fechaHora[64];
+    char fechaHora[100];
     //strftime regresa un string con los datos de la estructura tm
     //con un formato especificado, en este caso %c-> representacion de fecha Y hora
     strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
+    printf("%s\n", fechaHora);
 
-    sprintf(command, "Date: %s GMT\r\n",fechaHora);
+    /////////////////////PRUEBA TIEMPO
+
+    sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
     writeLine(s, command, strlen(command));
 
 
