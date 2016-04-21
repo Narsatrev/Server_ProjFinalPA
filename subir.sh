@@ -4,5 +4,5 @@ if [ -z "$1" ]; then
 fi
 
 git add .
-git commit -a -m "$1"
+git commit -a -m "$*"
 git push origin master
