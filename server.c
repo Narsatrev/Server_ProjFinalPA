@@ -63,8 +63,12 @@ int serve(int s) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
         size-=2;
+
+        char *token;        
         if(strstr(command, "GET") != NULL){
-            printf("[%s]\n", command);
+            token = strtok(str, " ");
+            token = strtok(str, " ");
+            printf("TOKEN: %s\n",token);
         }
         
         if(command[size-1] == '\n' && command[size-2] == '\r') {
