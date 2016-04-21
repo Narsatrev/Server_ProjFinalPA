@@ -66,8 +66,8 @@ int serve(int s) {
 
         char *token;        
         if(strstr(command, "GET") != NULL){
-            token = strtok(str, " ");
-            token = strtok(str, " ");
+            token = strtok(command," ");
+            token = strtok(NULL," ");
             printf("TOKEN: %s\n",token);
         }
         
