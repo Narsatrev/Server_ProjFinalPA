@@ -105,8 +105,16 @@ int main() {
     addrlen = sizeof(pin);
     
     // 4. aceptar conexión
-    while( (sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen)) > 0) {
+    while(1){
+
+        sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
+        if (sdo == -1) {
+            perror("accept");
+            exit(0);
+        }
+
         if(!fork()) {
+            close(sd);
             printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
             printf("Puerto %d\n", ntohs(pin.sin_port));
             serve(sdo);
