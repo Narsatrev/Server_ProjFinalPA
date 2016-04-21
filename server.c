@@ -72,8 +72,19 @@ int serve(int s) {
     sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+    //fecha y hora actual
+    time_t tiempo = time(NULL);
+    //estructura de tiempo que contiene los componentes de la fecha desglosados
+    //metodo localtime que extrae componentes de tiempo
+    struct tm *tiempo_s = localtime(&tiempo);
+    char fechaHora[64];
+    //strftime regresa un string con los datos de la estructura tm
+    //con un formato especificado, en este caso %c-> representacion de fecha Y hora
+    strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
+
+    sprintf(command, "Date: %s\r\n",fechaHora);
     writeLine(s, command, strlen(command));
+
 
     sprintf(command, "Content-Type: text/html\r\n");
     writeLine(s, command, strlen(command));
@@ -83,10 +94,6 @@ int serve(int s) {
     FILE *da;
     int tamano;
     da=fopen("/home/ec2-user/var/www/html/index.html", "r");
-    if (da == -1) {
-        perror("accept");
-        exit(0);
-    }
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
