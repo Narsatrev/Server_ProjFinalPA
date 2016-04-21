@@ -64,12 +64,12 @@ int serve(int s) {
         command[size-2] = 0;
         size-=2;
 
-        char *token;        
-        if(strstr(command, "GET") != NULL){
-            token = strtok(command," ");
-            token = strtok(NULL," ");
-            printf("TOKEN: %s\n",token);
-        }
+        // char *token;        
+        // if(strstr(command, "GET") != NULL){
+        //     token = strtok(command," ");
+        //     token = strtok(NULL," ");
+        //     printf("TOKEN: %s\n",token);
+        // }
         
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             break;
