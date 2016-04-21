@@ -68,7 +68,9 @@ int serve(int s) {
             break;
         }
     }
-    
+
+    printf("COMMAND:: %s\n",command);
+
     sleep(1);
 
     sprintf(command, "HTTP/1.0 200 OK\r\n");
