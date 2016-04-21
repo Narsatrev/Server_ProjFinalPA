@@ -75,7 +75,7 @@ int serve(int s) {
     sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "Content-Type: text/plain\r\n");
+    sprintf(command, "Content-Type: text/html\r\n");
     writeLine(s, command, strlen(command));
 
     //test recuperar y calcular tamano de archivo
