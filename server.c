@@ -69,7 +69,7 @@ int serve(int s) {
             break;
         }
     }
-    printf("COMMAND::: %s :::COMMAND\n", command);
+    // printf("COMMAND::: %s :::COMMAND\n", command);
 
     sleep(1);
 
