@@ -89,7 +89,7 @@ int serve(int s) {
     fseek(da, 0L, SEEK_SET);
 
     char *archivo = malloc(tamano + 1);
-    fread(archivo, fsize, 1, da);
+    fread(archivo, tamano, 1, da);
     fclose(da);
 
     //termina prueba
