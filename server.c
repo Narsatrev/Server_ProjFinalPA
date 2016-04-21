@@ -4,7 +4,6 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
-#include <time.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
 
@@ -73,21 +72,20 @@ int serve(int s) {
     sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
 
-    /////////////////////PRUEBA TIEMPO
+    //PRUEBA TIEMPO
 
     //fecha y hora actual
     time_t tiempo = time(NULL);
     //estructura de tiempo que contiene los componentes de la fecha desglosados
     //metodo localtime que extrae componentes de tiempo
     struct tm *tiempo_s = localtime(&tiempo);
-    char fechaHora[100];
+    char fechaHora[64];
     //strftime regresa un string con los datos de la estructura tm
     //con un formato especificado, en este caso %c-> representacion de fecha Y hora
     strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
     printf("%s\n", fechaHora);
 
-    /////////////////////PRUEBA TIEMPO
-    
+    //PRUEBA TIEMPO
 
     sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
     writeLine(s, command, strlen(command));
