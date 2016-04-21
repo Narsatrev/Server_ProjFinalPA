@@ -83,6 +83,10 @@ int serve(int s) {
     FILE *da;
     int tamano;
     da=fopen("/home/ec2-user/var/www/html/index.html", "r");
+    if (da == -1) {
+        perror("accept");
+        exit(0);
+    }
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
@@ -91,8 +95,7 @@ int serve(int s) {
     char *archivo = malloc(tamano + 1);
     fread(archivo, tamano, 1, da);
     fclose(da);
-
-    //termina prueba
+    
 
     sprintf(command, "Content-Length: %d\r\n", tamano);
     writeLine(s, command, strlen(command));
@@ -101,6 +104,7 @@ int serve(int s) {
     writeLine(s, command, strlen(command));
 
     free(archivo);
+    //termina prueba
 }
 
 int main() {
