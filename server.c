@@ -78,11 +78,29 @@ int serve(int s) {
     sprintf(command, "Content-Type: text/plain\r\n");
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "Content-Length: 11\r\n");
+    //test recuperar y calcular tamano de archivo
+
+    FILE *da;
+    int tamano;
+    da=fopen("/home/ec2-user/var/www/html/index.html", "r");
+
+    fseek(da, 0L, SEEK_END);
+    tamano = ftell(da);
+    fseek(da, 0L, SEEK_SET);
+
+    char *archivo = malloc(tamano + 1);
+    fread(archivo, fsize, 1, da);
+    fclose(da);
+
+    //termina prueba
+
+    sprintf(command, "Content-Length: %d\r\n", tamano);
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "\r\nHola mundo!");
+    sprintf(command, "\r\n%s", archivo);
     writeLine(s, command, strlen(command));
+
+    free(archivo);
 }
 
 int main() {
