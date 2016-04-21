@@ -68,6 +68,8 @@ int serve(int s) {
             break;
         }
     }
+    printf("COMMAND::: %s :::COMMAND\n", command);
+
     sleep(1);
 
     sprintf(command, "HTTP/1.0 200 OK\r\n");
@@ -86,7 +88,7 @@ int serve(int s) {
     strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
     printf("%s\n", fechaHora);
 
-    //PRUEBA TIEMPO
+    //PRUEBA TIEMPO->   FALTA DARLE FORMATO A LA FECHA
 
     sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
     writeLine(s, command, strlen(command));
