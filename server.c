@@ -121,9 +121,11 @@ int serve(int s) {
     FILE *da;
     int tamano;
     url_archivo="/home/ec2-user/var/www/html";
-    printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
+    printf("1 URL: %s URI: %s\n", url_archivo, archivo_peticion);
 
-    strncpy(url_archivo, archivo_peticion, sizeof(archivo_peticion));
+    strncat(url_archivo, archivo_peticion, sizeof(archivo_peticion));
+
+    printf("2 URL: %s URI: %s\n", url_archivo, archivo_peticion);
 
     da=fopen(url_archivo, "r");
 
