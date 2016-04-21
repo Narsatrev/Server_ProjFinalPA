@@ -121,10 +121,10 @@ int serve(int s) {
     FILE *da;
     int tamano;
     url_archivo="/home/ec2-user/var/www/html";
-    
+    printf("URL: %s\n", url_archivo);
 
     strncat(url_archivo, archivo_peticion, sizeof(archivo_peticion));
-    printf("URL: %s\n", url_archivo);
+    
 
     da=fopen(url_archivo, "r");
 
