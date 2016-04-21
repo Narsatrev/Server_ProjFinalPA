@@ -59,6 +59,7 @@ int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
     char *url_archivo;
+    char *archivo_peticion;        
 
 
     while(1) {
@@ -66,8 +67,7 @@ int serve(int s) {
         command[size-2] = 0;
         size-=2;
 
-        ////////         
-        char *archivo_peticion;        
+        ////////->->->->->       
         //Obtener el URI del archivo de peticion
         if(strstr(command, "GET") != NULL){
             //El primer tokern del strtok siempre sera GET si se cumple la condicion
@@ -122,7 +122,7 @@ int serve(int s) {
     int tamano;
     url_archivo="/home/ec2-user/var/www/html";
     strncpy(url_archivo, archivo_peticion, sizeof(archivo_peticion));
-    
+
     da=fopen(url_archivo, "r");
 
     fseek(da, 0L, SEEK_END);
