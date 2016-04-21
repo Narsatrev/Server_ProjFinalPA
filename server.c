@@ -71,7 +71,7 @@ int serve(int s) {
         if(strstr(command, "GET") != NULL){
             archivo_peticion = strtok(command," ");
             archivo_peticion = strtok(NULL," ");
-            if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion)){
+            if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
                     archivo_peticion="index.html";
             }
             printf("TOKEN: %s\n", archivo_peticion);
