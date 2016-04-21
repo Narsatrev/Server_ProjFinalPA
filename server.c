@@ -63,13 +63,16 @@ int serve(int s) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
         size-=2;
-        printf("[%s]\n", command);
+        if(strstr(command, "GET") != NULL){
+            printf("[%s]\n", command);
+        }
+        
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             break;
         }
     }
 
-    printf("COMMAND:: %s\n",command);
+    // printf("COMMAND:: %s\n",command);
 
     sleep(1);
 
