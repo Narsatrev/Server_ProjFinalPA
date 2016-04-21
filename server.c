@@ -92,11 +92,12 @@ int serve(int s) {
     tamano = ftell(da);
     fseek(da, 0L, SEEK_SET);
 
-    char *archivo = malloc(tamano + 1);
+    char *archivo = malloc(tamano+1);
     fread(archivo, tamano, 1, da);
     fclose(da);
-    
 
+    printf("%s\n", archivo);
+    
     sprintf(command, "Content-Length: %d\r\n", tamano);
     writeLine(s, command, strlen(command));
 
