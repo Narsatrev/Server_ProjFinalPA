@@ -64,14 +64,14 @@ int serve(int s) {
         command[size-2] = 0;
         size-=2;
 
-        ////////        
-        char *token;        
+        ////////         
+        char *archivo_peticion;        
         if(strstr(command, "GET") != NULL){
-            token = strtok(command," ");
-            token = strtok(NULL," ");
-            printf("TOKEN: %s\n",token);
+            archivo_peticion = strtok(command," ");
+            archivo_peticion = strtok(NULL," ");
+            printf("TOKEN: %s\n", archivo_peticion);
         }
-        ////////
+        ////////->->->->->
         
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             break;
@@ -82,7 +82,7 @@ int serve(int s) {
 
     sleep(1);
 
-    sprintf(command, "HTTP/1.0 200 OK\r\n");
+    sprintf(command, "HTTP/1.0 404 OK\r\n");
     writeLine(s, command, strlen(command));
 
     //PRUEBA TIEMPO
