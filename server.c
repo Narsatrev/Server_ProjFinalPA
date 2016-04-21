@@ -59,7 +59,7 @@ int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
     char *url_archivo;
-    char *archivo_peticion;        
+    char *uri_archivo_peticion;        
 
 
     while(1) {
@@ -72,13 +72,13 @@ int serve(int s) {
         if(strstr(command, "GET") != NULL){
             //El primer tokern del strtok siempre sera GET si se cumple la condicion
             //por lo que el segundo necesariamente debe ser el URI
-            archivo_peticion = strtok(command," ");
-            archivo_peticion = strtok(NULL," ");
+            uri_archivo_peticion = strtok(command," ");
+            uri_archivo_peticion = strtok(NULL," ");
             //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
-            if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
-                    archivo_peticion="/index.html";
+            if(strncmp(uri_archivo_peticion, "/", sizeof(uri_archivo_peticion))==0){
+                    uri_archivo_peticion="/index.html";
             }
-            printf("TOKEN: %s\n", archivo_peticion);
+            printf("TOKEN: %s\n", uri_archivo_peticion);
         }
         ////////->->->->->
         
@@ -123,8 +123,8 @@ int serve(int s) {
     url_archivo="/home/ec2-user/var/www/html";
     printf("URL: %s\n", url_archivo);
 
-    strncat(url_archivo, archivo_peticion, sizeof(archivo_peticion));
-    
+    strncat(url_archivo, uri_archivo_peticion, 1000);
+
 
     da=fopen(url_archivo, "r");
 
