@@ -123,8 +123,8 @@ int serve(int s) {
     url_archivo="/home/ec2-user/var/www/html";
     printf("URL: %s\n", url_archivo);
 
-    strncat(url_archivo, uri_archivo_peticion, 1000);
-
+    strncat(url_archivo, uri_archivo_peticion, sizeof(uri_archivo_peticion));
+    
 
     da=fopen(url_archivo, "r");
 
