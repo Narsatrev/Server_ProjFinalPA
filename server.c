@@ -125,7 +125,7 @@ int serve(int s) {
 
     strncat(url_archivo, archivo_peticion, sizeof(archivo_peticion));
 
-    printf("2 URL: %s URI: %s\n", url_archivo, archivo_peticion);
+    // printf("2 URL: %s URI: %s\n", url_archivo, archivo_peticion);
 
     da=fopen(url_archivo, "r");
 
