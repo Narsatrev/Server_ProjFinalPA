@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
+#include <time.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
 
