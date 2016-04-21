@@ -83,7 +83,7 @@ int serve(int s) {
     //con un formato especificado, en este caso %c-> representacion de fecha Y hora
     strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
 
-    sprintf(command, "Date: %s\r\n",fechaHora);
+    sprintf(command, "Date: %s GMT\r\n",fechaHora);
     writeLine(s, command, strlen(command));
 
 
