@@ -16,6 +16,12 @@
 #define SIZE 8
 #define MSGSIZE 1024
 
+void servidorCayo(){
+    openlog("ServidorMurio", LOG_PID | LOG_CONS, LOG_USER);
+    syslog(LOG_INFO, "El servidor fue apagado o termino su proceso de forma inesperada...\n");
+    closelog();
+}
+
 char *recuperarMimeType(char *extension){
     int i,j,x;
     char buffTipoMime[100];
@@ -242,6 +248,7 @@ int main() {
             perror("pthread_create");
         }
 
+        atexit(servidorCayo);
         // if(!fork()) {
         //     close(sd);
         //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
