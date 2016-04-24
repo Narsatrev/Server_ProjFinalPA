@@ -71,7 +71,6 @@ int writeLine(int s, char *line, int total_size) {
 int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
-    char *url_archivo;
     char *archivo_peticion;        
     char buff[2048];
     while(1) {
@@ -138,14 +137,13 @@ int serve(int s) {
 
     FILE *da;
     int tamano;
-    url_archivo="/home/ec2-user/var/www/html";
-    strcat(url_archivo,token_header);
-    printf("URL: %s\n",url_archivo);
-    // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
-    // sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
-    // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
+    char *url_archivo="/home/ec2-user/var/www/html";
+    char buff_url_completo[strlen(url_archivo)+strlen(token_header)+2];
+    strcat(buff_url_completo,url_archivo);
+    strcat(buff_url_completo,token_header);
+    printf("URL: %s\n",buff_url_completo);
 
-    da=fopen(url_archivo, "r");
+    da=fopen(buff_url_completo, "r");
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
