@@ -24,6 +24,7 @@ char *recuperarMimeType(char *extension){
         if(strncmp(mapaMimeTypes[i],extension,strlen(extension))==0){
             strncpy(buffTipoMime,mapaMimeTypes[i+1],strlen(mapaMimeTypes[i+1]));
             break;
+            
         }
     }    
     return buffTipoMime;
