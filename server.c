@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "listaMimeTypes.h"
 #include <syslog.h>
+#include <errno.h>
 
 #define PORT 80
 #define SIZE 8
@@ -224,8 +225,7 @@ int main() {
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
             openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
-            char * error=perror("accept");
-            syslog(LOG_INFO, "Error: %s\n", error);
+            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
             perror("accept");
             exit(0);
