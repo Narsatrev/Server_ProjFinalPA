@@ -141,10 +141,10 @@ int serve(int s) {
 
     printf("%s\n", archivo);
     
-    sprintf(command, "Content-Length: %d\r\n", tamano);
+    sprintf(command, "Content-Length: 1\r\n");
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "\r\n%s", archivo);
+    sprintf(command, "\r\nL");
     writeLine(s, command, strlen(command));
 
     free(archivo);
