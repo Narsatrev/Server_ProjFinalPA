@@ -86,7 +86,7 @@ int serve(int s) {
         ////////->->->->->
         
         if(command[size-1] == '\n' && command[size-2] == '\r') {
-            printf("BUFFER: %s\n",buff);
+            // printf("BUFFER: %s\n",buff);
             break;
         }
     }
