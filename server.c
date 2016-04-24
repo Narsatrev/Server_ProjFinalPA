@@ -24,7 +24,7 @@ char *recuperarMimeType(char *extension){
         if(strncmp(mapaMimeTypes[i],extension,strlen(extension))==0){
             strncpy(buffTipoMime,mapaMimeTypes[i+1],strlen(mapaMimeTypes[i+1]));
             break;
-            
+
         }
     }    
     return buffTipoMime;
@@ -235,7 +235,7 @@ int main() {
             exit(0);
         }
 
-         if (pthread_create(&newthread , NULL, serve, sdo) != 0)
+         if (pthread_create(&newthread , NULL, serve, sdo) != 0){
             openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
