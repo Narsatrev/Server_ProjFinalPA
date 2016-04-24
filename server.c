@@ -160,7 +160,7 @@ int serve(int s) {
         sprintf(command, "<body><h1>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
-         
+
         printf("No existe tal archivo!!\n");
         exit(1);
     }else{
@@ -224,7 +224,7 @@ int main() {
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
             openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: %s\n", perror("accept"););
+            syslog(LOG_INFO, "Error: %s\n", perror("accept"));
             closelog();
             perror("accept");
             exit(0);
