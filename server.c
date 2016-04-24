@@ -66,7 +66,11 @@ int serve(int s) {
         command[size-2] = 0;
         size-=2;
         printf("[%s]\n", command);
+
+        //Manipular todo el texto de comandos
         strcat(buff,command);
+        strcat(buff,"\n");
+
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             break;
         }
