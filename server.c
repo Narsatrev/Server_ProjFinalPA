@@ -79,7 +79,8 @@ int serve(int s) {
         command[size-2] = 0;
         size-=2;
 
-        openlog("logServidorPrueba", LOG_PID|LOG_CONS, LOG_USER);
+        //Guarda toda la informacion de las peticiones en el log ubicado en /var/log/messages
+        openlog("Peticiones_al_servidor", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Header de la peticion: %s\n",command);
         closelog();
 
@@ -141,7 +142,24 @@ int serve(int s) {
 
     da=fopen(url_completo, "r");
     if(da==NULL){
-        //mandar 404 aqui...
+        //Guardar en el log del sistema cada vez que un archivo no se encuentra
+        openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+        closelog();
+        //Mandar una respuesta con header 404, archivo no encontrado
+        sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "Content-Type: text/html\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "<html><title>No encontrado</title>\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "<body><h1>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
+        writeLine(s, command, strlen(command));
+        //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //   
         printf("No existe tal archivo!!\n");
         exit(1);
     }else{
@@ -204,6 +222,9 @@ int main() {
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
+            openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: %s\n", perror("accept"););
+            closelog();
             perror("accept");
             exit(0);
         }
