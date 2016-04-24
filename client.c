@@ -18,7 +18,7 @@ int main() {
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     getaddrinfo("127.0.0.1", "80", &hints, &res);
-
+    
     sd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
     connect(sd, res->ai_addr, res->ai_addrlen);
     //while( (size=read(STDIN_FILENO, buffer, SIZE)) > 0) {

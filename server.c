@@ -74,10 +74,12 @@ int serve(int s) {
             //por lo que el segundo necesariamente debe ser el URI
             archivo_peticion = strtok(command," ");
             archivo_peticion = strtok(NULL," ");
+            
             //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
             if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
                     archivo_peticion="/index.html";
             }
+
             printf("TOKEN: %s\n", archivo_peticion);
         }
         ////////->->->->->
@@ -122,8 +124,8 @@ int serve(int s) {
     int tamano;
     url_archivo="/home/ec2-user/var/www/html";
     printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
-    sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
-    printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
+    // sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
+    // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
 
     da=fopen(url_archivo, "r");
 
