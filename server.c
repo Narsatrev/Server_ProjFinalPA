@@ -84,8 +84,6 @@ int serve(int s) {
             // printf("TOKEN: %s\n", archivo_peticion);
         // }
         ////////->->->->->
-
-         printf("[%s]\n", command);
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             // printf("BUFFER: %s\n",buff);
             break;
