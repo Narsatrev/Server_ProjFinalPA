@@ -92,6 +92,7 @@ int serve(int s) {
     // printf("COMMAND:: %s\n",command);
 
     sleep(1);
+    printf("ARHCIVO PETIZION SI: %s\n",archivo_peticion);
 
     sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
