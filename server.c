@@ -70,27 +70,27 @@ int serve(int s) {
 
         ////////->->->->->       
         //Obtener el URI del archivo de peticion
-        char *aux;
+        // char *aux;
 
-        if(strstr(command, "GET") != NULL){
-            //El primer tokern del strtok siempre sera GET si se cumple la condicion
-            //por lo que el segundo necesariamente debe ser el URI
-            strncpy(aux,command,sizeof(command));
-            archivo_peticion = strtok(aux," ");
-            archivo_peticion = strtok(NULL," ");
+        // if(strstr(command, "GET") != NULL){
+        //     //El primer tokern del strtok siempre sera GET si se cumple la condicion
+        //     //por lo que el segundo necesariamente debe ser el URI
+        //     strncpy(aux,command,sizeof(command));
+        //     archivo_peticion = strtok(command," ");
+        //     archivo_peticion = strtok(NULL," ");
             
-            //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
-            if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
-                    archivo_peticion="/index.html";
-            }
+        //     //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
+        //     if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
+        //             archivo_peticion="/index.html";
+        //     }
 
-            printf("TOKEN: %s\n", archivo_peticion);
-        }
+        //     printf("TOKEN: %s\n", archivo_peticion);
+        // }
 
         ////////->->->->->
         
         // strcat(buff,command);
-        
+
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             // printf("BUFFER: %s\n",buff);
             break;
