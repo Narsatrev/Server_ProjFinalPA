@@ -147,7 +147,7 @@ int serve(int s) {
 
     //substring para eliminar caracteres raritos al inicio.... 
     char buff_aux_url[strlen(buff_url_completo)-5];    
-    strncpy(buff_aux_url, &buff_url_completo[5], strlen(buff_url_completo)-6);
+    strncpy(buff_aux_url, &buff_url_completo[5], strlen(buff_url_completo)-5);
 
     printf("URL: %s\n",buff_aux_url);
     printf("URL Archivo: %s\n",url_archivo);
