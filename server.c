@@ -13,13 +13,14 @@
 #define SIZE 8
 #define MSGSIZE 1024
 
-static void leerLineaString(char *str, char *linea){
-    int c = 0;
-    while(str[c] != '\n'){
-        linea[c] = str[c];
-        c++;
+void leerLineaString(char *message, char *line, int *counter){
+    int index = 0;
+    while(message[*counter] != '\n'){
+        line[index] = message[*counter];
+        (*counter)++;
+        index ++;
     }
-    linea[c] = 0;
+    line[index] = 0;
 }
 
 
@@ -87,7 +88,8 @@ int serve(int s) {
     }
 
     char *linea;
-    leerLineaString(buff,linea);
+    int cont=0;
+    leerLineaString(buff,linea,&cont);
     printf("Linea: %s\n",linea);
 
 
