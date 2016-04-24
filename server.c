@@ -114,7 +114,6 @@ int serve(int s) {
     token_extension = strtok(nombre_archivo_uri,".");
     //segundo token=>extension del archivo
     token_extension = strtok(NULL,".");
-
     char* tipoMime=recuperarMimeType(token_extension);
 
     printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
@@ -145,11 +144,13 @@ int serve(int s) {
     strcat(buff_url_completo,nombre_archivo_uri);
     strcat(buff_url_completo,".");
     strcat(buff_url_completo,token_extension);
-    //substring para eliminar caracteres raritos..
+
+    //substring para eliminar caracteres raritos al inicio.... 
     char buff_aux_url[strlen(buff_url_completo)-5];    
     strncpy(buff_aux_url, &buff_url_completo[5], strlen(buff_url_completo)-6);
 
     printf("URL: %s\n",buff_aux_url);
+    printf("URL Archivo: %s\n",url_archivo);
 
     da=fopen(url_archivo, "r");
     if(da==NULL){
