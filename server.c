@@ -136,7 +136,7 @@ int serve(int s) {
     FILE *da;
     int tamano;
 
-    char *url_archivo="/hame/ec2-user/var/www/html";
+    char *url_archivo="/home/ec2-user/var/www/html";
 
     char url_completo[1024];
     strcat(url_completo,url_archivo);
