@@ -166,14 +166,14 @@ int main() {
             exit(0);
         }
 
-        if(!fork()) {
+        // if(!fork()) {
             close(sd);
             printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
             printf("Puerto %d\n", ntohs(pin.sin_port));
             serve(sdo);
             close(sdo);
             exit(0);
-        }
+        // }
     }
 
     close(sd);
