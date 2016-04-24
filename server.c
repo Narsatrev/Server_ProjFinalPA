@@ -137,7 +137,7 @@ int serve(int s) {
     FILE *da;
     int tamano;
 
-    char *url_archivo="/home/ec2-user/var/www/html/index.html";
+    char *url_archivo="/home/ec2-user/var/www/html";
 
     char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)];
 
@@ -149,6 +149,10 @@ int serve(int s) {
     printf("URL: %s\n",buff_url_completo);
 
     da=fopen(url_archivo, "r");
+    if(da==NULL){
+        //mandar 404 aqui...
+        printf("No existe tal archivo!!");
+    }
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
