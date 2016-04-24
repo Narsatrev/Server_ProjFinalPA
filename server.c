@@ -251,8 +251,5 @@ int main() {
         //     exit(0);
         // }
     }
-
     close(sd);
-
-    sleep(1);
 }
