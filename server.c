@@ -7,11 +7,24 @@
 #include <time.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
-
+#include "listaMimeTypes.h"
 
 #define PORT 80
 #define SIZE 8
 #define MSGSIZE 1024
+
+char *recuperarMimeType(char *extension){
+    int i,j,x;
+    char buffTipoMime[100];
+
+    for(i=0;i<83;i++){
+        if(strncmp(mapaMimeTypes[i],extension,strlen(extension))==0){
+            strncpy(buffTipoMime,mapaMimeTypes[i+1],strlen(mapaMimeTypes[i+1]));
+            break;
+        }
+    }    
+    return buffTipoMime;
+}
 
 int readLine(int s, char *line, int *result_size) {
     int acum=0, size;
@@ -103,8 +116,11 @@ int serve(int s) {
     //segundo token=>extension del archivo
     token_extension = strtok(NULL,".");
 
+    char* tipoMime=recuperarMimeType(token_extension);
+
     printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
     printf("EXTENSION ARCHIVO: %s\n", token_extension);
+    printf("TIPO MIME: %s\n", tipoMime);
 
     sleep(1);
 
