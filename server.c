@@ -142,7 +142,7 @@ int serve(int s) {
     sprintf(command, "Content-Length: %d\r\n", tamano);
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "\r\nshelllller", archivo);
+    sprintf(command, "\r\n%s", archivo);
     writeLine(s, command, strlen(command));
 
     free(archivo);
