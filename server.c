@@ -13,17 +13,6 @@
 #define SIZE 8
 #define MSGSIZE 1024
 
-void leerLineaString(char *message, char *line, int *counter){
-    int index = 0;
-    while(message[*counter] != '\n'){
-        line[index] = message[*counter];
-        (*counter)++;
-        index ++;
-    }
-    line[index] = 0;
-}
-
-
 int readLine(int s, char *line, int *result_size) {
     int acum=0, size;
     char buffer[SIZE];
@@ -87,10 +76,9 @@ int serve(int s) {
         }
     }
 
-    char *linea;
-    int cont=0;
-    leerLineaString(buff,linea,&cont);
-    printf("Linea: %s\n",linea);
+    char buff_aux[2048];
+    strncpy(buff_aux,buff,2048);
+    printf("SHI");
 
 
     sleep(1);
