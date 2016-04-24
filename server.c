@@ -78,6 +78,13 @@ int serve(int s) {
 
     char buff_aux[2048];
     strncpy(buff_aux,buff,2048);
+
+    char *token_header;
+    //primer token
+    token_header = strtok(buff_aux," ");
+    token_header = strtok(NULL," ");
+    printf("TOKENNNN: %s\n",token_header)
+
     printf("SHI");
 
 
