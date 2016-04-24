@@ -137,19 +137,19 @@ int serve(int s) {
     FILE *da;
     int tamano;
 
-    char *url_archivo="/home/ec2-user/var/www/html";
+    char *url_archivo="/home/ec2-user/var/www/html/index.html";
 
-    char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)+2];
+    // char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)+2];
 
-    strcat(buff_url_completo,url_archivo);
-    strcat(buff_url_completo,"/");
-    strcat(buff_url_completo,nombre_archivo_uri);
-    strcat(buff_url_completo,".");
-    strcat(buff_url_completo,token_extension);
+    // strcat(buff_url_completo,url_archivo);
+    // strcat(buff_url_completo,"/");
+    // strcat(buff_url_completo,nombre_archivo_uri);
+    // strcat(buff_url_completo,".");
+    // strcat(buff_url_completo,token_extension);
 
     printf("URL: %s\n",buff_url_completo);
 
-    da=fopen(buff_url_completo, "r");
+    da=fopen(url_archivo, "r");
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
