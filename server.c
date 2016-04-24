@@ -61,6 +61,7 @@ int serve(int s) {
     char *url_archivo;
     char *archivo_peticion;        
 
+    int banderaArchivoPeticion = 0;
 
     while(1) {
         r = readLine(s, command, &size);
@@ -69,7 +70,7 @@ int serve(int s) {
 
         ////////->->->->->       
         //Obtener el URI del archivo de peticion
-        if(strstr(command, "GET") != NULL){
+        if(strstr(command, "GET") != NULL && !banderaArchivoPeticion){
             //El primer tokern del strtok siempre sera GET si se cumple la condicion
             //por lo que el segundo necesariamente debe ser el URI
             archivo_peticion = strtok(command," ");
@@ -81,6 +82,7 @@ int serve(int s) {
             }
 
             printf("TOKEN: %s\n", archivo_peticion);
+            banderaArchivoPeticion=1;
         }
         ////////->->->->->
         
