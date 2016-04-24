@@ -96,9 +96,17 @@ int serve(int s) {
         strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
         nombre_archivo_uri[strlen(token_header)]='\0';
     }
-    
-    printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
 
+    char ext_archivo[strlen(nombre_archivo_uri)];
+    strncpy(ext_archivo,nombre_archivo_uri,strlen(nombre_archivo_uri));
+    char *token_extension;
+    //primer token=>path del archivo
+    token_extension = strtok(ext_archivo,".");
+    //segundo token=>extension del archivo
+    token_extension = strtok(NULL,".");
+
+    printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
+    printf("EXTENSION ARCHIVO: %s\n", token_extension);
 
     sleep(1);
 
