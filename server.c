@@ -8,6 +8,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include "listaMimeTypes.h"
+#include <syslog.h>
 
 #define PORT 80
 #define SIZE 8
@@ -77,6 +78,11 @@ int serve(int s) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
         size-=2;
+
+        openlog("logServidorPrueba", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Header de la peticion: %s\n",command);
+        closelog();
+
         printf("[%s]\n", command);
 
         //Guardar todos los comandos para su manipulacion posterior
@@ -99,7 +105,7 @@ int serve(int s) {
     
     char nombre_archivo_uri[500];
 
-    printf("TOKEN HEADER: %s LEN: %lu\n",token_header,strlen(token_header));
+    printf("ARCHIVO URI: %s LEN: %lu\n",token_header,strlen(token_header));
 
     if(strncmp(token_header,"/",strlen(token_header))==0){
         strncpy(nombre_archivo_uri, "/index.html", 12);
@@ -116,7 +122,6 @@ int serve(int s) {
     token_extension = strtok(NULL,".");
     char* tipoMime=recuperarMimeType(token_extension);
 
-    printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
     printf("EXTENSION ARCHIVO: %s\n", token_extension);
     printf("TIPO MIME: %s\n", tipoMime);    
 
@@ -132,8 +137,7 @@ int serve(int s) {
     strcat(url_completo,".");
     strcat(url_completo,token_extension);
     
-    printf("URL: %s\n",url_completo);
-    printf("URL Archivo: %s\n",url_archivo);
+    printf("URL COMPLETA: %s\n",url_completo);
 
     da=fopen(url_completo, "r");
     if(da==NULL){
