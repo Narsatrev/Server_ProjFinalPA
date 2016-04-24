@@ -103,7 +103,7 @@ int serve(int s) {
 
     if(strncmp(token_header,"/",strlen(token_header))==0){
         strncpy(nombre_archivo_uri, "/index.html", 12);
-        nombre_archivo_uri[10]='\0';
+        nombre_archivo_uri[11]='\0';
     }else{
         strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
         nombre_archivo_uri[strlen(token_header)]='\0';
@@ -149,7 +149,7 @@ int serve(int s) {
     char buff_aux_url[strlen(buff_url_completo)-5];    
     strncpy(buff_aux_url, &buff_url_completo[5], strlen(buff_url_completo)-6);
 
-    printf("URL: %s\n",buff_url_completo);
+    printf("URL: %s\n",buff_aux_url);
 
     da=fopen(url_archivo, "r");
     if(da==NULL){
