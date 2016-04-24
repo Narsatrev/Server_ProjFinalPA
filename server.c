@@ -89,16 +89,15 @@ int serve(int s) {
 
     printf("TOKEN HEADER: %s LEN: %lu\n",token_header,strlen(token_header));
 
-    // if(strncmp(token_header,"/",strlen(token_header))==0){
-    //     strncpy(nombre_archivo_uri, "index.html", 11);
-    //     nombre_archivo_uri[10]='\0';
-    // }else{
-    //     strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
-    //     nombre_archivo_uri[strlen(token_header)]='\0';
-    // }
-
-
-    // printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
+    if(strncmp(token_header,"/",strlen(token_header))==0){
+        strncpy(nombre_archivo_uri, "index.html", 11);
+        nombre_archivo_uri[10]='\0';
+    }else{
+        strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
+        nombre_archivo_uri[strlen(token_header)]='\0';
+    }
+    
+    printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
 
 
     sleep(1);
