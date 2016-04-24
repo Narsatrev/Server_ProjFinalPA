@@ -68,10 +68,12 @@ int serve(int s) {
 
         ////////->->->->->       
         //Obtener el URI del archivo de peticion
+        char *aux;
         if(strstr(command, "GET") != NULL){
             //El primer tokern del strtok siempre sera GET si se cumple la condicion
             //por lo que el segundo necesariamente debe ser el URI
-            archivo_peticion = strtok(command," ");
+            strncpy(aux,command,sizeof(command));
+            archivo_peticion = strtok(aux," ");
             archivo_peticion = strtok(NULL," ");
             
             //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
