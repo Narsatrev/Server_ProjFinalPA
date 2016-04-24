@@ -147,7 +147,7 @@ int serve(int s) {
     strcat(buff_url_completo,token_extension);
     char *buff_aux[strlen(buff_url_completo)-5];
     //substring para eliminar caracteres raritos..
-    strncpy(buff_aux, &buff_url_completo[5], strlen(buff_url_completo)-6);
+    strncpy(buff_aux, buff_url_completo[5], strlen(buff_url_completo)-6);
 
     printf("URL: %s\n",buff_url_completo);
 
