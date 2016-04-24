@@ -156,12 +156,10 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n");
         writeLine(s, command, strlen(command));
-        sprintf(command, "<html><title>No encontrado</title>\r\n");
+        sprintf(command, "<html><head><meta charset='utf-8'/></head><title>No encontrado</title>\r\n");
         writeLine(s, command, strlen(command));
-        sprintf(command, "<body><h1>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
+        sprintf(command, "<body><h1>ERROR 404<br/>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
         writeLine(s, command, strlen(command));
-
-        free(archivo);
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
 
         printf("No existe tal archivo!!\n");
