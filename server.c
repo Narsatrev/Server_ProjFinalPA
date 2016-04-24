@@ -224,7 +224,8 @@ int main() {
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
             openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: %s\n", perror("accept"));
+            char * error=perror("accept")
+            syslog(LOG_INFO, "Error: %s\n", error);
             closelog();
             perror("accept");
             exit(0);
