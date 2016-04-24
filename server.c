@@ -136,27 +136,24 @@ int serve(int s) {
     FILE *da;
     int tamano;
 
-    char *url_archivo="/home/ec2-user/var/www/html";
+    char *url_archivo="/hame/ec2-user/var/www/html";
 
-    char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)];
-
-    strcat(buff_url_completo,url_archivo);
-    strcat(buff_url_completo,nombre_archivo_uri);
-    strcat(buff_url_completo,".");
-    strcat(buff_url_completo,token_extension);
-
-    //substring para eliminar caracteres raritos al inicio.... 
-    char buff_aux_url[strlen(buff_url_completo)-5];    
-    strncpy(buff_aux_url, &buff_url_completo[5], strlen(buff_url_completo)-5);
-
-    printf("URL: %s\n",buff_aux_url);
+    char url_completo[1024];
+    strcat(url_completo,url_archivo);
+    strcat(url_completo,nombre_archivo_uri);
+    strcat(url_completo,".");
+    strcat(url_completo,token_extension);
+    
+    printf("URL: %s\n",url_completo);
     printf("URL Archivo: %s\n",url_archivo);
 
-    da=fopen(buff_aux_url, "r");
+    da=fopen(url_completo, "r");
     if(da==NULL){
         //mandar 404 aqui...
-        printf("No existe tal archivo!!");
+        printf("No existe tal archivo!!\n");
         exit(1);
+    }else{
+        printf("SI EXISTE EL ARCHIVO YAY!!!\n");
     }
 
     fseek(da, 0L, SEEK_END);
