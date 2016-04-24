@@ -13,6 +13,16 @@
 #define SIZE 8
 #define MSGSIZE 1024
 
+static void leerLineaString(char *str, char *linea){
+    int c = 0;
+    while(str[c] != '\n'){
+        linea[c] = message[c];
+        c++;
+    }
+    linea[c] = 0;
+}
+
+
 int readLine(int s, char *line, int *result_size) {
     int acum=0, size;
     char buffer[SIZE];
@@ -67,7 +77,7 @@ int serve(int s) {
         size-=2;
         printf("[%s]\n", command);
 
-        //Manipular todo el texto de comandos
+        //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
         strcat(buff,"\n");
 
@@ -76,8 +86,10 @@ int serve(int s) {
         }
     }
 
-    printf("COMMAND:: %s\n",command);
-    printf("BUFFER:: %s\n",buff);
+    char *linea;
+    leerLineaString(buff,linea);
+    printf("Linea: %s\n",linea);
+
 
     sleep(1);
 
