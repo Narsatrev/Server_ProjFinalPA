@@ -159,7 +159,8 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "<body><h1>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
         writeLine(s, command, strlen(command));
-        //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //   
+        //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
+         
         printf("No existe tal archivo!!\n");
         exit(1);
     }else{
