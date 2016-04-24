@@ -102,7 +102,7 @@ int serve(int s) {
     printf("TOKEN HEADER: %s LEN: %lu\n",token_header,strlen(token_header));
 
     if(strncmp(token_header,"/",strlen(token_header))==0){
-        strncpy(nombre_archivo_uri, "/index.html", 11);
+        strncpy(nombre_archivo_uri, "/index.html", 12);
         nombre_archivo_uri[10]='\0';
     }else{
         strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
@@ -145,6 +145,9 @@ int serve(int s) {
     strcat(buff_url_completo,nombre_archivo_uri);
     strcat(buff_url_completo,".");
     strcat(buff_url_completo,token_extension);
+    char *buff_aux[strlen(buff_url_completo)-5];
+    //substring para eliminar caracteres raritos..
+    strncpy(buff_aux, &buff_url_completo[5], strlen(buff_url_completo)-6);
 
     printf("URL: %s\n",buff_url_completo);
 
