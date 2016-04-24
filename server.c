@@ -67,25 +67,8 @@ int serve(int s) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
         size-=2;
-
-        // strcat(buff,command);
-        ////////->->->->->       
-        //Obtener el URI del archivo de peticion
-        // if(strstr(command, "GET") != NULL){
-            //El primer tokern del strtok siempre sera GET si se cumple la condicion
-            //por lo que el segundo necesariamente debe ser el URI
-            // archivo_peticion = strtok(command," ");
-            // archivo_peticion = strtok(NULL," ");
-            
-            //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
-            // if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
-                    // archivo_peticion="/index.html";
-            // }
-            // printf("TOKEN: %s\n", archivo_peticion);
-        // }
-        ////////->->->->->
+        printf("[%s]\n", command);
         if(command[size-1] == '\n' && command[size-2] == '\r') {
-            // printf("BUFFER: %s\n",buff);
             break;
         }
     }
@@ -240,15 +223,15 @@ int main() {
 //     char command[MSGSIZE];
 //     int size, r, nlc = 0;
 
-//     while(1) {
-//         r = readLine(s, command, &size);
-//         command[size-2] = 0;
-//         size-=2;
-//         printf("[%s]\n", command);
-//         if(command[size-1] == '\n' && command[size-2] == '\r') {
-//             break;
-//         }
-//     }
+    // while(1) {
+    //     r = readLine(s, command, &size);
+    //     command[size-2] = 0;
+    //     size-=2;
+    //     printf("[%s]\n", command);
+    //     if(command[size-1] == '\n' && command[size-2] == '\r') {
+    //         break;
+    //     }
+    // }
 //     sleep(1);
 
 //     sprintf(command, "HTTP/1.0 200 OK\r\n");
