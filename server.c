@@ -160,13 +160,15 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "<body><h1>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
         writeLine(s, command, strlen(command));
+
+        free(archivo);
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
 
         printf("No existe tal archivo!!\n");
         exit(1);
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
-    }
+    
 
     fseek(da, 0L, SEEK_END);
     tamano = ftell(da);
@@ -197,7 +199,7 @@ int serve(int s) {
     writeLine(s, command, strlen(command));
 
     free(archivo);
-    //termina prueba
+    }
 }
 
 int main() {
