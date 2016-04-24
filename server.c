@@ -131,14 +131,16 @@ int serve(int s) {
     writeLine(s, command, strlen(command));
 
 
-    sprintf(command, "Content-Type: text/html\r\n");
+    sprintf(command, "Content-Type: %s\r\n",tipoMime);
     writeLine(s, command, strlen(command));
 
     //test recuperar y calcular tamano de archivo
 
     FILE *da;
     int tamano;
-    url_archivo="/home/ec2-user/var/www/html/index.html";
+    url_archivo="/home/ec2-user/var/www/html";
+    strcat(url_archivo,token_header);
+    printf("URL: %s\n",url_archivo);
     // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
     // sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
     // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
