@@ -139,9 +139,10 @@ int serve(int s) {
 
     char *url_archivo="/home/ec2-user/var/www/html";
 
-    char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)+5];
+    char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)+2];
 
     strcat(buff_url_completo,url_archivo);
+    strcat(buff_url_completo,"/");
     strcat(buff_url_completo,nombre_archivo_uri);
     strcat(buff_url_completo,".");
     strcat(buff_url_completo,token_extension);
