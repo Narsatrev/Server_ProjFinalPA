@@ -80,12 +80,19 @@ int serve(int s) {
     strncpy(buff_aux,buff,2048);
 
     char *token_header;
-    //primer token
+    //primer token=>GET
     token_header = strtok(buff_aux," ");
+    //segundo token=>URI PETICION
     token_header = strtok(NULL," ");
-    printf("TOKENNNN: %s\n",token_header);
+    
+    char *nombre_archivo_uri;
+    if(strncmp(token_header,"/",1)==0){
+        nombre_archivo_uri="index.html";
+    }else{
+        strncpy(nombre_archivo_uri,token_header,strlen(token_header));        
+    }
 
-    printf("SHI");
+    printf("ARCHIVO URI: %s\n", nombre_archivo_uri);
 
 
     sleep(1);
