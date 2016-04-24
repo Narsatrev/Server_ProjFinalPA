@@ -134,13 +134,18 @@ int serve(int s) {
     writeLine(s, command, strlen(command));
 
     //test recuperar y calcular tamano de archivo
-
     FILE *da;
     int tamano;
+
     char *url_archivo="/home/ec2-user/var/www/html";
-    char buff_url_completo[strlen(url_archivo)+strlen(token_header)+2];
+
+    char buff_url_completo[strlen(url_archivo)+strlen(nombre_archivo_uri)+strlen(token_extension)+5];
+
     strcat(buff_url_completo,url_archivo);
-    strcat(buff_url_completo,token_header);
+    strcat(buff_url_completo,nombre_archivo_uri);
+    strcat(buff_url_completo,".");
+    strcat(buff_url_completo,token_extension);
+
     printf("URL: %s\n",buff_url_completo);
 
     da=fopen(buff_url_completo, "r");
