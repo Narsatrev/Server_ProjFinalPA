@@ -92,7 +92,7 @@ int serve(int s) {
         }
     }
 
-    // printf("COMMAND:: %s\n",command);
+    printf("COMMAND:: %s\n",command);
 
     sleep(1);
 
