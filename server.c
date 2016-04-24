@@ -61,14 +61,14 @@ int serve(int s) {
     char *url_archivo;
     char *archivo_peticion;        
 
-    char buff[2048];
+    // char buff[2048];
 
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
         size-=2;
 
-        strcat(buff,command);
+        // strcat(buff,command);
         ////////->->->->->       
         //Obtener el URI del archivo de peticion
         // if(strstr(command, "GET") != NULL){
