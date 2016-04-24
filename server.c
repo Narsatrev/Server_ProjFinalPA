@@ -152,6 +152,7 @@ int serve(int s) {
     if(da==NULL){
         //mandar 404 aqui...
         printf("No existe tal archivo!!");
+        exit(1);
     }
 
     fseek(da, 0L, SEEK_END);
