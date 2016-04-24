@@ -101,15 +101,15 @@ int serve(int s) {
     //PRUEBA TIEMPO
 
     //fecha y hora actual
-    time_t tiempo = time(NULL);
+    // time_t tiempo = time(NULL);
     //estructura de tiempo que contiene los componentes de la fecha desglosados
     //metodo localtime que extrae componentes de tiempo
-    struct tm *tiempo_s = localtime(&tiempo);
-    char fechaHora[64];
+    // struct tm *tiempo_s = localtime(&tiempo);
+    // char fechaHora[64];
     //strftime regresa un string con los datos de la estructura tm
     //con un formato especificado, en este caso %c-> representacion de fecha Y hora
-    strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
-    printf("%s\n", fechaHora);
+    // strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
+    // printf("%s\n", fechaHora);
 
     //PRUEBA TIEMPO->   FALTA DARLE FORMATO A LA FECHA
 
