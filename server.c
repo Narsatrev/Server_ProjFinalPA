@@ -126,10 +126,10 @@ int serve(int s) {
 
     printf("%s\n", archivo);
     
-    sprintf(command, "Content-Length: 1\r\n");
+    sprintf(command, "Content-Length: %d\r\n",tamano);
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "\r\nL");
+    sprintf(command, "\r\nindex.html");
     writeLine(s, command, strlen(command));
 
     free(archivo);

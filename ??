@@ -1,0 +1,8 @@
+[master 19c639f] why u not work
+ 7 files changed, 188 insertions(+), 1998 deletions(-)
+ create mode 100644 ??
+ delete mode 100755 GoHttp-master/.gitignore
+ delete mode 100755 GoHttp-master/GoHttp.c
+ delete mode 100755 GoHttp-master/README.md
+ delete mode 100755 GoHttp-master/httpd.conf
+ delete mode 100755 GoHttp-master/mime.types
