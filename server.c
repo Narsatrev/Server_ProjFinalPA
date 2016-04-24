@@ -103,10 +103,10 @@ int serve(int s) {
 
     if(strncmp(token_header,"/",strlen(token_header))==0){
         strncpy(nombre_archivo_uri, "index.html", 11);
-        // nombre_archivo_uri[10]='\0';
+        nombre_archivo_uri[10]='\0';
     }else{
         strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
-        // nombre_archivo_uri[strlen(token_header)]='\0';
+        nombre_archivo_uri[strlen(token_header)]='\0';
     }
 
     char *token_extension;
