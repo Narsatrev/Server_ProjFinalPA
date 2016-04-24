@@ -73,7 +73,7 @@ int serve(int s) {
     }
 
     printf("COMMAND:: %s\n",command);
-    printf("BUFFER:: %s\n",buffer);
+    printf("BUFFER:: %s\n",buff);
 
     sleep(1);
 
