@@ -10,6 +10,7 @@
 #include "listaMimeTypes.h"
 #include <syslog.h>
 #include <errno.h>
+#include <pthread.h>
 
 #define PORT 80
 #define SIZE 8
@@ -158,12 +159,12 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "<html><head><meta charset='utf-8'/></head><title>No encontrado</title>\r\n");
         writeLine(s, command, strlen(command));
-        sprintf(command, "<body><h1>ERROR 404<br/>El servidor no pudo resolver su petición pues no se encontró el archivo!</h1>.</body></html>\r\n");
+        sprintf(command, "<body><h1>ERROR 404<h1><br/><h3><br/>El servidor no pudo resolver su petición pues no se encontró el archivo!</h3>.</body></html>\r\n");
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
-
         printf("No existe tal archivo!!\n");
-        exit(1);
+        exit(0);
+
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
     
@@ -204,6 +205,8 @@ int main() {
     int sd, sdo, addrlen, size;
     struct sockaddr_in sin, pin;
 
+     pthread_t newthread;
+
     // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -231,14 +234,21 @@ int main() {
             exit(0);
         }
 
-        if(!fork()) {
-            close(sd);
-            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            printf("Puerto %d\n", ntohs(pin.sin_port));
-            serve(sdo);
-            close(sdo);
-            exit(0);
+         if (pthread_create(&newthread , NULL, serve, sdo) != 0)
+            openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            closelog();
+            perror("pthread_create");
         }
+
+        // if(!fork()) {
+        //     close(sd);
+        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+        //     printf("Puerto %d\n", ntohs(pin.sin_port));
+        //     serve(sdo);
+        //     close(sdo);
+        //     exit(0);
+        // }
     }
 
     close(sd);
