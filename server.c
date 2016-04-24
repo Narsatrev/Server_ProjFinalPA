@@ -83,7 +83,7 @@ int serve(int s) {
     //primer token
     token_header = strtok(buff_aux," ");
     token_header = strtok(NULL," ");
-    printf("TOKENNNN: %s\n",token_header)
+    printf("TOKENNNN: %s\n",token_header);
 
     printf("SHI");
 
