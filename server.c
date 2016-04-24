@@ -170,6 +170,9 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
+        //destruir este thread una vez que se haya desplegado la info del 404
+        pthread_cancel(pthread_self());
+
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
     
