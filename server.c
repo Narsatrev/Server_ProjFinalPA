@@ -124,7 +124,7 @@ int serve(int s) {
 
     FILE *da;
     int tamano;
-    url_archivo="/home/ec2-user/var/www/html";
+    url_archivo="/home/ec2-user/var/www/html/index.html";
     // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
     // sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
     // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
