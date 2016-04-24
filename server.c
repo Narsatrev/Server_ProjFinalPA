@@ -170,8 +170,9 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
-        //destruir este thread una vez que se haya desplegado la info del 404
-        pthread_cancel(pthread_self());
+
+        ///como hacer para que el thread muera tragicamente?????? 
+        pthread_join(pthread_self(),NULL);
 
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
@@ -189,19 +190,14 @@ int serve(int s) {
 
     sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
-
     sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
     writeLine(s, command, strlen(command));
-
     sprintf(command, "Content-Type: %s\r\n",tipoMime);
     writeLine(s, command, strlen(command));
-
     printf("%s\n", archivo);
-    printf("Tam archivo: %d\n", tamano);
-    
+    printf("Tam archivo: %d\n", tamano);    
     sprintf(command, "Content-Length: %d\r\n",tamano);
     writeLine(s, command, strlen(command));
-
     sprintf(command, "\r\n%s",archivo);
     writeLine(s, command, strlen(command));
 
