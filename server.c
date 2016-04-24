@@ -125,11 +125,12 @@ int serve(int s) {
     fclose(da);
 
     printf("%s\n", archivo);
+    printf("Tam archivo: %d\n", tam);
     
     sprintf(command, "Content-Length: %d\r\n",tamano);
     writeLine(s, command, strlen(command));
 
-    sprintf(command, "\r\nindex.html");
+    sprintf(command, "\r\n%s",archivo);
     writeLine(s, command, strlen(command));
 
     free(archivo);
