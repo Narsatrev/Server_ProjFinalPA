@@ -16,7 +16,7 @@
 static void leerLineaString(char *str, char *linea){
     int c = 0;
     while(str[c] != '\n'){
-        linea[c] = message[c];
+        linea[c] = str[c];
         c++;
     }
     linea[c] = 0;
