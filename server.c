@@ -61,7 +61,7 @@ int serve(int s) {
     char *url_archivo;
     char *archivo_peticion;        
 
-    char buff[2048];
+    // char buff[2048];
 
     while(1) {
         r = readLine(s, command, &size);
@@ -89,10 +89,10 @@ int serve(int s) {
 
         ////////->->->->->
         
-        strcat(buff,command);
+        // strcat(buff,command);
         
         if(command[size-1] == '\n' && command[size-2] == '\r') {
-            printf("BUFFER: %s\n",buff);
+            // printf("BUFFER: %s\n",buff);
             break;
         }
     }
