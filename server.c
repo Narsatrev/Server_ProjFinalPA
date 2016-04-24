@@ -125,7 +125,7 @@ int serve(int s) {
     fclose(da);
 
     printf("%s\n", archivo);
-    printf("Tam archivo: %d\n", tam);
+    printf("Tam archivo: %d\n", tamano);
     
     sprintf(command, "Content-Length: %d\r\n",tamano);
     writeLine(s, command, strlen(command));
