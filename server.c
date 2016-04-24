@@ -206,7 +206,7 @@ int main() {
     int sd, sdo, addrlen, size;
     struct sockaddr_in sin, pin;
 
-     pthread_t newthread;
+    pthread_t hiloCliente;
 
     // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
@@ -235,7 +235,7 @@ int main() {
             exit(0);
         }
 
-         if (pthread_create(&newthread , NULL, serve, sdo) != 0){
+         if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
             openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
