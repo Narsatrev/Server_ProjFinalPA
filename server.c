@@ -61,7 +61,6 @@ int serve(int s) {
     char *url_archivo;
     char *archivo_peticion;        
 
-    // char buff[2048];
 
     while(1) {
         r = readLine(s, command, &size);
@@ -70,29 +69,22 @@ int serve(int s) {
 
         ////////->->->->->       
         //Obtener el URI del archivo de peticion
-        // char *aux;
-
-        // if(strstr(command, "GET") != NULL){
-        //     //El primer tokern del strtok siempre sera GET si se cumple la condicion
-        //     //por lo que el segundo necesariamente debe ser el URI
-        //     strncpy(aux,command,sizeof(command));
-        //     archivo_peticion = strtok(command," ");
-        //     archivo_peticion = strtok(NULL," ");
+        if(strstr(command, "GET") != NULL){
+            //El primer tokern del strtok siempre sera GET si se cumple la condicion
+            //por lo que el segundo necesariamente debe ser el URI
+            archivo_peticion = strtok(command," ");
+            archivo_peticion = strtok(NULL," ");
             
-        //     //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
-        //     if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
-        //             archivo_peticion="/index.html";
-        //     }
+            //En caso de que no haya URI, se redireccionara a la pagina de inicio index.html
+            if(strncmp(archivo_peticion, "/", sizeof(archivo_peticion))==0){
+                    archivo_peticion="/index.html";
+            }
 
-        //     printf("TOKEN: %s\n", archivo_peticion);
-        // }
-
+            printf("TOKEN: %s\n", archivo_peticion);
+        }
         ////////->->->->->
         
-        // strcat(buff,command);
-
         if(command[size-1] == '\n' && command[size-2] == '\r') {
-            // printf("BUFFER: %s\n",buff);
             break;
         }
     }
@@ -100,7 +92,6 @@ int serve(int s) {
     // printf("COMMAND:: %s\n",command);
 
     sleep(1);
-    printf("ARHCIVO PETIZION SI: %s\n",archivo_peticion);
 
     sprintf(command, "HTTP/1.0 200 OK\r\n");
     writeLine(s, command, strlen(command));
@@ -108,15 +99,15 @@ int serve(int s) {
     //PRUEBA TIEMPO
 
     //fecha y hora actual
-    // time_t tiempo = time(NULL);
+    time_t tiempo = time(NULL);
     //estructura de tiempo que contiene los componentes de la fecha desglosados
     //metodo localtime que extrae componentes de tiempo
-    // struct tm *tiempo_s = localtime(&tiempo);
-    // char fechaHora[64];
+    struct tm *tiempo_s = localtime(&tiempo);
+    char fechaHora[64];
     //strftime regresa un string con los datos de la estructura tm
     //con un formato especificado, en este caso %c-> representacion de fecha Y hora
-    // strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
-    // printf("%s\n", fechaHora);
+    strftime(fechaHora, sizeof(fechaHora), "%c", tiempo_s);
+    printf("%s\n", fechaHora);
 
     //PRUEBA TIEMPO->   FALTA DARLE FORMATO A LA FECHA
 
@@ -133,7 +124,7 @@ int serve(int s) {
     int tamano;
     url_archivo="/home/ec2-user/var/www/html";
     printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
-    // sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
+    sprintf(url_archivo,"%s%s",url_archivo, archivo_peticion);
     // printf("URL: %s URI: %s\n", url_archivo, archivo_peticion);
 
     da=fopen(url_archivo, "r");
