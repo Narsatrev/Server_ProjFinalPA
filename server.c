@@ -103,7 +103,7 @@ int serve(int s) {
 
     if(strncmp(token_header,"/",strlen(token_header))==0){
         strncpy(nombre_archivo_uri, "/index.html", 12);
-        nombre_archivo_uri[11]='\0';
+        nombre_archivo_uri[12]='\0';
     }else{
         strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
         nombre_archivo_uri[strlen(token_header)]='\0';
@@ -152,7 +152,7 @@ int serve(int s) {
     printf("URL: %s\n",buff_aux_url);
     printf("URL Archivo: %s\n",url_archivo);
 
-    da=fopen(url_archivo, "r");
+    da=fopen(buff_aux_url, "r");
     if(da==NULL){
         //mandar 404 aqui...
         printf("No existe tal archivo!!");
