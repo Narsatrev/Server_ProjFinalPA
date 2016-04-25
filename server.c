@@ -237,26 +237,26 @@ int main() {
             exit(0);
         }
 
-        //  if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("pthread_create");
-        // }
+         if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+            openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            closelog();
+            perror("pthread_create");
+        }
 
         atexit(servidorCayo);
 
-        pid_t pid;
-        pid=fork();
-        if(pid==0){            
-            exit(0);
-        }else{
-            waitpid(pid);
-            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            printf("Puerto %d\n", ntohs(pin.sin_port));
-            serve(sdo);
-            close(sdo);
-        }
+        // pid_t pid;
+        // pid=fork();
+        // if(pid==0){            
+        //     exit(0);
+        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+        //     printf("Puerto %d\n", ntohs(pin.sin_port));
+        //     serve(sdo);
+        //     close(sdo);
+        // }else{
+        //     waitpid(pid,null,0);            
+        // }
 
     }
     close(sd);
