@@ -170,7 +170,8 @@ int serve(int s) {
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
 
-        exit(0);
+        ///como hacer para que el thread termine tragicamente?????? 
+        // pthread_join(pthread_self(),NULL);
 
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
@@ -225,8 +226,6 @@ int main() {
     addrlen = sizeof(pin);
     
     // 4. aceptar conexión
-    pid_t id_proceso_servidor;
-
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
@@ -235,28 +234,30 @@ int main() {
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
             perror("accept");
-            exit(1);
-        }else{
-            if((id_proceso_servidor=fork())<0) {
-                openlog("ErrorCrearNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-                syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-                closelog();
-                perror("fork");
-                exit(1);  
-            }
-            if(id_proceso_servidor==0){
-                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                printf("Puerto %d\n", ntohs(pin.sin_port));
-                serve(sdo);
-                close(sdo);
-                exit(0);
-
-            }else{
-                waitpid(id_proceso_servidor, NULL, 0);
-            }
+            exit(0);
         }
 
+        //  if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        //     closelog();
+        //     perror("pthread_create");
+        // }
+
         atexit(servidorCayo);
+
+        pid_t pid;
+        if(pid==0){
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            exit(0);
+        }else{
+
+             waitpid(pid);
+        }
+
     }
     close(sd);
 }
