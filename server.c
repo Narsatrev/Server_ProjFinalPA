@@ -30,7 +30,6 @@ char *recuperarMimeType(char *extension){
         if(strncmp(mapaMimeTypes[i],extension,strlen(extension))==0){
             strncpy(buffTipoMime,mapaMimeTypes[i+1],strlen(mapaMimeTypes[i+1]));
             break;
-
         }
     }    
     return buffTipoMime;
@@ -171,37 +170,37 @@ int serve(int s) {
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
 
-        ///como hacer para que el thread muera tragicamente?????? 
+        ///como hacer para que el thread termine tragicamente?????? 
         // pthread_join(pthread_self(),NULL);
 
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
     
 
-    fseek(da, 0L, SEEK_END);
-    tamano = ftell(da);
-    fseek(da, 0L, SEEK_SET);
+        fseek(da, 0L, SEEK_END);
+        tamano = ftell(da);
+        fseek(da, 0L, SEEK_SET);
 
-    char *archivo = malloc(tamano+1);
-    fread(archivo, tamano, 1, da);
-    fclose(da);
+        char *archivo = malloc(tamano+1);
+        fread(archivo, tamano, 1, da);
+        fclose(da);
 
-    sleep(1);
+        sleep(1);
 
-    sprintf(command, "HTTP/1.0 200 OK\r\n");
-    writeLine(s, command, strlen(command));
-    sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-    writeLine(s, command, strlen(command));
-    sprintf(command, "Content-Type: %s\r\n",tipoMime);
-    writeLine(s, command, strlen(command));
-    printf("%s\n", archivo);
-    printf("Tam archivo: %d\n", tamano);    
-    sprintf(command, "Content-Length: %d\r\n",tamano);
-    writeLine(s, command, strlen(command));
-    sprintf(command, "\r\n%s",archivo);
-    writeLine(s, command, strlen(command));
+        sprintf(command, "HTTP/1.0 200 OK\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+        writeLine(s, command, strlen(command));
+        sprintf(command, "Content-Type: %s\r\n",tipoMime);
+        writeLine(s, command, strlen(command));
+        printf("%s\n", archivo);
+        printf("Tam archivo: %d\n", tamano);    
+        sprintf(command, "Content-Length: %d\r\n",tamano);
+        writeLine(s, command, strlen(command));
+        sprintf(command, "\r\n%s",archivo);
+        writeLine(s, command, strlen(command));
 
-    free(archivo);
+        free(archivo);
     }
 }
 
@@ -238,22 +237,27 @@ int main() {
             exit(0);
         }
 
-         if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-            openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            closelog();
-            perror("pthread_create");
-        }
-
-        atexit(servidorCayo);
-        // if(!fork()) {
-        //     close(sd);
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     exit(0);
+        //  if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        //     closelog();
+        //     perror("pthread_create");
         // }
+
+        pid_t id_proceso_servidor;
+        
+        if((id_proceso_servidor=fork())<0) {
+            close(sd);
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            exit(0);
+        }else{
+            waitpid(id_proceso_servidor, NULL, 0);
+        }
+        
+        atexit(servidorCayo);
     }
     close(sd);
 }
