@@ -248,14 +248,14 @@ int main() {
 
         pid_t pid;
         if(pid==0){
+            sleep(1);            
+            exit(0);
+        }else{
+            waitpid(pid);
             printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
             printf("Puerto %d\n", ntohs(pin.sin_port));
             serve(sdo);
             close(sdo);
-            exit(0);
-        }else{
-
-             waitpid(pid);
         }
 
     }
