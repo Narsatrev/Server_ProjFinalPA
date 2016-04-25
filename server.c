@@ -170,8 +170,7 @@ int serve(int s) {
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
 
-        ///como hacer para que el thread termine tragicamente?????? 
-        // pthread_join(pthread_self(),NULL);
+        exit(0);
 
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
