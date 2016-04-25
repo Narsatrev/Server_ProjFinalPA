@@ -239,7 +239,11 @@ int main() {
             exit(1);
         }else{
             if((id_proceso_servidor=fork())<0) {
-                err_sys("fork error");
+                openlog("ErrorCrearNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
+                syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+                closelog();
+                perror("fork");
+                exit(1);  
             }
             if(id_proceso_servidor==0){
                 printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
