@@ -66,13 +66,21 @@ int writeLine(int s, char *line, int total_size) {
     }
 
     while( (size=write(s, buffer, size)) > 0) {
-        if(size<0) return size;
+        if(size<0){
+            printf("AVISO: size<0!\n");
+            return size;
+        } 
         acum += size;
-        if (acum >= total_size) break;
+        if (acum >= total_size){
+            printf("AVISO: acum >= total_size\n");
+            break;  
+        } 
 
         size = ((total_size-acum)>=SIZE)?SIZE:(total_size-acum)%SIZE;
         strncpy(buffer, line+acum, size);
     }
+
+    printf("Acabe! Exitosamente!\n");
 
     return 0;
 }
