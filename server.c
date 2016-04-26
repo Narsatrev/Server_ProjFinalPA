@@ -170,7 +170,9 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
-        break;
+
+        return 0;
+
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
@@ -198,9 +200,8 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
 
         free(archivo);
-        break;
+        return 0;
     }
-    return 0;
 }
 
 int main() {
