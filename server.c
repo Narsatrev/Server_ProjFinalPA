@@ -121,9 +121,9 @@ int serve(int s) {
     
     char nombre_archivo_uri[500];
     printf("ARCHIVO URI: %s LEN: %lu\n",token_header,strlen(token_header));
-    printf("para el 403: %s %d",token_header);
+    printf("para el 403: %s\n",token_header);
     //ERROR 403    
-    if(!(strstr(token_header,".") && (strncmp(token_header,"/",1) != 0))){
+    if(!(strstr(token_header,".") && !(strncmp(token_header,"/",strlen(token_header))==0)){
 
         int tamano=0;
         printf("intentando acceder a un directorio restringido omg4!");
