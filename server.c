@@ -340,45 +340,45 @@ int main() {
             exit(0);
         }
 
-        //Multiproceso sin zombies (intento 2: exitoso)
-        pid_t id_proc;
-        if (!(id_proc = fork())) {
-            if (!fork()){
-             //El nieto hijo ejecuta su proceso
-                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                printf("Puerto %d\n", ntohs(pin.sin_port));
-                serve(sdo);
-                close(sdo);
-            }else{
-              //El nieto proceso hijo termina
-              exit(0);
-            }
-        } else {
-            //El proceso original espera a que el primer hijo termine, lo cual 
-            //es inmediatamente despues del segundo fork
-            waitpid(id_proc);
-        }       
+        //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
+        // pid_t id_proc;
+        // if (!(id_proc = fork())) {
+        //     if (!fork()){
+        //      //El nieto hijo ejecuta su proceso
+        //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+        //         printf("Puerto %d\n", ntohs(pin.sin_port));
+        //         serve(sdo);
+        //         close(sdo);
+        //     }else{
+        //       //El nieto proceso hijo termina
+        //       exit(0);
+        //     }
+        // } else {
+        //     //El proceso original espera a que el primer hijo termine, lo cual 
+        //     //es inmediatamente despues del segundo fork
+        //     waitpid(id_proc);
+        // }       
 
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
-        // pid_t id_proc;
-        // if ( (id_proc = fork()) < 0 ) {
-        //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("fork");
-        //     return;
-        // }
+        pid_t id_proc;
+        if ( (id_proc = fork()) < 0 ) {
+            openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            closelog();
+            perror("fork");
+            return;
+        }
 
-        // if (id_proc == 0){
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     exit(0);
-        // }else{
-        //     waitpid(id_proc);
-        // } 
+        if (id_proc == 0){
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            exit(0);
+        }else{
+            waitpid(id_proc);
+        } 
 
         //Multithread (intento 1: fallido)
         // pthread_t hiloCliente;
