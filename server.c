@@ -341,8 +341,8 @@ int main() {
         }
 
         //Multiproceso sin zombies (intento 2: exitoso)
-        pid_t pid;
-        if (!(pid = fork())) {
+        pid_t id_proc;
+        if (!(id_proc = fork())) {
             if (!fork()){
              //El nieto hijo ejecuta su proceso
                 printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
@@ -356,7 +356,7 @@ int main() {
         } else {
             //El proceso original espera a que el primer hijo termine, lo cual 
             //es inmediatamente despues del segundo fork
-            waitpid(pid);
+            waitpid(id_proc);
         }       
 
 
