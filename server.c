@@ -339,6 +339,29 @@ int main() {
             perror("accept");
             exit(0);
         }
+        pid_t
+        if ((pid = fork()) <0)
+        {
+            close(new);
+            continue;
+        }else{
+            if(pid > 0){
+                close(new);
+                counter++;
+                printf("here2\n");
+                continue;
+            }else{
+                if(pid == 0){
+                    printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+                    printf("Puerto %d\n", ntohs(pin.sin_port));
+                    serve(sdo);
+                    close(sdo);
+                    exit(0);
+                    // break;
+                }
+            } 
+        }
+        
 
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
@@ -361,24 +384,24 @@ int main() {
 
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
-        pid_t id_proc;
-        if ( (id_proc = fork()) < 0 ) {
-            openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            closelog();
-            perror("fork");
-            return;
-        }
+        // pid_t id_proc;
+        // if ( (id_proc = fork()) < 0 ) {
+        //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
+        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        //     closelog();
+        //     perror("fork");
+        //     return;
+        // }
 
-        if (id_proc == 0){
-            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            printf("Puerto %d\n", ntohs(pin.sin_port));
-            serve(sdo);
-            close(sdo);
-            exit(0);
-        }else{
-            waitpid(id_proc);
-        } 
+        // if (id_proc == 0){
+        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+        //     printf("Puerto %d\n", ntohs(pin.sin_port));
+        //     serve(sdo);
+        //     close(sdo);
+        //     exit(0);
+        // }else{
+        //     waitpid(id_proc);
+        // } 
 
         //Multithread (intento 1: fallido)
         // pthread_t hiloCliente;
