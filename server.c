@@ -203,7 +203,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
 
         free(archivo);
-        return 1;
+        return 0;
     }
 }
 
