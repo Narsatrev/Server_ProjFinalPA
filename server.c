@@ -65,7 +65,7 @@ int writeLine(int s, char *line, int total_size) {
         size = total_size;
     }
 
-    while( (size=write(s, buffer, size)) > 0) {
+    while( (size = write(s, buffer, size)) > 0) {
         if(size<0){
             printf("AVISO: size<0!\n");
             return size;
