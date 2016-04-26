@@ -54,7 +54,7 @@ int readLine(int s, char *line, int *result_size) {
 }
 
 int writeLine(int s, char *line, int total_size) {
-    printf("SIZE: %d\n",SIZE);
+    
     int acum = 0, size;
     char buffer[SIZE];
 
@@ -68,21 +68,18 @@ int writeLine(int s, char *line, int total_size) {
 
     while( (size = write(s, buffer, size)) > 0) {
         if(size<0){
-            printf("AVISO: size<0!\n");
             return size;
         } 
         acum += size;
         if (acum >= total_size){
-            printf("AVISO: acum >= total_size\n");
             break;  
         } 
 
         size = ((total_size-acum)>=SIZE)?SIZE:(total_size-acum)%SIZE;
         strncpy(buffer, line+acum, size);
     }
-
+    printf("size: %d\n",size);
     printf("Acabe! Exitosamente!\n");
-
     return 0;
 }
 
@@ -139,6 +136,8 @@ int serve(int s) {
     token_extension = strtok(nombre_archivo_uri,".");
     //segundo token=>extension del archivo
     token_extension = strtok(NULL,".");
+
+
     char* tipoMime=recuperarMimeType(token_extension);
 
     printf("EXTENSION ARCHIVO: %s\n", token_extension);
@@ -161,6 +160,10 @@ int serve(int s) {
     da=fopen(url_completo, "r");
 
     if(da==NULL){
+
+        if(strcmp(token_extension,"")){
+            printf("intentando acceder a un directorio restringido omg4!");
+        }
         //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
