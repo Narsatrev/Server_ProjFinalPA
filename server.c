@@ -196,8 +196,8 @@ int serve(int s) {
         tamano = ftell(da);
         fseek(da, 0L, SEEK_SET);
 
-        // char *archivo = malloc(tamano+1);
-        // fread(archivo, tamano, 1, da);
+        char *archivo = malloc(tamano+1);
+        fread(archivo, tamano, 1, da);
 
         sleep(1);
 
@@ -209,8 +209,10 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: %s\r\n",tipoMime);
         writeLine(s, command, strlen(command));
-        // printf("%s\n", archivo);
-        // printf("Tam archivo: %d\n", tamano);    
+        
+        printf("%s\n", archivo);
+        printf("Tam archivo: %d\n", tamano);    
+
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n");
@@ -234,39 +236,32 @@ int serve(int s) {
         // }
         // while(current_char != EOF);
 ///////////////////////////////////////////////////////////
-        while(1){
-            /* First read file in chunks of 256 bytes */
-            unsigned char buff[256]={0};
-            int nread = fread(buff,1,256,da);
-            printf("Bytes read %d \n", nread);        
-
-            /* If read was success, send data. */
-            if(nread > 0)
-            {
-                printf("Sending \n");
-                write(s, buff, nread);
-            }
-
-            /*
-             * There is something tricky going on with read .. 
-             * Either there was error, or we reached end of file.
-             */
-            if (nread < 256)
-            {
-                if (feof(da))
-                    printf("End of file\n");
-                if (ferror(da))
-                    printf("Error reading\n");
-                break;
-            }
-        }
+        // while(1){
+        //     unsigned char buff[256]={0};
+        //     int nread = fread(buff,1,256,da);
+        //     printf("Bytes read %d \n", nread);        
+        //     if(nread > 0)
+        //     {
+        //         printf("Sending \n");
+        //         write(s, buff, nread);
+        //     }        
+        //     if (nread < 256)
+        //     {
+        //         if (feof(da))
+        //             printf("End of file\n");
+        //         if (ferror(da))
+        //             printf("Error reading\n");
+        //         break;
+        //     }
+        // }
+///////////////////////////////////////////////////////////        
 
 
 
-        // sprintf(command, "\r\n%s",archivo);
-        // writeLine(s, command, strlen(command));
+        sprintf(command, "\r\n%s",archivo);
+        writeLine(s, command, strlen(command));
 
-        // free(archivo);
+        free(archivo);
     }
 
     fclose(da);
