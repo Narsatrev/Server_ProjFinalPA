@@ -158,6 +158,7 @@ int serve(int s) {
     printf("URL COMPLETA: %s\n",url_completo);
 
     da=fopen(url_completo, "r");
+    
     if(da==NULL){
         //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
@@ -173,7 +174,6 @@ int serve(int s) {
         char *archivo = malloc(tamano+1);
         fread(archivo, tamano, 1, error);
         fclose(error);
-        sleep(1);
 
         //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
@@ -240,8 +240,9 @@ int serve(int s) {
 
         free(archivo);
     }
-    return 0;
+
     fclose(da);
+    return 0;    
 }
 
 int main() {
