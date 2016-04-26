@@ -161,11 +161,12 @@ int serve(int s) {
 
         FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
         if(error==NULL){
-            printf("No encontre el file....\n");
+            printf("No encontre el file de error!....\n");
+            return 1;
         }
         printf("SHELLER 2\n");
         fseek(error, 0L, SEEK_END);
-        tamano = ftell(da);
+        tamano = ftell(error);
         fseek(error, 0L, SEEK_SET);
         printf("％d\n",tamano);
         printf("SHELLER 3\n");
