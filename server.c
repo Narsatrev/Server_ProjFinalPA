@@ -246,6 +246,7 @@ int main() {
     int sd, sdo, addrlen, size;
     struct sockaddr_in sin, pin;
 
+
     // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
 
