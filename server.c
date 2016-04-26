@@ -223,10 +223,11 @@ int serve(int s) {
         // printf("Tam archivo: %d\n", tamano);    
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
-///////////////////////////////////////////////////////////
         sprintf(command, "\r\n");
         writeLine(s, command, strlen(command));
+///////////////////////////////////////////////////////////        
         fgets(buff_archivo, 1024, da);
+        printf("BUFF:%s\n",buff_archivo);
         while (!feof(da)){
             sprintf(command, "%s",buff_archivo);
             writeLine(s, command, strlen(command));
