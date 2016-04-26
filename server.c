@@ -191,7 +191,8 @@ int serve(int s) {
 
         fseek(da, 0L, SEEK_END);
         tamano = ftell(da);
-        fseek(da, 0L, SEEK_SET);
+        rewind(da);
+        // fseek(da, 0L, SEEK_SET);
 
         // char *archivo = malloc(tamano+1);
         // fread(archivo, tamano, 1, da);
