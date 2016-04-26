@@ -230,7 +230,7 @@ int serve(int s) {
         do{            
             current_char = fgetc(da);
             printf("%c",current_char);
-            write(s, &current_char, sizeof(char));
+            write(s, &current_char, 1);
         }
         while(current_char != EOF);
 
