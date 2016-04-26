@@ -133,6 +133,7 @@ int serve(int s) {
 
     //ERROR 403
     if(strstr(nombre_archivo_uri,".")){
+        int tamano=0;
         printf("intentando acceder a un directorio restringido omg4!");
         //Guardar en el log del sistema cada vez que alguien intento accesar a un directorio exista o no
         openlog("IntentoDeAccesoRestringidoDirectorios", LOG_PID | LOG_CONS, LOG_USER);
@@ -194,7 +195,6 @@ int serve(int s) {
 
         if(da==NULL){
             
-
             //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
             openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
@@ -296,9 +296,8 @@ int serve(int s) {
 
             free(archivo);
         }    
+        fclose(da);
     }
-
-    fclose(da);
     return 0;    
 }
 
