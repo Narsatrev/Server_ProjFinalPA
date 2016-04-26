@@ -160,6 +160,9 @@ int serve(int s) {
         // closelog();
 
         FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+        if(error==NULL){
+            printf("No encontre el file....\n");
+        }
         printf("SHELLER 2\n");
         fseek(error, 0L, SEEK_END);
         tamano = ftell(da);
