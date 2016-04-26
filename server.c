@@ -276,37 +276,38 @@ int main() {
         }
 
         //Multiproceso sin zombies
-        // pid_t pid;
-        // if ( (pid = fork()) < 0 ) {
-        //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("fork");
-        //     return;
-        // }
-        // if (pid == 0){
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     exit(0);
-        // }else{
-        //     waitpid(pid, &status, 0);
-        // }
-
-        //Multithread
-        pthread_t hiloCliente;
-
-        if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-            openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+        pid_t pid;
+        if ( (pid = fork()) < 0 ) {
+            openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
-            perror("pthread_create");
+            perror("fork");
+            return;
         }
+        if (pid == 0){
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            exit(0);
+        }else{
+            waitpid(pid, &status, 0);
+        }
+
+        //Multithread
+        // pthread_t hiloCliente;
+
+        // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        //     closelog();
+        //     perror("pthread_create");
+        // }
+        // pthread_join(hiloCliente, NULL);
 
         atexit(servidorCayo);
 
-         pthread_join(hiloCliente, NULL);
+         
 
     }
     close(sd);
