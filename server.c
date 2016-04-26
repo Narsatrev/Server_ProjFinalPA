@@ -331,6 +331,8 @@ int main() {
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
+            //En coso de que suceda algo raro en el socket y el cliente
+            //no pueda conectarse, ingresar el error al log
             openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
@@ -338,7 +340,27 @@ int main() {
             exit(0);
         }
 
-        //Multiproceso sin zombies
+        //Multiproceso sin zombies (intento 2: exitoso)
+        pid_t pid;
+        if (!(pid = fork())) {
+            if (!fork()){
+             //El nieto hijo ejecuta su proceso
+                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+                printf("Puerto %d\n", ntohs(pin.sin_port));
+                serve(sdo);
+                close(sdo);
+            }else{
+              //El nieto proceso hijo termina
+              exit(0);
+            }
+        } else {
+            //El proceso original espera a que el primer hijo termine, lo cual 
+            //es inmediatamente despues del segundo fork
+            waitpid(pid);
+        }       
+
+
+        //Multiproceso sin zombies (intento 1: parcialmente exitoso)
         // pid_t id_proc;
         // if ( (id_proc = fork()) < 0 ) {
         //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
@@ -356,29 +378,9 @@ int main() {
         //     exit(0);
         // }else{
         //     waitpid(id_proc);
-        // }
+        // } 
 
-
-        pid_t pid;
-        if (!(pid = fork())) {
-            if (!fork()) {
-              /* this is the child that keeps going */
-             /* or exec */
-                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                printf("Puerto %d\n", ntohs(pin.sin_port));
-                serve(sdo);
-                close(sdo);
-            } else {
-              /* the first child process exits */
-              exit(0);
-            }
-        } else {
-            /* this is the original process */  
-            /* wait for the first child to exit which it will immediately */
-            waitpid(pid);
-        }        
-
-        //Multithread
+        //Multithread (intento 1: fallido)
         // pthread_t hiloCliente;
 
         // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
