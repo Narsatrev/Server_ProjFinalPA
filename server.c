@@ -226,11 +226,11 @@ int serve(int s) {
 ///////////////////////////////////////////////////////////
         sprintf(command, "\r\n");
         writeLine(s, command, strlen(command));
-        fgets(buff_archivo, sizeof(buff_archivo), da);
+        fgets(buff_archivo, 1024, da);
         while (!feof(da)){
             sprintf(command, "%s",buff_archivo);
             writeLine(s, command, strlen(command));
-            fgets(buff_archivo, sizeof(buff_archivo), da);
+            fgets(buff_archivo, 1024, da);
         }
 ///////////////////////////////////////////////////////////
 
