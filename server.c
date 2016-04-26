@@ -153,30 +153,22 @@ int serve(int s) {
     if(da==NULL){
         fclose(da);
 
-        printf("SHELLER 1\n");
-        //Guardar en el log del sistema cada vez que un archivo no se encuentra
-
-        // openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
-        // syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
-        // closelog();
+        //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
+        openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+        closelog();
 
         FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
-        if(error==NULL){
-            printf("No encontre el file de error!....\n");
-            return 1;
-        }
-        printf("SHELLER 2\n");
+
         fseek(error, 0L, SEEK_END);
         tamano = ftell(error);
         fseek(error, 0L, SEEK_SET);
-        printf("％d\n",tamano);
-        printf("SHELLER 3\n");
+
         char *archivo = malloc(tamano+1);
         fread(archivo, tamano, 1, error);
         fclose(error);
-        printf("SHELLER 4\n");
         sleep(1);
-        printf("SHELLER 5\n");
+
         //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
         writeLine(s, command, strlen(command));
@@ -188,8 +180,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n%s",archivo);
         writeLine(s, command, strlen(command));
-        printf("SHELLER 6\n");
-        //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
+
         printf("No existe tal archivo!!\n");
         free(archivo);
 
@@ -206,6 +197,18 @@ int serve(int s) {
         fread(archivo, tamano, 1, da);
         fclose(da);
 
+
+///////////////////////////////////////////////////////////
+        sprintf(command, "\r\n");
+        writeLine(s, command, strlen(command));
+        fgets(buff_archivo, sizeof(buff_archivo), da);
+        while (!feof(da)){
+            sprintf(command, "%s",buff_archivo);
+            writeLine(s, command, strlen(command));
+            fgets(buff_archivo, sizeof(buff_archivo), da);
+        }
+///////////////////////////////////////////////////////////
+
         sleep(1);
 
         sprintf(command, "HTTP/1.0 200 OK\r\n");
@@ -218,8 +221,19 @@ int serve(int s) {
         // printf("Tam archivo: %d\n", tamano);    
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
-        sprintf(command, "\r\n%s",archivo);
+///////////////////////////////////////////////////////////
+        sprintf(command, "\r\n");
         writeLine(s, command, strlen(command));
+        fgets(buff_archivo, sizeof(buff_archivo), da);
+        while (!feof(da)){
+            sprintf(command, "%s",buff_archivo);
+            writeLine(s, command, strlen(command));
+            fgets(buff_archivo, sizeof(buff_archivo), da);
+        }
+///////////////////////////////////////////////////////////
+        
+        // sprintf(command, "\r\n%s",archivo);
+        // writeLine(s, command, strlen(command));
 
         free(archivo);
         return 0;
