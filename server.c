@@ -196,8 +196,8 @@ int serve(int s) {
         tamano = ftell(da);
         fseek(da, 0L, SEEK_SET);
 
-        // char *archivo = malloc(tamano+1);
-        // fread(archivo, tamano, 1, da);
+        char *archivo = malloc(tamano+1);
+        fread(archivo, tamano, 1, da);
 
         sleep(1);
 
@@ -209,14 +209,14 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: %s\r\n",tipoMime);
         writeLine(s, command, strlen(command));
-        // printf("%s\n", archivo);
+        printf("%s\n", archivo);
         printf("Tam archivo: %d\n", tamano);    
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
-        // sprintf(command, "\r\n");
-        // writeLine(s, command, strlen(command));
+        sprintf(command, "\r\n");
+        writeLine(s, command, strlen(command));
 
-///////////////////////////////////////////////////////////        
+/////////////////////////////////////////////////////////// Intento 1        
         // fgets(buff_archivo, 1024, da);
         // printf("BUFF:%s\n",buff_archivo);
         // while (!feof(da)){
@@ -225,19 +225,20 @@ int serve(int s) {
         //     fgets(buff_archivo, 1024, da);
         //     printf("BUFF:%s\n",buff_archivo);
         // }
+/////////////////////////////////////////////////////////// Intento 2
+        // int current_char = 0;
+        // do{            
+        //     current_char = fgetc(da);
+        //     printf("%c",current_char);
+        //     write(s, &current_char, 1);
+        // }
+        // while(current_char != EOF);
 ///////////////////////////////////////////////////////////
-        int current_char = 0;
-        do{            
-            current_char = fgetc(da);
-            printf("%c",current_char);
-            write(s, &current_char, 1);
-        }
-        while(current_char != EOF);
 
-        // sprintf(command, "\r\n%s",archivo);
-        // writeLine(s, command, strlen(command));
+        sprintf(command, "\r\n%s",archivo);
+        writeLine(s, command, strlen(command));
 
-        // free(archivo);
+        free(archivo);
     }
     return 0;
     fclose(da);
