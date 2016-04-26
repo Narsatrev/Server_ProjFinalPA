@@ -190,6 +190,7 @@ int serve(int s) {
         printf("SHELLER 6\n");
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
+        free(archivo);
 
         return 0;
 
