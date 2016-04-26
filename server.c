@@ -191,12 +191,12 @@ int serve(int s) {
 
         fseek(da, 0L, SEEK_END);
         tamano = ftell(da);
-        rewind(da);
-        // fseek(da, 0L, SEEK_SET);
+        // rewind(da);
+        fseek(da, 0L, SEEK_SET);
 
         // char *archivo = malloc(tamano+1);
         // fread(archivo, tamano, 1, da);
-        fclose(da);
+        
 
 
 // ///////////////////////////////////////////////////////////
@@ -226,6 +226,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n");
         writeLine(s, command, strlen(command));
+
 ///////////////////////////////////////////////////////////        
         fgets(buff_archivo, 1024, da);
         printf("BUFF:%s\n",buff_archivo);
@@ -241,6 +242,8 @@ int serve(int s) {
         // writeLine(s, command, strlen(command));
 
         // free(archivo);
+        fclose(da);
+        
         return 0;
     }
 }
