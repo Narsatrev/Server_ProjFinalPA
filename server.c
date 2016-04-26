@@ -343,7 +343,6 @@ int main() {
             exit(0);
         }
         
-        pthread_t hiloCliente;    
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
         // if (!(id_proc = fork())) {
@@ -363,7 +362,6 @@ int main() {
         //     waitpid(id_proc);
         // }       
 
-
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
         // pid_t id_proc;
         // if ( (id_proc = fork()) < 0 ) {
@@ -373,7 +371,6 @@ int main() {
         //     perror("fork");
         //     return;
         // }
-
         // if (id_proc == 0){
         //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
         //     printf("Puerto %d\n", ntohs(pin.sin_port));
@@ -383,9 +380,9 @@ int main() {
         // }else{
         //     waitpid(id_proc);
         // } 
-
         //Multithread (intento 1: fallido)
 
+        pthread_t hiloCliente;    
         if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
             openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
