@@ -229,11 +229,10 @@ int serve(int s) {
         int current_char = 0;
         do{
             current_char = fgetc(fp);
-            sendBinary(, sizeof(char));
             write(s, &current_char, sizeof(char));
         }
         while(current_char != EOF);
-        
+
         // sprintf(command, "\r\n%s",archivo);
         // writeLine(s, command, strlen(command));
 
