@@ -227,8 +227,9 @@ int serve(int s) {
         // }
 ///////////////////////////////////////////////////////////
         int current_char = 0;
-        do{
+        do{            
             current_char = fgetc(da);
+            print("%c",current_char);
             write(s, &current_char, sizeof(char));
         }
         while(current_char != EOF);
