@@ -120,8 +120,9 @@ int serve(int s) {
     token_header = strtok(NULL," ");
     
     char nombre_archivo_uri[500];
-
-    printf("ARCHIVO URI: %s LEN: %lu\n strstr(token_header,".")<0: %d\n strstr(token_header,"/")!=0: %d\n",token_header,strlen(token_header),strstr(token_header,".")<0,strstr(token_header,"/")!=0);
+    int x=strlen(token_header);
+    int y=(strstr(token_header,"/")!=0);
+    printf("ARCHIVO URI: %s LEN: %lu\n strstr(token_header,".")<0: %d\n strstr(token_header,"/")!=0: %d\n",token_header,x,y);
     printf("para el 403: %s %d",token_header);
     //ERROR 403    
     if(strstr(token_header,".")<0 && strstr(token_header,"/")!=0){
