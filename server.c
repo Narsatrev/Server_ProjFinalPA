@@ -189,6 +189,10 @@ int serve(int s) {
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
+        char buff_archivo2[1024];
+        fgets(buff_archivo2, 1024, da);
+        printf("BUFF:%s\n",buff_archivo2);
+
         fseek(da, 0L, SEEK_END);
         tamano = ftell(da);
         fseek(da, 0L, SEEK_SET);
