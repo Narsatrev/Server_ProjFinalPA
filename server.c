@@ -256,7 +256,8 @@ int serve(int s) {
             sprintf(command, "\r\n");
             writeLine(s, command, strlen(command));
 
-    /////////////////////////////////////////////////////////// Intento 1        
+    ////LEER ARCHIVOS LARGOS
+    /////////////////////////////////////////////////////////// Intento 1: creo que no alcanza a leer bien todo, agregar validacion si se pasa?? maybe..      
             // fgets(buff_archivo, 1024, da);
             // printf("BUFF:%s\n",buff_archivo);
             // while (!feof(da)){
@@ -265,7 +266,7 @@ int serve(int s) {
             //     fgets(buff_archivo, 1024, da);
             //     printf("BUFF:%s\n",buff_archivo);
             // }
-    /////////////////////////////////////////////////////////// Intento 2
+    /////////////////////////////////////////////////////////// Intento 2: todo bien... pero se queda trabado.
             // int current_char = 0;
             // do{            
             //     current_char = fgetc(da);
@@ -273,22 +274,22 @@ int serve(int s) {
             //     write(s, &current_char, 1);
             // }
             // while(current_char != EOF);
-    ///////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////// Intento 3: tal vez el buffer es muy pequeno??
             // while(1){
-            //     unsigned char buff[256]={0};
-            //     int nread = fread(buff,1,256,da);
-            //     printf("Bytes read %d \n", nread);        
-            //     if(nread > 0)
+            //     char buff[256]={0};
+            //     int lector = fread(buff,1,256,da);
+            //     printf("Leidos %d \n", lector);        
+            //     if(lector > 0)
             //     {
             //         printf("Sending \n");
-            //         write(s, buff, nread);
+            //         write(s, buff, lector);
             //     }        
             //     if (nread < 256)
             //     {
             //         if (feof(da))
-            //             printf("End of file\n");
+            //             printf("Fin del archivo\n");
             //         if (ferror(da))
-            //             printf("Error reading\n");
+            //             printf("Error!\n");
             //         break;
             //     }
             // }
