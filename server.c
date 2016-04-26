@@ -279,6 +279,8 @@ int main() {
         // }
 
         //Multithread
+        pthread_t hiloCliente;
+        
         if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
             openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
