@@ -152,7 +152,7 @@ int serve(int s) {
     da=fopen(url_completo, "r");
     if(da==NULL){
         fclose(da);
-        
+
         printf("SHELLER 1\n");
         //Guardar en el log del sistema cada vez que un archivo no se encuentra
 
@@ -229,8 +229,6 @@ int serve(int s) {
 int main() {
     int sd, sdo, addrlen, size;
     struct sockaddr_in sin, pin;
-
-    pthread_t hiloCliente;
 
     // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
