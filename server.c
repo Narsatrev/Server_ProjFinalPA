@@ -181,6 +181,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
+        fclose(error);
 
         return 0;
 
@@ -211,6 +212,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
 
         free(archivo);
+        fclose(da);
         return 0;
     }
 }
