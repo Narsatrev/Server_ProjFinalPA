@@ -159,7 +159,6 @@ int serve(int s) {
 
     da=fopen(url_completo, "r");
     if(da==NULL){
-
         //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
@@ -227,9 +226,16 @@ int serve(int s) {
         //     printf("BUFF:%s\n",buff_archivo);
         // }
 ///////////////////////////////////////////////////////////
-
-        sprintf(command, "\r\n%s",archivo);
-        writeLine(s, command, strlen(command));
+        int current_char = 0;
+        do{
+            current_char = fgetc(fp);
+            sendBinary(, sizeof(char));
+            write(s, &current_char, sizeof(char));
+        }
+        while(current_char != EOF);
+        
+        // sprintf(command, "\r\n%s",archivo);
+        // writeLine(s, command, strlen(command));
 
         free(archivo);
     }
