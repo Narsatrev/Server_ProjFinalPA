@@ -155,15 +155,16 @@ int serve(int s) {
         printf("SHELLER ALV\n");
         //Guardar en el log del sistema cada vez que un archivo no se encuentra
 
-        openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
-        syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
-        closelog();
+        // openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+        // syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+        // closelog();
 
         FILE *error=fopen("/home/ec2-user/var/www/html/errores/err404.html", "r");
 
         fseek(error, 0L, SEEK_END);
         tamano = ftell(da);
         fseek(error, 0L, SEEK_SET);
+        printf("％d\n",tamano);
 
         char *archivo = malloc(tamano+1);
         fread(archivo, tamano, 1, error);
