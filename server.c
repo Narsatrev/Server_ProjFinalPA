@@ -107,7 +107,8 @@ int serve(int s) {
     strncpy(buff_aux,buff,2048);
 
     char *token_header;
-    //primer token=>GET
+
+    //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
     //segundo token=>URI PETICION
     token_header = strtok(NULL," ");
@@ -172,6 +173,7 @@ int serve(int s) {
 
         ///como hacer para que el thread termine tragicamente?????? 
         // pthread_join(pthread_self(),NULL);
+        return 0;
 
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
@@ -201,6 +203,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
 
         free(archivo);
+        return 1;
     }
 }
 
