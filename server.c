@@ -193,8 +193,8 @@ int serve(int s) {
         tamano = ftell(da);
         fseek(da, 0L, SEEK_SET);
 
-        char *archivo = malloc(tamano+1);
-        fread(archivo, tamano, 1, da);
+        // char *archivo = malloc(tamano+1);
+        // fread(archivo, tamano, 1, da);
         fclose(da);
 
 
@@ -238,7 +238,7 @@ int serve(int s) {
         // sprintf(command, "\r\n%s",archivo);
         // writeLine(s, command, strlen(command));
 
-        free(archivo);
+        // free(archivo);
         return 0;
     }
 }
