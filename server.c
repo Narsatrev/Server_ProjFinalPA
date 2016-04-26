@@ -164,6 +164,7 @@ int serve(int s) {
         if(strcmp(token_extension,"")){
             printf("intentando acceder a un directorio restringido omg4!");
         }
+        
         //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
