@@ -193,10 +193,10 @@ int serve(int s) {
         fgets(buff_archivo2, 1024, da);
         printf("BUFF:%s\n",buff_archivo2);
         while (!feof(da)){
-            fgets(buff_archivo, 1024, da);
+            fgets(buff_archivo2, 1024, da);
             printf("BUFF:%s\n",buff_archivo2);
         }
-        
+
         fseek(da, 0L, SEEK_SET);
         fseek(da, 0L, SEEK_END);
         tamano = ftell(da);
