@@ -131,46 +131,15 @@ int serve(int s) {
         nombre_archivo_uri[strlen(token_header)]='\0';
     }
 
-    char *token_extension;
-    //primer token=>path del archivo
-    token_extension = strtok(nombre_archivo_uri,".");
-    //segundo token=>extension del archivo
-    token_extension = strtok(NULL,".");
-
-
-    char* tipoMime=recuperarMimeType(token_extension);
-
-    printf("EXTENSION ARCHIVO: %s\n", token_extension);
-    printf("TIPO MIME: %s\n", tipoMime);    
-
-    //test recuperar y calcular tamano de archivo
-    FILE *da;
-    int tamano;
-
-    char *url_archivo="/home/ec2-user/var/www/html";
-
-    char url_completo[1024];
-    strcat(url_completo,url_archivo);
-    strcat(url_completo,nombre_archivo_uri);
-    strcat(url_completo,".");
-    strcat(url_completo,token_extension);
-    
-    printf("URL COMPLETA: %s\n",url_completo);
-
-    da=fopen(url_completo, "r");
-
-    if(da==NULL){
-
-        if(strcmp(token_extension,"")){
-            printf("intentando acceder a un directorio restringido omg4!");
-        }
-        
-        //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
-        openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
-        syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+    //ERROR 403
+    if(strstr(nombre_archivo_uri,".")){
+        printf("intentando acceder a un directorio restringido omg4!");
+        //Guardar en el log del sistema cada vez que alguien intento accesar a un directorio exista o no
+        openlog("IntentoDeAccesoRestringidoDirectorios", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Alguien intento acceder al recurso: %s\n", nombre_archivo_uri);
         closelog();
 
-        FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+        FILE *error=fopen("/home/ec2-user/var/www/html/errores/error403.html", "r");
 
         fseek(error, 0L, SEEK_END);
         tamano = ftell(error);
@@ -181,7 +150,7 @@ int serve(int s) {
         fclose(error);
 
         //Mandar una respuesta con header 404, archivo no encontrado
-        sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
+        sprintf(command, "HTTP/1.0 403 ACCESS FORBIDDEN\r\n");
         writeLine(s, command, strlen(command));
         sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
         writeLine(s, command, strlen(command));
@@ -195,79 +164,143 @@ int serve(int s) {
         printf("No existe tal archivo!!\n");
         free(archivo);
     }else{
-        printf("SI EXISTE EL ARCHIVO YAY!!!\n");
-
-        fseek(da, 0L, SEEK_END);
-        tamano = ftell(da);
-        fseek(da, 0L, SEEK_SET);
-
-        char *archivo = malloc(tamano+1);
-        fread(archivo, tamano, 1, da);
-
-        sleep(1);
-
-        char buff_archivo[1024];
-
-        sprintf(command, "HTTP/1.0 200 OK\r\n");
-        writeLine(s, command, strlen(command));
-        sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-        writeLine(s, command, strlen(command));
-        sprintf(command, "Content-Type: %s\r\n",tipoMime);
-        writeLine(s, command, strlen(command));
-
-        printf("%s\n", archivo);
-        printf("Tam archivo: %d\n", tamano);    
-
-        sprintf(command, "Content-Length: %d\r\n",tamano);
-        writeLine(s, command, strlen(command));
-        sprintf(command, "\r\n");
-        writeLine(s, command, strlen(command));
-
-/////////////////////////////////////////////////////////// Intento 1        
-        // fgets(buff_archivo, 1024, da);
-        // printf("BUFF:%s\n",buff_archivo);
-        // while (!feof(da)){
-        //     sprintf(command, "%s",buff_archivo);
-        //     writeLine(s, command, strlen(command));
-        //     fgets(buff_archivo, 1024, da);
-        //     printf("BUFF:%s\n",buff_archivo);
-        // }
-/////////////////////////////////////////////////////////// Intento 2
-        // int current_char = 0;
-        // do{            
-        //     current_char = fgetc(da);
-        //     printf("%c",current_char);
-        //     write(s, &current_char, 1);
-        // }
-        // while(current_char != EOF);
-///////////////////////////////////////////////////////////
-        // while(1){
-        //     unsigned char buff[256]={0};
-        //     int nread = fread(buff,1,256,da);
-        //     printf("Bytes read %d \n", nread);        
-        //     if(nread > 0)
-        //     {
-        //         printf("Sending \n");
-        //         write(s, buff, nread);
-        //     }        
-        //     if (nread < 256)
-        //     {
-        //         if (feof(da))
-        //             printf("End of file\n");
-        //         if (ferror(da))
-        //             printf("Error reading\n");
-        //         break;
-        //     }
-        // }
-///////////////////////////////////////////////////////////        
+        char *token_extension;
+        //primer token=>path del archivo
+        token_extension = strtok(nombre_archivo_uri,".");
+        //segundo token=>extension del archivo
+        token_extension = strtok(NULL,".");
 
 
+        char* tipoMime=recuperarMimeType(token_extension);
 
-        sprintf(command, "\r\n%s",archivo);
-        writeLine(s, command, strlen(command));
+        printf("EXTENSION ARCHIVO: %s\n", token_extension);
+        printf("TIPO MIME: %s\n", tipoMime);    
 
-        free(archivo);
+        //test recuperar y calcular tamano de archivo
+        FILE *da;
+        int tamano;
+
+        char *url_archivo="/home/ec2-user/var/www/html";
+
+        char url_completo[1024];
+        strcat(url_completo,url_archivo);
+        strcat(url_completo,nombre_archivo_uri);
+        strcat(url_completo,".");
+        strcat(url_completo,token_extension);
+        
+        printf("URL COMPLETA: %s\n",url_completo);
+
+        da=fopen(url_completo, "r");
+
+        if(da==NULL){
+            
+
+            //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
+            openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+            closelog();
+
+            FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+
+            fseek(error, 0L, SEEK_END);
+            tamano = ftell(error);
+            fseek(error, 0L, SEEK_SET);
+
+            char *archivo = malloc(tamano+1);
+            fread(archivo, tamano, 1, error);
+            fclose(error);
+
+            //Mandar una respuesta con header 404, archivo no encontrado
+            sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Type: text/html\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Length: %d\r\n",tamano);
+            writeLine(s, command, strlen(command));
+            sprintf(command, "\r\n%s",archivo);
+            writeLine(s, command, strlen(command));
+
+            printf("No existe tal archivo!!\n");
+            free(archivo);
+        }else{
+            printf("SI EXISTE EL ARCHIVO YAY!!!\n");
+
+            fseek(da, 0L, SEEK_END);
+            tamano = ftell(da);
+            fseek(da, 0L, SEEK_SET);
+
+            char *archivo = malloc(tamano+1);
+            fread(archivo, tamano, 1, da);
+
+            sleep(1);
+
+            char buff_archivo[1024];
+
+            sprintf(command, "HTTP/1.0 200 OK\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Type: %s\r\n",tipoMime);
+            writeLine(s, command, strlen(command));
+
+            printf("%s\n", archivo);
+            printf("Tam archivo: %d\n", tamano);    
+
+            sprintf(command, "Content-Length: %d\r\n",tamano);
+            writeLine(s, command, strlen(command));
+            sprintf(command, "\r\n");
+            writeLine(s, command, strlen(command));
+
+    /////////////////////////////////////////////////////////// Intento 1        
+            // fgets(buff_archivo, 1024, da);
+            // printf("BUFF:%s\n",buff_archivo);
+            // while (!feof(da)){
+            //     sprintf(command, "%s",buff_archivo);
+            //     writeLine(s, command, strlen(command));
+            //     fgets(buff_archivo, 1024, da);
+            //     printf("BUFF:%s\n",buff_archivo);
+            // }
+    /////////////////////////////////////////////////////////// Intento 2
+            // int current_char = 0;
+            // do{            
+            //     current_char = fgetc(da);
+            //     printf("%c",current_char);
+            //     write(s, &current_char, 1);
+            // }
+            // while(current_char != EOF);
+    ///////////////////////////////////////////////////////////
+            // while(1){
+            //     unsigned char buff[256]={0};
+            //     int nread = fread(buff,1,256,da);
+            //     printf("Bytes read %d \n", nread);        
+            //     if(nread > 0)
+            //     {
+            //         printf("Sending \n");
+            //         write(s, buff, nread);
+            //     }        
+            //     if (nread < 256)
+            //     {
+            //         if (feof(da))
+            //             printf("End of file\n");
+            //         if (ferror(da))
+            //             printf("Error reading\n");
+            //         break;
+            //     }
+            // }
+    ///////////////////////////////////////////////////////////        
+
+
+
+            sprintf(command, "\r\n%s",archivo);
+            writeLine(s, command, strlen(command));
+
+            free(archivo);
+        }    
     }
+
+    
 
     fclose(da);
     return 0;    
