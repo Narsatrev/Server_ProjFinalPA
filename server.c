@@ -132,7 +132,7 @@ int serve(int s) {
     }
 
     //ERROR 403
-    if(strstr(nombre_archivo_uri,".")){
+    if(strstr(nombre_archivo_uri,".")<0){
         int tamano=0;
         printf("intentando acceder a un directorio restringido omg4!");
         //Guardar en el log del sistema cada vez que alguien intento accesar a un directorio exista o no
