@@ -340,15 +340,12 @@ int main() {
             exit(0);
         }
         pid_t
-        if ((pid = fork()) <0)
-        {
-            close(new);
+        if ((pid = fork()) <0){
+            close(sdo);
             continue;
         }else{
             if(pid > 0){
-                close(new);
-                counter++;
-                printf("here2\n");
+                close(sdo);
                 continue;
             }else{
                 if(pid == 0){
