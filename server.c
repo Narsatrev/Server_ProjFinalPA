@@ -128,8 +128,8 @@ int serve(int s) {
         nombre_archivo_uri[strlen(token_header)]='\0';
     }
 
-    printf("ARCHIVO URI: %s LEN: %lu\n",token_header,strlen(token_header));
-    printf("para el 403: %s\n",token_header);
+    printf("ARCHIVO URI: %s LEN: %lu\n",nombre_archivo_uri,strlen(nombre_archivo_uri));
+    printf("para el 403: %s\n",nombre_archivo_uri);
     //ERROR 403    
     if(!(strstr(nombre_archivo_uri,"."))){
 
