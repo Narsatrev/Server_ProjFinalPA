@@ -159,7 +159,6 @@ int serve(int s) {
 
     da=fopen(url_completo, "r");
     if(da==NULL){
-        fclose(da);
 
         //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
@@ -191,9 +190,6 @@ int serve(int s) {
 
         printf("No existe tal archivo!!\n");
         free(archivo);
-
-        return 0;
-
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
@@ -236,10 +232,9 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
 
         free(archivo);
-        fclose(da);
-
-        return 0;
     }
+    return 0;
+    fclose(da);
 }
 
 int main() {
