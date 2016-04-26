@@ -151,6 +151,8 @@ int serve(int s) {
 
     da=fopen(url_completo, "r");
     if(da==NULL){
+
+        printf("SHELLER ALV\n");
         //Guardar en el log del sistema cada vez que un archivo no se encuentra
 
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
