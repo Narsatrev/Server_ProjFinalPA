@@ -130,7 +130,6 @@ int serve(int s) {
         strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
         nombre_archivo_uri[strlen(token_header)]='\0';
     }
-
     //ERROR 403
     if(strstr(nombre_archivo_uri,".")<0){
         int tamano=0;
