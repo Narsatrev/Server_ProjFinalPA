@@ -201,8 +201,8 @@ int serve(int s) {
         tamano = ftell(da);
         fseek(da, 0L, SEEK_SET);
 
-        // char *archivo = malloc(tamano+1);
-        // fread(archivo, tamano, 1, da);
+        char *archivo = malloc(tamano+1);
+        fread(archivo, tamano, 1, da);
 
         sleep(1);
 
@@ -222,20 +222,20 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
 
 ///////////////////////////////////////////////////////////        
-        fgets(buff_archivo, 1024, da);
-        printf("BUFF:%s\n",buff_archivo);
-        while (!feof(da)){
-            sprintf(command, "%s",buff_archivo);
-            writeLine(s, command, strlen(command));
-            fgets(buff_archivo, 1024, da);
-            printf("BUFF:%s\n",buff_archivo);
-        }
+        // fgets(buff_archivo, 1024, da);
+        // printf("BUFF:%s\n",buff_archivo);
+        // while (!feof(da)){
+        //     sprintf(command, "%s",buff_archivo);
+        //     writeLine(s, command, strlen(command));
+        //     fgets(buff_archivo, 1024, da);
+        //     printf("BUFF:%s\n",buff_archivo);
+        // }
 ///////////////////////////////////////////////////////////
 
-        // sprintf(command, "\r\n%s",archivo);
-        // writeLine(s, command, strlen(command));
+        sprintf(command, "\r\n%s",archivo);
+        writeLine(s, command, strlen(command));
 
-        // free(archivo);
+        free(archivo);
         fclose(da);
 
         return 0;
