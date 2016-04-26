@@ -214,12 +214,12 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: %s\r\n",tipoMime);
         writeLine(s, command, strlen(command));
-        // printf("%s\n", archivo);
-        // printf("Tam archivo: %d\n", tamano);    
+        printf("%s\n", archivo);
+        printf("Tam archivo: %d\n", tamano);    
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
-        sprintf(command, "\r\n");
-        writeLine(s, command, strlen(command));
+        // sprintf(command, "\r\n");
+        // writeLine(s, command, strlen(command));
 
 ///////////////////////////////////////////////////////////        
         // fgets(buff_archivo, 1024, da);
