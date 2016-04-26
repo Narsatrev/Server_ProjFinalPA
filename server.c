@@ -327,7 +327,7 @@ int main() {
     // 4. aceptar conexión
     int status;
 
-    pthread_t hiloCliente;    
+    
 
     while(1){
 
@@ -342,7 +342,7 @@ int main() {
             exit(0);
         }
         
-
+        pthread_t hiloCliente;    
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
         // if (!(id_proc = fork())) {
