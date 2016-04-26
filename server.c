@@ -360,7 +360,7 @@ int main() {
 
 
         pid_t pid;
-        if (!pid=fork()) {
+        if (!(pid = fork())) {
             if (!fork()) {
               /* this is the child that keeps going */
              /* or exec */
