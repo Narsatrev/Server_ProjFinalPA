@@ -339,7 +339,7 @@ int main() {
             perror("accept");
             exit(0);
         }
-        pid_t
+        pid_t pid;
         if ((pid = fork()) <0){
             close(sdo);
             continue;
