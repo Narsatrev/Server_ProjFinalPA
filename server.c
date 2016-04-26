@@ -177,7 +177,6 @@ int serve(int s) {
 
     }else{
         printf("SI EXISTE EL ARCHIVO YAY!!!\n");
-    
 
         fseek(da, 0L, SEEK_END);
         tamano = ftell(da);
