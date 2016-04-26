@@ -152,7 +152,7 @@ int serve(int s) {
     da=fopen(url_completo, "r");
     if(da==NULL){
 
-        printf("SHELLER ALV\n");
+        printf("SHELLER 1\n");
         //Guardar en el log del sistema cada vez que un archivo no se encuentra
 
         // openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
@@ -160,18 +160,18 @@ int serve(int s) {
         // closelog();
 
         FILE *error=fopen("/home/ec2-user/var/www/html/errores/err404.html", "r");
-
+        printf("SHELLER 2\n");
         fseek(error, 0L, SEEK_END);
         tamano = ftell(da);
         fseek(error, 0L, SEEK_SET);
         printf("％d\n",tamano);
-
+        printf("SHELLER 3\n");
         char *archivo = malloc(tamano+1);
         fread(archivo, tamano, 1, error);
         fclose(error);
-
+        printf("SHELLER 4\n");
         sleep(1);
-
+        printf("SHELLER 5\n");
         //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
         writeLine(s, command, strlen(command));
@@ -183,6 +183,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n%s",archivo);
         writeLine(s, command, strlen(command));
+        printf("SHELLER 6\n");
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
 
