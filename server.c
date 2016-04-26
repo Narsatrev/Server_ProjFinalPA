@@ -123,16 +123,10 @@ int serve(int s) {
 
     printf("ARCHIVO URI: %s LEN: %lu\n",token_header,strlen(token_header));
 
-    if(strncmp(token_header,"/",strlen(token_header))==0){
-        strncpy(nombre_archivo_uri, "/index.html", 12);
-        nombre_archivo_uri[12]='\0';
-    }else{
-        strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
-        nombre_archivo_uri[strlen(token_header)]='\0';
-    }
     //ERROR 403
     printf("para el 403: %s",nombre_archivo_uri);
-    if(strstr(nombre_archivo_uri,".")<0){
+    if(strstr(nombre_archivo_uri,".")<0 && strstr(nombre_archivo_uri,"/")!=0){
+
         int tamano=0;
         printf("intentando acceder a un directorio restringido omg4!");
         //Guardar en el log del sistema cada vez que alguien intento accesar a un directorio exista o no
@@ -165,6 +159,15 @@ int serve(int s) {
         printf("No existe tal archivo!!\n");
         free(archivo);
     }else{
+
+        if(strncmp(token_header,"/",strlen(token_header))==0){
+            strncpy(nombre_archivo_uri, "/index.html", 12);
+            nombre_archivo_uri[12]='\0';
+        }else{
+            strncpy(nombre_archivo_uri, token_header, strlen(token_header)+1);
+            nombre_archivo_uri[strlen(token_header)]='\0';
+        }
+
         char *token_extension;
         //primer token=>path del archivo
         token_extension = strtok(nombre_archivo_uri,".");
