@@ -169,6 +169,8 @@ int serve(int s) {
         fread(archivo, tamano, 1, error);
         fclose(error);
 
+        sleep(1);
+
         //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
         writeLine(s, command, strlen(command));
