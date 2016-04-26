@@ -54,6 +54,7 @@ int readLine(int s, char *line, int *result_size) {
 }
 
 int writeLine(int s, char *line, int total_size) {
+    printf("SIZE: %d\n",SIZE);
     int acum = 0, size;
     char buffer[SIZE];
 
@@ -209,7 +210,7 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: %s\r\n",tipoMime);
         writeLine(s, command, strlen(command));
-        
+
         printf("%s\n", archivo);
         printf("Tam archivo: %d\n", tamano);    
 
