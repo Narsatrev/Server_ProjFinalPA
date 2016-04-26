@@ -327,6 +327,8 @@ int main() {
     // 4. aceptar conexión
     int status;
 
+    pthread_t hiloCliente;    
+
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
@@ -342,23 +344,23 @@ int main() {
         
 
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
-        pid_t id_proc;
-        if (!(id_proc = fork())) {
-            if (!fork()){
-             //El nieto hijo ejecuta su proceso
-                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                printf("Puerto %d\n", ntohs(pin.sin_port));
-                serve(sdo);
-                close(sdo);
-            }else{
-              //El nieto proceso hijo termina
-              exit(0);
-            }
-        } else {
-            //El proceso original espera a que el primer hijo termine, lo cual 
-            //es inmediatamente despues del segundo fork
-            waitpid(id_proc);
-        }       
+        // pid_t id_proc;
+        // if (!(id_proc = fork())) {
+        //     if (!fork()){
+        //      //El nieto hijo ejecuta su proceso
+        //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+        //         printf("Puerto %d\n", ntohs(pin.sin_port));
+        //         serve(sdo);
+        //         close(sdo);
+        //     }else{
+        //       //El nieto proceso hijo termina
+        //       exit(0);
+        //     }
+        // } else {
+        //     //El proceso original espera a que el primer hijo termine, lo cual 
+        //     //es inmediatamente despues del segundo fork
+        //     waitpid(id_proc);
+        // }       
 
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
@@ -382,15 +384,13 @@ int main() {
         // } 
 
         //Multithread (intento 1: fallido)
-        // pthread_t hiloCliente;
 
-        // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("pthread_create");
-        // }
-        // pthread_join(hiloCliente, NULL);
+        if (pthread_create(&hiloCliente , NULL, serve, &sdo) != 0){
+            openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            closelog();
+            perror("pthread_create");
+        }
 
         atexit(servidorCayo);
     }
