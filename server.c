@@ -152,9 +152,22 @@ int serve(int s) {
     da=fopen(url_completo, "r");
     if(da==NULL){
         //Guardar en el log del sistema cada vez que un archivo no se encuentra
+
         openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
         closelog();
+
+
+        FILE *error=fopen("/home/ec2-user/var/www/html/errores/err404.html", "r");
+
+        fseek(error, 0L, SEEK_END);
+        tamano = ftell(da);
+        fseek(error, 0L, SEEK_SET);
+
+        char *archivo = malloc(tamano+1);
+        fread(archivo, tamano, 1, error);
+        fclose(error);
+
         //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
         writeLine(s, command, strlen(command));
@@ -162,11 +175,9 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: text/html\r\n");
         writeLine(s, command, strlen(command));
-        sprintf(command, "\r\n");
+        sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
-        sprintf(command, "<html><head><meta charset='utf-8'/></head><title>No encontrado</title>\r\n");
-        writeLine(s, command, strlen(command));
-        sprintf(command, "<body><h1>ERROR 404<h1><br/><h3><br/>El servidor no pudo resolver su petición pues no se encontró el archivo!</h3>.</body></html>\r\n");
+        sprintf(command, "\r\n%s",archivo);
         writeLine(s, command, strlen(command));
         //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
         printf("No existe tal archivo!!\n");
@@ -192,8 +203,8 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: %s\r\n",tipoMime);
         writeLine(s, command, strlen(command));
-        printf("%s\n", archivo);
-        printf("Tam archivo: %d\n", tamano);    
+        // printf("%s\n", archivo);
+        // printf("Tam archivo: %d\n", tamano);    
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n%s",archivo);
