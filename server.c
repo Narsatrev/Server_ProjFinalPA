@@ -291,16 +291,12 @@ int serve(int s) {
             // }
     ///////////////////////////////////////////////////////////        
 
-
-
             sprintf(command, "\r\n%s",archivo);
             writeLine(s, command, strlen(command));
 
             free(archivo);
         }    
     }
-
-    
 
     fclose(da);
     return 0;    
