@@ -198,18 +198,20 @@ int serve(int s) {
         fclose(da);
 
 
-///////////////////////////////////////////////////////////
-        sprintf(command, "\r\n");
-        writeLine(s, command, strlen(command));
-        fgets(buff_archivo, sizeof(buff_archivo), da);
-        while (!feof(da)){
-            sprintf(command, "%s",buff_archivo);
-            writeLine(s, command, strlen(command));
-            fgets(buff_archivo, sizeof(buff_archivo), da);
-        }
-///////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////
+//         sprintf(command, "\r\n");
+//         writeLine(s, command, strlen(command));
+//         fgets(buff_archivo, sizeof(buff_archivo), da);
+//         while (!feof(da)){
+//             sprintf(command, "%s",buff_archivo);
+//             writeLine(s, command, strlen(command));
+//             fgets(buff_archivo, sizeof(buff_archivo), da);
+//         }
+// ///////////////////////////////////////////////////////////
 
         sleep(1);
+
+        char buff_archivo[1024];
 
         sprintf(command, "HTTP/1.0 200 OK\r\n");
         writeLine(s, command, strlen(command));
@@ -231,7 +233,7 @@ int serve(int s) {
             fgets(buff_archivo, sizeof(buff_archivo), da);
         }
 ///////////////////////////////////////////////////////////
-        
+
         // sprintf(command, "\r\n%s",archivo);
         // writeLine(s, command, strlen(command));
 
