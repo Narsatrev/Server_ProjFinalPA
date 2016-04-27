@@ -362,35 +362,35 @@ int main() {
         // }       
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
-        // pid_t id_proc;
-        // if ( (id_proc = fork()) < 0 ) {
-        //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("fork");
-        //     return;
-        // }
-        // if (id_proc == 0){
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     exit(0);
-        // }else{
-        //     waitpid(id_proc);
-        // } 
+        pid_t id_proc;
+        if ( (id_proc = fork()) < 0 ) {
+            openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            closelog();
+            perror("fork");
+            return;
+        }
+        if (id_proc == 0){
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            exit(0);
+        }else{
+            waitpid(id_proc);
+        } 
 
         //Multithread (intento 1: fallido parcialmente, termina al regresar un 404)
 
-            pthread_t hiloCliente;    
-            if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-                openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-                syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-                closelog();
-                perror("pthread_create");
-            }
+            // pthread_t hiloCliente;    
+            // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+            //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+            //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            //     closelog();
+            //     perror("pthread_create");
+            // }
 
-            atexit(servidorCayo);
+            // atexit(servidorCayo);
         }
     }
     close(sd);
