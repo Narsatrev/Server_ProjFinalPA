@@ -239,7 +239,8 @@ int serve(int s) {
             fseek(da, 0L, SEEK_SET);
 
             char *archivo = malloc(tamano+1);
-            fread(archivo, tamano, 1, da);
+            // fread(archivo, tamano, 1, da);
+
 
             sleep(1);
 
@@ -259,6 +260,12 @@ int serve(int s) {
             writeLine(s, command, strlen(command));
             sprintf(command, "\r\n");
             writeLine(s, command, strlen(command));
+
+            FILE *fout=fdopen(s,"w");
+
+            char file[32*1024];
+            fread(file,tamano,1,da);
+            fwrite(file,tamano,1,fout);
 
             sync();
 
