@@ -191,8 +191,6 @@ int serve(int s) {
         strcat(url_completo,nombre_archivo_uri);
         strcat(url_completo,".");
         strcat(url_completo,token_extension);
-
-        sync();
         
         printf("URL COMPLETA: %s\n",url_completo);
 
@@ -227,8 +225,6 @@ int serve(int s) {
             sprintf(command, "\r\n%s",archivo);
             writeLine(s, command, strlen(command));
 
-            sync();
-
             printf("No existe tal archivo!!\n");
             free(archivo);
         }else{
@@ -239,8 +235,7 @@ int serve(int s) {
             fseek(da, 0L, SEEK_SET);
 
             char *archivo = malloc(tamano+1);
-            // fread(archivo, tamano, 1, da);
-
+            fread(archivo, tamano, 1, da);
 
             sleep(1);
 
@@ -260,14 +255,6 @@ int serve(int s) {
             writeLine(s, command, strlen(command));
             sprintf(command, "\r\n");
             writeLine(s, command, strlen(command));
-
-            FILE *fout=fdopen(s,"w");
-
-            char file[32*1024];
-            size=fread(file,tamano,1,da);
-            size=fwrite(file,tamano,1,fout);
-
-            sync();
 
     ////LEER ARCHIVOS LARGOS
     /////////////////////////////////////////////////////////// Intento 1: creo que no alcanza a leer bien todo, agregar validacion si se pasa?? maybe..      
@@ -355,7 +342,7 @@ int main() {
             perror("accept");
         }else{
         
-
+        
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
         // if (!(id_proc = fork())) {
