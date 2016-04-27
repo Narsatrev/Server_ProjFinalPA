@@ -341,7 +341,7 @@ int main() {
             closelog();
             perror("accept");
             exit(0);
-        }
+        }else{
         
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
@@ -382,15 +382,16 @@ int main() {
         // } 
         //Multithread (intento 1: fallido)
 
-        pthread_t hiloCliente;    
-        if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-            openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            closelog();
-            perror("pthread_create");
-        }
+            pthread_t hiloCliente;    
+            if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+                openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+                syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+                closelog();
+                perror("pthread_create");
+            }
 
-        atexit(servidorCayo);
+            atexit(servidorCayo);
+        }
     }
     close(sd);
 }
