@@ -12,7 +12,6 @@
 #include <syslog.h>
 #include <errno.h>
 #include <pthread.h>
-#include <stat.h>
 
 #define PORT 80
 #define SIZE 8
