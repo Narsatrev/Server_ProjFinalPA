@@ -263,7 +263,7 @@ int serve(int s) {
 
             char file[tamano];
             int suma=0;
-            size=fread(file,1,tamano,fin);
+            size=fread(file,1,tamano,da);
             printf("ARCHIVO: %d\n",size);
 
             while((size=write(s,&file[suma],MSGSIZE))>0){
