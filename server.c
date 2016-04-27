@@ -11,6 +11,7 @@
 #include <syslog.h>
 #include <errno.h>
 #include <pthread.h>
+#include <stat.h>
 
 #define PORT 80
 #define SIZE 8
@@ -257,8 +258,11 @@ int serve(int s) {
             writeLine(s, command, strlen(command));
 
             FILE *fout=fdopen(s,"w");
+
             struct stat buf;
+
             stat(url_completo,&buf);
+
             printf("Tam con buf por cachos:%d\n",buf.st_size);
 
             char file[tamano];
@@ -272,8 +276,8 @@ int serve(int s) {
                     break;
                 }
             }
-            sync();
 
+            sync();
             // sprintf(command, "\r\n%s",archivo);
             // writeLine(s, command, strlen(command));
 
