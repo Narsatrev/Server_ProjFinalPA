@@ -340,7 +340,6 @@ int main() {
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
             perror("accept");
-            exit(0);
         }else{
         
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
@@ -380,7 +379,8 @@ int main() {
         // }else{
         //     waitpid(id_proc);
         // } 
-        //Multithread (intento 1: fallido)
+
+        //Multithread (intento 1: fallido parcialmente, termina al regresar un 404)
 
             pthread_t hiloCliente;    
             if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
