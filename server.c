@@ -234,8 +234,8 @@ int serve(int s) {
             tamano = ftell(da);
             fseek(da, 0L, SEEK_SET);
 
-            char *archivo = malloc(tamano+1);
-            fread(archivo, tamano, 1, da);
+            // char *archivo = malloc(tamano+1);
+            // fread(archivo, tamano, 1, da);
 
             sleep(1);
 
@@ -248,15 +248,38 @@ int serve(int s) {
             sprintf(command, "Content-Type: %s\r\n",tipoMime);
             writeLine(s, command, strlen(command));
 
-            printf("%s\n", archivo);
-            printf("Tam archivo: %d\n", tamano);    
+            // printf("%s\n", archivo);
+            // printf("Tam archivo: %d\n", tamano);    
 
             sprintf(command, "Content-Length: %d\r\n",tamano);
             writeLine(s, command, strlen(command));
             sprintf(command, "\r\n");
             writeLine(s, command, strlen(command));
 
-    ////LEER ARCHIVOS LARGOS
+            FILE *fout=fdopen(s,"w");
+            struct stat buf;
+            stat(url_completo,&buf);
+            printf("Tam con buf por cachos:%d\n",buf.st_size);
+
+            char file[tamano];
+            int suma=0;
+            size=fread(file,1,tamano,fin);
+            printf("ARCHIVO: %d\n",size);
+
+            while((size=write(s,&file[suma],MSGSIZE))>0){
+                suma+=size;
+                if(suma>=tamano){
+                    break;
+                }
+            }
+            sync();
+
+            // sprintf(command, "\r\n%s",archivo);
+            // writeLine(s, command, strlen(command));
+
+            // free(archivo);
+
+////LEER ARCHIVOS LARGOS
     /////////////////////////////////////////////////////////// Intento 1: creo que no alcanza a leer bien todo, agregar validacion si se pasa?? maybe..      
             // fgets(buff_archivo, 1024, da);
             // printf("BUFF:%s\n",buff_archivo);
@@ -293,12 +316,8 @@ int serve(int s) {
             //         break;
             //     }
             // }
-    ///////////////////////////////////////////////////////////        
+    ///////////////////////////////////////////////////////////    
 
-            sprintf(command, "\r\n%s",archivo);
-            writeLine(s, command, strlen(command));
-
-            free(archivo);
         }    
         fclose(da);
     }
@@ -363,6 +382,7 @@ int main() {
         // }                   
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
+            //cambiar para aumentar la capcidad de enkolamyento
         pid_t id_proc;
         if ( (id_proc = fork()) < 0 ) {
             openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
