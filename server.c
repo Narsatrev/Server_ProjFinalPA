@@ -264,8 +264,8 @@ int serve(int s) {
             FILE *fout=fdopen(s,"w");
 
             char file[32*1024];
-            fread(file,tamano,1,da);
-            fwrite(file,tamano,1,fout);
+            size=fread(file,tamano,1,da);
+            size=fwrite(file,tamano,1,fout);
 
             sync();
 
