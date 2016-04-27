@@ -342,6 +342,7 @@ int main() {
             perror("accept");
         }else{
         
+        
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
         // if (!(id_proc = fork())) {
@@ -359,7 +360,7 @@ int main() {
         //     //El proceso original espera a que el primer hijo termine, lo cual 
         //     //es inmediatamente despues del segundo fork
         //     waitpid(id_proc);
-        // }       
+        // }                   
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
         pid_t id_proc;
