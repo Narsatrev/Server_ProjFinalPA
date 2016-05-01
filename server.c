@@ -368,13 +368,12 @@ int main() {
         }else if(pid > 0){
             close(sdo);
             wait(0);
-            continue;
         }else if(pid == 0){
             printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
             printf("Puerto %d\n", ntohs(pin.sin_port));
             serve(sdo);
             close(sdo);
-            break;
+            exit(0);
         }
 
              
