@@ -345,7 +345,7 @@ int main() {
     
     // 4. aceptar conexión
 
-    // pid_t pid1;    
+    pid_t pid;    
     // pid_t pid2;
     // int status;    
 
