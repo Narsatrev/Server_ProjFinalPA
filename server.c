@@ -260,12 +260,6 @@ int serve(int s) {
 
             FILE *fout=fdopen(s,"w");
 
-            struct stat buf;
-
-            stat(url_completo,&buf);
-
-            printf("Tam con buf por cachos:%d\n",buf.st_size);
-
             char file[tamano];
             int suma=0;
             size=fread(file,1,tamano,da);
