@@ -344,7 +344,6 @@ int main() {
     addrlen = sizeof(pin);
     
     // 4. aceptar conexión
-    int status;
 
     pid_t pid1;    
     pid_t pid2;
