@@ -345,9 +345,9 @@ int main() {
     
     // 4. aceptar conexión
 
-    pid_t pid1;    
-    pid_t pid2;
-    int status;    
+    // pid_t pid1;    
+    // pid_t pid2;
+    // int status;    
 
     while(1){
 
@@ -362,42 +362,43 @@ int main() {
             exit(1);
         }
 
-        // if ((pid = fork()) == -1){
-        //     close(sdo);
-        //     continue;
-        // }else if(pid > 0){
-        //     close(sdo);
-        //     continue;
-        // }else if(pid == 0){
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     break;
-        // }
+        if ((pid = fork()) == -1){
+            close(sdo);
+            continue;
+        }else if(pid > 0){
+            close(sdo);
+            wait(0);
+            continue;
+        }else if(pid == 0){
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            break;
+        }
 
              
 
-            if (pid1 = fork()) {
-                         /* parent process A */
-                waitpid(pid1, &status, NULL);
-            } else if (!pid1) {
-                         /* child process B */
-                if (pid2 = fork()) {
-                    exit(0);
-                } else if (!pid2) {
-                    /* child process C */
-                    printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                    printf("Puerto %d\n", ntohs(pin.sin_port));
-                    serve(sdo);
-                    close(sdo);
-                    // execvp("something");
-                } else {
-                    /* error */
-                }
-            } else {
-                /* error */
-            }
+            // if (pid1 = fork()) {
+            //              /* parent process A */
+            //     waitpid(pid1, &status, NULL);
+            // } else if (!pid1) {
+            //              /* child process B */
+            //     if (pid2 = fork()) {
+            //         exit(0);
+            //     } else if (!pid2) {
+            //         /* child process C */
+            //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            //         printf("Puerto %d\n", ntohs(pin.sin_port));
+            //         serve(sdo);
+            //         close(sdo);
+            //         // execvp("something");
+            //     } else {
+            //         /* error */
+            //     }
+            // } else {
+            //     /* error */
+            // }
 
         
 
