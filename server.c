@@ -351,7 +351,7 @@ int main() {
     // int status;    
 
     signal(SIGCHLD, SIG_IGN);
-    
+
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
@@ -363,6 +363,14 @@ int main() {
             closelog();
             perror("accept");
             exit(1);
+        }
+
+        if(!fork()){
+            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            printf("Puerto %d\n", ntohs(pin.sin_port));
+            serve(sdo);
+            close(sdo);
+            exit(0);
         }
 
 
@@ -382,23 +390,23 @@ int main() {
         // }
 
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
-        pid_t id_proc;
-        if (!(id_proc = fork())) {
-            if (!fork()){
-             //El nieto hijo ejecuta su proceso
-                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                printf("Puerto %d\n", ntohs(pin.sin_port));
-                serve(sdo);
-                close(sdo);
-            }else{
-              //El nieto proceso hijo termina
-              exit(0);
-            }
-        } else {
-            //El proceso original espera a que el primer hijo termine, lo cual 
-            //es inmediatamente despues del segundo fork
-            waitpid(id_proc);
-        }                   
+        // pid_t id_proc;
+        // if (!(id_proc = fork())) {
+        //     if (!fork()){
+        //      //El nieto hijo ejecuta su proceso
+        //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+        //         printf("Puerto %d\n", ntohs(pin.sin_port));
+        //         serve(sdo);
+        //         close(sdo);
+        //     }else{
+        //       //El nieto proceso hijo termina
+        //       exit(0);
+        //     }
+        // } else {
+        //     //El proceso original espera a que el primer hijo termine, lo cual 
+        //     //es inmediatamente despues del segundo fork
+        //     waitpid(id_proc);
+        // }                   
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
             //cambiar para aumentar la capcidad de enkolamyento
