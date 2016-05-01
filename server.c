@@ -349,6 +349,7 @@ int main() {
     // pid_t pid2;
     // int status;    
 
+    signal(SIGCHLD, SIG_IGN);
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
@@ -361,6 +362,8 @@ int main() {
             perror("accept");
             exit(1);
         }
+
+
 
         if ((pid = fork()) == -1){
             close(sdo);
@@ -375,31 +378,6 @@ int main() {
             close(sdo);
             exit(0);
         }
-
-             
-
-            // if (pid1 = fork()) {
-            //              /* parent process A */
-            //     waitpid(pid1, &status, NULL);
-            // } else if (!pid1) {
-            //              /* child process B */
-            //     if (pid2 = fork()) {
-            //         exit(0);
-            //     } else if (!pid2) {
-            //         /* child process C */
-            //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            //         printf("Puerto %d\n", ntohs(pin.sin_port));
-            //         serve(sdo);
-            //         close(sdo);
-            //         // execvp("something");
-            //     } else {
-            //         /* error */
-            //     }
-            // } else {
-            //     /* error */
-            // }
-
-        
 
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
         // pid_t id_proc;
