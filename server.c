@@ -351,34 +351,6 @@ int main() {
 
     while(1){
 
-        ///////
-         new = accept(sockid, (struct sockaddr *)&clientaddr, &len);
-
-        if ((pid = fork()) == -1)
-        {
-            close(new);
-            continue;
-        }
-        else if(pid > 0)
-        {
-            close(new);
-            counter++;
-            printf("here2\n");
-            continue;
-        }
-        else if(pid == 0)
-        {
-            char buf[100];
-
-            counter++;
-            printf("here 1\n");
-            snprintf(buf, sizeof buf, "hi %d", counter);
-            send(new, buf, strlen(buf), 0);
-            close(new);
-            break;
-        }
-        ///////
-
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
             //En coso de que suceda algo raro en el socket y el cliente
