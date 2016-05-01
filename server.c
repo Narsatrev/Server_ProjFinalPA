@@ -382,7 +382,7 @@ int main() {
             if (pid1 = fork()) {
                          /* parent process A */
                 waitpid(pid1, &status, NULL);
-            } else if (!pit1) {
+            } else if (!pid1) {
                          /* child process B */
                 if (pid2 = fork()) {
                     exit(0);
@@ -399,7 +399,7 @@ int main() {
             } else {
                 /* error */
             }
-            
+
         
 
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
