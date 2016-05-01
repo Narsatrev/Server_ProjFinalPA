@@ -89,6 +89,7 @@ int serve(int s) {
     int size, r, nlc = 0;
     char *archivo_peticion;        
     char buff[2048];
+    
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
