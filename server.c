@@ -199,13 +199,13 @@ int serve(int s) {
         strcat(url_completo,nombre_archivo_uri);
         strcat(url_completo,".");
         strcat(url_completo,token_extension);
-        
+
         printf("URL COMPLETA: %s\n",url_completo);
 
         da=fopen(url_completo, "r");
 
         if(da==NULL){
-            
+                    
             //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
             openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
@@ -237,14 +237,12 @@ int serve(int s) {
             free(archivo);
 
         }else{
-            
+
             printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
             fseek(da, 0L, SEEK_END);
             tamano = ftell(da);
             fseek(da, 0L, SEEK_SET);
-
-            sleep(1);
 
             char buff_archivo[1024];
 
