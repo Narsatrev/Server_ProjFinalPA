@@ -117,8 +117,13 @@ int serve(int s) {
 
     char *token_header;
 
+    char *metodo;
+
     //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
+
+    metodo=token_header;
+
     //segundo token=>URI PETICION
     token_header = strtok(NULL," ");
     
@@ -230,15 +235,14 @@ int serve(int s) {
 
             printf("No existe tal archivo!!\n");
             free(archivo);
+
         }else{
+            
             printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
             fseek(da, 0L, SEEK_END);
             tamano = ftell(da);
             fseek(da, 0L, SEEK_SET);
-
-            // char *archivo = malloc(tamano+1);
-            // fread(archivo, tamano, 1, da);
 
             sleep(1);
 
@@ -246,16 +250,16 @@ int serve(int s) {
 
             sprintf(command, "HTTP/1.0 200 OK\r\n");
             writeLine(s, command, strlen(command));
+
             sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
             writeLine(s, command, strlen(command));
+
             sprintf(command, "Content-Type: %s\r\n",tipoMime);
             writeLine(s, command, strlen(command));
 
-            // printf("%s\n", archivo);
-            // printf("Tam archivo: %d\n", tamano);    
-
             sprintf(command, "Content-Length: %d\r\n",tamano);
             writeLine(s, command, strlen(command));
+
             sprintf(command, "\r\n");
             writeLine(s, command, strlen(command));
 
@@ -272,51 +276,6 @@ int serve(int s) {
                     break;
                 }
             }
-
-            // sync();
-            // sprintf(command, "\r\n%s",archivo);
-            // writeLine(s, command, strlen(command));
-
-            // free(archivo);
-
-////LEER ARCHIVOS LARGOS
-    /////////////////////////////////////////////////////////// Intento 1: creo que no alcanza a leer bien todo, agregar validacion si se pasa?? maybe..      
-            // fgets(buff_archivo, 1024, da);
-            // printf("BUFF:%s\n",buff_archivo);
-            // while (!feof(da)){
-            //     sprintf(command, "%s",buff_archivo);
-            //     writeLine(s, command, strlen(command));
-            //     fgets(buff_archivo, 1024, da);
-            //     printf("BUFF:%s\n",buff_archivo);
-            // }
-    /////////////////////////////////////////////////////////// Intento 2: todo bien... pero se queda trabado.
-            // int current_char = 0;
-            // do{            
-            //     current_char = fgetc(da);
-            //     printf("%c",current_char);
-            //     write(s, &current_char, 1);
-            // }
-            // while(current_char != EOF);
-    /////////////////////////////////////////////////////////// Intento 3: tal vez el buffer es muy pequeno??
-            // while(1){
-            //     char buff[256]={0};
-            //     int lector = fread(buff,1,256,da);
-            //     printf("Leidos %d \n", lector);        
-            //     if(lector > 0)
-            //     {
-            //         printf("Sending \n");
-            //         write(s, buff, lector);
-            //     }        
-            //     if (nread < 256)
-            //     {
-            //         if (feof(da))
-            //             printf("Fin del archivo\n");
-            //         if (ferror(da))
-            //             printf("Error!\n");
-            //         break;
-            //     }
-            // }
-    ///////////////////////////////////////////////////////////    
 
         }    
         fclose(da);
@@ -347,9 +306,10 @@ int main() {
     // 4. aceptar conexión
 
     pid_t pid;    
-    // pid_t pid2;
-    // int status;    
 
+    //FINALMENTE.... crudo pero funcional
+    //al padre no le va a importar que suceda con el hijo mientras
+    //este termine, por lo tanto los hijos nunca se transformaran en zombies
     signal(SIGCHLD, SIG_IGN);
 
     while(1){
@@ -410,6 +370,7 @@ int main() {
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
             //cambiar para aumentar la capcidad de enkolamyento
+
         // pid_t id_proc;
         // if ( (id_proc = fork()) < 0 ) {
         //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
@@ -438,7 +399,7 @@ int main() {
             //     perror("pthread_create");
             // }
 
-            // atexit(servidorCayo);
+        atexit(servidorCayo);
     }
     close(sd);
 }
