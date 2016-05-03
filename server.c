@@ -132,12 +132,15 @@ int serve(int s) {
 
     //Si el uri de peticion contiene '?' debemos usar cgi para
     //procesar los datos de la forma
-    if(strcmp(tipo_metodo,"POST")==0){
-        metodo=2;
-    }
     if(strstr(uri, "?")>0){
         if(strcmp(tipo_metodo,"GET")==0){
             metodo=1;
+        }else{
+            if(strcmp(tipo_metodo,"POST")==0){
+                metodo=2;
+            }else{  
+                metodo=3;
+            }
         }
         printf("METODO %s\n",tipo_metodo);
         printf("MODO CGI: %d\n",metodo);
@@ -198,9 +201,8 @@ int serve(int s) {
         token_extension = strtok(NULL,".");
 
         char* tipoMime;
-
         if(strstr(token_extension,"php")>0){
-            strncpy(token_extension,"php",strlen(token_extension));
+            strncpy(token_extension,"php",strlen("php"));
             tipoMime="text/html";
         }else{
             tipoMime=recuperarMimeType(token_extension);    
