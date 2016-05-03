@@ -18,6 +18,94 @@
 #define SIZE 8
 #define MSGSIZE 1024
 
+void execute_cgi(int client, const char *path,
+                 const char *method, const char *query_string)
+{
+ char buf[1024];
+ int pipe_entrada[2];
+ int pipe_salida[2]; 
+ pid_t pid;
+ int status;
+ int i;
+ char c;
+ int numchars = 1;
+ int content_length = -1;
+
+ buf[0] = 'A'; buf[1] = '\0';
+ if (strcasecmp(method, "GET") == 0)
+  while ((numchars > 0) && strcmp("\n", buf))  /* read & discard headers */
+   numchars = get_line(client, buf, sizeof(buf));
+ else    /* POST */
+ {
+  numchars = get_line(client, buf, sizeof(buf));
+  while ((numchars > 0) && strcmp("\n", buf))
+  {
+   buf[15] = '\0';
+   if (strcasecmp(buf, "Content-Length:") == 0)
+    content_length = atoi(&(buf[16]));
+   numchars = get_line(client, buf, sizeof(buf));
+  }
+  if (content_length == -1) {
+   bad_request(client);
+   return;
+  }
+ }
+
+ sprintf(buf, "HTTP/1.0 200 OK\r\n");
+ send(client, buf, strlen(buf), 0);
+
+ if (pipe(pipe_salida) < 0) {
+  cannot_execute(client);
+  return;
+ }
+ if (pipe(pipe_entrada) < 0) {
+  cannot_execute(client);
+  return;
+ }
+
+ if ( (pid = fork()) < 0 ) {
+  cannot_execute(client);
+  return;
+ }
+ if (pid == 0)  /* child: CGI script */
+ {
+  char meth_env[255];
+  char query_env[255];
+  char length_env[255];
+
+  dup2(pipe_salida[1], 1);
+  dup2(pipe_entrada[0], 0);
+  close(pipe_salida[0]);
+  close(pipe_entrada[1]);
+  sprintf(meth_env, "REQUEST_METHOD=%s", method);
+  putenv(meth_env);
+  if (strcasecmp(method, "GET") == 0) {
+   sprintf(query_env, "QUERY_STRING=%s", query_string);
+   putenv(query_env);
+  }
+  else {   /* POST */
+   sprintf(length_env, "CONTENT_LENGTH=%d", content_length);
+   putenv(length_env);
+  }
+  execl(path, path, NULL);
+  exit(0);
+ } else {    /* parent */
+  close(pipe_salida[1]);
+  close(pipe_entrada[0]);
+  if (strcasecmp(method, "POST") == 0)
+   for (i = 0; i < content_length; i++) {
+    recv(client, &c, 1, 0);
+    write(pipe_entrada[1], &c, 1);
+   }
+  while (read(pipe_salida[0], &c, 1) > 0)
+   send(client, &c, 1, 0);
+
+  close(pipe_salida[0]);
+  close(pipe_entrada[1]);
+  waitpid(pid, &status, 0);
+ }
+}
+
 void servidorCayo(){
     openlog("ServidorMurio", LOG_PID | LOG_CONS, LOG_USER);
     syslog(LOG_INFO, "El servidor fue apagado o termino su proceso de forma inesperada...\n");
@@ -188,16 +276,14 @@ int serve(int s) {
 
         printf("No existe tal archivo!!\n");
         free(archivo);
-    }else{
-
         
+    }else{
 
         char *token_extension;
         //primer token=>path del archivo
         token_extension = strtok(nombre_archivo_uri,".");
         //segundo token=>extension del archivo
         token_extension = strtok(NULL,".");
-
 
         char* tipoMime=recuperarMimeType(token_extension);
 
@@ -254,43 +340,71 @@ int serve(int s) {
 
         }else{
 
-            printf("SI EXISTE EL ARCHIVO YAY!!!\n");
+            //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
+            if(metodo==0){
+                 printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
-            fseek(da, 0L, SEEK_END);
-            tamano = ftell(da);
-            fseek(da, 0L, SEEK_SET);
+                fseek(da, 0L, SEEK_END);
+                tamano = ftell(da);
+                fseek(da, 0L, SEEK_SET);
 
-            char buff_archivo[1024];
+                char buff_archivo[1024];
 
-            sprintf(command, "HTTP/1.0 200 OK\r\n");
-            writeLine(s, command, strlen(command));
+                sprintf(command, "HTTP/1.0 200 OK\r\n");
+                writeLine(s, command, strlen(command));
 
-            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-            writeLine(s, command, strlen(command));
+                sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+                writeLine(s, command, strlen(command));
 
-            sprintf(command, "Content-Type: %s\r\n",tipoMime);
-            writeLine(s, command, strlen(command));
+                sprintf(command, "Content-Type: %s\r\n",tipoMime);
+                writeLine(s, command, strlen(command));
 
-            sprintf(command, "Content-Length: %d\r\n",tamano);
-            writeLine(s, command, strlen(command));
+                sprintf(command, "Content-Length: %d\r\n",tamano);
+                writeLine(s, command, strlen(command));
 
-            sprintf(command, "\r\n");
-            writeLine(s, command, strlen(command));
+                sprintf(command, "\r\n");
+                writeLine(s, command, strlen(command));
 
-            FILE *fout=fdopen(s,"w");
+                FILE *fout=fdopen(s,"w");
 
-            char file[tamano];
-            int suma=0;
-            size=fread(file,1,tamano,da);
-            printf("ARCHIVO: %d\n",size);
+                char file[tamano];
+                int suma=0;
+                size=fread(file,1,tamano,da);
+                printf("ARCHIVO: %d\n",size);
 
-            while((size=write(s,&file[suma],MSGSIZE))>0){
-                suma+=size;
-                if(suma>=tamano){
-                    break;
+                while((size=write(s,&file[suma],MSGSIZE))>0){
+                    suma+=size;
+                    if(suma>=tamano){
+                        break;
+                    }
                 }
             }
 
+            // else{
+            //     pid_t pid;
+            //     int pipe_entrada[2];
+            //     int pipe_salida[2]; 
+
+            //     if ( (pid = fork()) < 0 ) {
+            //         printf("sdasdfasdf");
+            //     }
+            //     if (pid == 0){  /* child: CGI script */
+            //         char meth_env[255];
+            //         char query_env[255];
+            //         char length_env[255];
+
+            //         sprintf(meth_env, "REQUEST_METHOD=%s", method);
+            //         putenv(meth_env);
+
+            //         sprintf(query_env, "QUERY_STRING=%s", query_string);
+            //         putenv(query_env);
+
+            //         dup2(pipe_salida[1], 1);
+            //         dup2(pipe_entrada[0], 0);
+            //         close(pipe_salida[0]);
+            //         close(pipe_entrada[1]);
+            //     }
+            // }
         }    
         fclose(da);
     }
