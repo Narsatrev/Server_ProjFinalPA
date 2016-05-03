@@ -313,11 +313,11 @@ int serve(int s) {
                 if(!fork()){
                     pipe(cgi_input);
                     pipe(cgi_output);
-
+                    printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri);
                     path_ejecutable=strtok(nombre_archivo_uri,"?");
-                    printf("url_completo: %s\n",path_ejecutable);
+                    printf("2) url_completo: %s\n",path_ejecutable);
                     path_ejecutable=strtok(NULL,"?");
-                    printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable, "query_prueba");
+                    printf("3) path_ejecutable: %s\n || query: %s\n",path_ejecutable, "query_prueba");
                     char meth_env[255];
                     char query_env[255];
 
