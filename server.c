@@ -57,7 +57,7 @@ int readLine(int s, char *line, int *result_size) {
 }
 
 int writeLine(int s, char *line, int total_size) {
-    
+
     int acum = 0, size;
     char buffer[SIZE];
 
@@ -91,7 +91,7 @@ int serve(int s) {
     int size, r, nlc = 0;
     char *archivo_peticion;        
     char buff[2048];
-    
+
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
@@ -145,7 +145,7 @@ int serve(int s) {
         printf("METODO %s\n",tipo_metodo);
         printf("MODO CGI: %d\n",metodo);
     }    
-    
+
     char nombre_archivo_uri[500];
     if(strncmp(token_header,"/",strlen(token_header))==0){
         strncpy(nombre_archivo_uri, "/index.html", 12);
@@ -230,7 +230,7 @@ int serve(int s) {
         char *query;            
 
         da=fopen(url_completo, "r");
-        
+
 
         if(da==NULL){
 
@@ -297,70 +297,71 @@ int serve(int s) {
                printf("ARCHIVO: %d\n",size);
 
                while((size=write(s,&file[suma],MSGSIZE))>0){
-                suma+=size;
-                if(suma>=tamano){
-                    break;
+                    suma+=size;
+                    if(suma>=tamano){
+                        break;
+                    }
+                }
+            }else{
+                pid_t pid;
+                int i, status;
+                char c;
+
+                int cgi_output[2];
+                int cgi_input[2];
+
+                if(!fork()){
+                    pipe(cgi_input);
+                    pipe(cgi_output);
+
+                    path_ejecutable=strtok(url_completo,"?");
+                    printf("url_completo: %s\n",url_completo);
+                    query=strtok(NULL,"?");
+                    printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
+                    char meth_env[255];
+                    char query_env[255];
+
+                    dup2(cgi_output[1], 1);
+                    dup2(cgi_input[0], 0);
+                    close(cgi_output[0]);
+                    close(cgi_input[1]);
+
+                    sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
+                    putenv(meth_env);
+                    printf("RM: %s\n",getenv("REQUEST_METHOD"));
+
+                    sprintf(query_env, "QUERY_STRING=%s", query);
+                    putenv(query_env);
+                    printf("QS: %s\n",getenv("QUERY_STRING"));
+
+                    printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
+
+                    int x=execlp("php","php", path_ejecutable, (char *)NULL);            
+                    if(x<0){
+                        openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
+                        syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
+                        closelog();
+                        perror("execlp");
+                    }
+
+                    printf("ejecutando php zi\n");
+
+                    exit(0);
+
+                }else{    /* parent */
+                    close(cgi_output[1]);
+                    close(cgi_input[0]);
+
+                    while (read(cgi_output[0], &c, 1) > 0){
+                        sprintf(command, "%c", c);
+                        writeLine(s, command, strlen(command));
+                    }
+
+                    close(cgi_output[0]);
+                    close(cgi_input[1]);
+                    waitpid(pid, &status, 0);
                 }
             }
-        }else{
-            pid_t pid;
-            int i, status;
-            char c;
-
-            int cgi_output[2];
-            int cgi_input[2];
-
-            if(!fork()){
-                pipe(cgi_input);
-                pipe(cgi_output);
-
-                path_ejecutable=strtok(url_completo,"?");
-                query=strtok(NULL,"?");
-                printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
-                char meth_env[255];
-                char query_env[255];
-
-                dup2(cgi_output[1], 1);
-                dup2(cgi_input[0], 0);
-                close(cgi_output[0]);
-                close(cgi_input[1]);
-
-                sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
-                putenv(meth_env);
-                printf("RM: %s\n",getenv("REQUEST_METHOD"));
-
-                sprintf(query_env, "QUERY_STRING=%s", query);
-                putenv(query_env);
-                printf("QS: %s\n",getenv("QUERY_STRING"));
-
-                printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
-
-                int x=execlp("php","php", path_ejecutable, (char *)NULL);            
-                if(x<0){
-                    openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
-                    syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
-                    closelog();
-                    perror("execlp");
-                }
-                
-                printf("ejecutando php zi\n");
-
-                exit(0);
-
-                        }else{    /* parent */
-                close(cgi_output[1]);
-                close(cgi_input[0]);
-                
-                while (read(cgi_output[0], &c, 1) > 0){
-                    sprintf(command, "%c", c);
-                    writeLine(s, command, strlen(command));
-                }
-
-                close(cgi_output[0]);
-                close(cgi_input[1]);
-                waitpid(pid, &status, 0);
-            }
-        }
 
                     // else{
                     //     pid_t pid;
@@ -413,7 +414,7 @@ int main() {
     listen(sd, 5);
 
     addrlen = sizeof(pin);
-    
+
         // 4. aceptar conexión
 
     pid_t pid;    
