@@ -196,7 +196,9 @@ int serve(int s) {
 
         char *token_extension;
             //primer token=>path del archivo
-        char *nombre_archivo_uri_copia=nombre_archivo_uri;
+        char *nombre_archivo_uri_copia
+
+        strncpy(nombre_archivo_uri,nombre_archivo_uri_copia,strlen(nombre_archivo_uri));
 
         token_extension = strtok(nombre_archivo_uri,".");
             //segundo token=>extension del archivo
