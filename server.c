@@ -219,8 +219,9 @@ int serve(int s) {
         char *aux;
         char *query;
 
-        if(strstr(url_completo,"?")>0){
+        if(strstr(url_completo,"?") > 0){
             aux=strtok(url_completo,"?");
+            url_completo=aux;
             query=strtok(NULL,"?");
             printf("aux: %s || query: %s\n",aux,query);
         }        
