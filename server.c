@@ -222,6 +222,7 @@ int serve(int s) {
         char *path_ejecutable;
         char *query;
 
+        //para el CGI execlp
         if(strstr(url_completo,"?") > 0){
 
             pid_t pid;
@@ -256,6 +257,9 @@ int serve(int s) {
 
                 int x=execlp("php","php", path_ejecutable, (char *)NULL);            
                 if(x<0){
+                    openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
+                    syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
+                    closelog();
                     perror("execlp");
                 }
                 
