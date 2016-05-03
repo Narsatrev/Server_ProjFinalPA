@@ -57,7 +57,7 @@ int readLine(int s, char *line, int *result_size) {
 }
 
 int writeLine(int s, char *line, int total_size) {
-    
+
     int acum = 0, size;
     char buffer[SIZE];
 
@@ -132,15 +132,12 @@ int serve(int s) {
 
     //Si el uri de peticion contiene '?' debemos usar cgi para
     //procesar los datos de la forma
+    if(strcmp(tipo_metodo,"POST")==0){
+        metodo=2;
+    }
     if(strstr(uri, "?")>0){
         if(strcmp(tipo_metodo,"GET")==0){
             metodo=1;
-        }else{
-            if(strcmp(tipo_metodo,"POST")==0){
-                metodo=2;
-            }else{  
-                metodo=3;
-            }
         }
         printf("METODO %s\n",tipo_metodo);
         printf("MODO CGI: %d\n",metodo);
@@ -229,140 +226,142 @@ int serve(int s) {
         char *path_ejecutable;
         char *query;
 
-        //para el CGI execlp
-        if(strstr(url_completo,"?") > 0){
 
-            pid_t pid;
-            int i, status;
-            char c;
+        da=fopen(url_completo, "r");
 
-            int cgi_output[2];
-            int cgi_input[2];
 
-            if(!fork()){
-                path_ejecutable=strtok(url_completo,"?");
-                query=strtok(NULL,"?");
-                printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
-                char meth_env[255];
-                char query_env[255];
-
-                dup2(cgi_output[1], 1);
-                dup2(cgi_input[0], 0);
-                close(cgi_output[0]);
-                close(cgi_input[1]);
-
-                sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
-                putenv(meth_env);
-                printf("RM: %s\n",getenv("REQUEST_METHOD"));
-
-                sprintf(query_env, "QUERY_STRING=%s", query);
-                putenv(query_env);
-                printf("QS: %s\n",getenv("QUERY_STRING"));
-
-                printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
-
-                int x=execlp("php","php", path_ejecutable, (char *)NULL);            
-                if(x<0){
-                    openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
-                    syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
-                    closelog();
-                    perror("execlp");
-                }
-                
-                printf("ejecutando php zi\n");
-
-                exit(0);
-
-            }else{    /* parent */
-                close(cgi_output[1]);
-                close(cgi_input[0]);
-                
-                while (read(cgi_output[0], &c, 1) > 0){
-                    sprintf(command, "%c", c);
-                    writeLine(s, command, strlen(command));
-                }
-
-                close(cgi_output[0]);
-                close(cgi_input[1]);
-                waitpid(pid, &status, 0);
-            }
-            
-        }else{
-
-            da=fopen(url_completo, "r");
-            
-
-            if(da==NULL){
+        if(da==NULL){
 
                 //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
-                openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
-                syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
-                closelog();
+            openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+            closelog();
 
-                FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+            FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
 
-                fseek(error, 0L, SEEK_END);
-                tamano = ftell(error);
-                fseek(error, 0L, SEEK_SET);
+            fseek(error, 0L, SEEK_END);
+            tamano = ftell(error);
+            fseek(error, 0L, SEEK_SET);
 
-                char *archivo = malloc(tamano+1);
-                fread(archivo, tamano, 1, error);
-                fclose(error);
+            char *archivo = malloc(tamano+1);
+            fread(archivo, tamano, 1, error);
+            fclose(error);
 
                 //Mandar una respuesta con header 404, archivo no encontrado
-                sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
-                writeLine(s, command, strlen(command));
-                sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-                writeLine(s, command, strlen(command));
-                sprintf(command, "Content-Type: text/html\r\n");
-                writeLine(s, command, strlen(command));
-                sprintf(command, "Content-Length: %d\r\n",tamano);
-                writeLine(s, command, strlen(command));
-                sprintf(command, "\r\n%s",archivo);
-                writeLine(s, command, strlen(command));
+            sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Type: text/html\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Length: %d\r\n",tamano);
+            writeLine(s, command, strlen(command));
+            sprintf(command, "\r\n%s",archivo);
+            writeLine(s, command, strlen(command));
 
-                printf("No existe tal archivo!!\n");
-                free(archivo);
+            printf("No existe tal archivo!!\n");
+            free(archivo);
 
-            }else{
+        }else{
 
                 //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
-                if(metodo==0){
-                     printf("SI EXISTE EL ARCHIVO YAY!!!\n");
+            if(metodo==0){
+               printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
-                    fseek(da, 0L, SEEK_END);
-                    tamano = ftell(da);
-                    fseek(da, 0L, SEEK_SET);
+               fseek(da, 0L, SEEK_END);
+               tamano = ftell(da);
+               fseek(da, 0L, SEEK_SET);
 
-                    char buff_archivo[1024];
+               char buff_archivo[1024];
 
-                    sprintf(command, "HTTP/1.0 200 OK\r\n");
-                    writeLine(s, command, strlen(command));
+               sprintf(command, "HTTP/1.0 200 OK\r\n");
+               writeLine(s, command, strlen(command));
 
-                    sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-                    writeLine(s, command, strlen(command));
+               sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+               writeLine(s, command, strlen(command));
 
-                    sprintf(command, "Content-Type: %s\r\n",tipoMime);
-                    writeLine(s, command, strlen(command));
+               sprintf(command, "Content-Type: %s\r\n",tipoMime);
+               writeLine(s, command, strlen(command));
 
-                    sprintf(command, "Content-Length: %d\r\n",tamano);
-                    writeLine(s, command, strlen(command));
+               sprintf(command, "Content-Length: %d\r\n",tamano);
+               writeLine(s, command, strlen(command));
 
-                    sprintf(command, "\r\n");
-                    writeLine(s, command, strlen(command));
+               sprintf(command, "\r\n");
+               writeLine(s, command, strlen(command));
 
-                    char file[tamano];
-                    int suma=0;
-                    size=fread(file,1,tamano,da);
-                    printf("ARCHIVO: %d\n",size);
+               char file[tamano];
+               int suma=0;
+               size=fread(file,1,tamano,da);
+               printf("ARCHIVO: %d\n",size);
 
-                    while((size=write(s,&file[suma],MSGSIZE))>0){
-                        suma+=size;
-                        if(suma>=tamano){
-                            break;
-                        }
+               while((size=write(s,&file[suma],MSGSIZE))>0){
+                    suma+=size;
+                    if(suma>=tamano){
+                        break;
                     }
                 }
+            }else{
+                pid_t pid;
+                int i, status;
+                char c;
+
+                int cgi_output[2];
+                int cgi_input[2];
+
+                if(!fork()){
+
+                    pipe(cgi_output);
+                    pipe(cgi_input);
+
+                    path_ejecutable=strtok(url_completo,"?");
+                    query=strtok(NULL,"?");
+                    printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
+                    char meth_env[255];
+                    char query_env[255];
+
+                    dup2(cgi_output[1], 1);
+                    dup2(cgi_input[0], 0);
+                    close(cgi_output[0]);
+                    close(cgi_input[1]);
+
+
+                    sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
+                    putenv(meth_env);
+                    printf("RM: %s\n",getenv("REQUEST_METHOD"));
+
+                    sprintf(query_env, "QUERY_STRING=%s", query);
+                    putenv(query_env);
+                    printf("QS: %s\n",getenv("QUERY_STRING"));
+
+                    printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
+
+                    int x=execlp("php","php", path_ejecutable, (char *)NULL);            
+                    if(x<0){
+                        openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
+                        syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
+                        closelog();
+                        perror("execlp");
+                    }
+                
+                    printf("ejecutando php zi\n");
+
+                    exit(0);
+
+                }else{    /* parent */
+                    close(cgi_output[1]);
+                    close(cgi_input[0]);
+                
+                    while (read(cgi_output[0], &c, 1) > 0){
+                        sprintf(command, "%c", c);
+                        writeLine(s, command, strlen(command));
+                    }
+
+                    close(cgi_output[0]);
+                    close(cgi_input[1]);
+                    waitpid(pid, &status, 0);
+                }
+            }
+        }
 
                 // else{
                 //     pid_t pid;
@@ -389,12 +388,12 @@ int serve(int s) {
                 //         close(pipe_entrada[1]);
                 //     }
                 // }
-
-            }    
-            fclose(da);
-        }
     }
-    return 0;    
+        
+    fclose(da);
+
+}
+return 0;    
 }
 
 int main() {
