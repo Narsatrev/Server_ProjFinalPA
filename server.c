@@ -316,8 +316,8 @@ int serve(int s) {
 
                     path_ejecutable=strtok(url_completo,"?");
                     printf("url_completo: %s\n",url_completo);
-                    query=strtok(NULL,"?");
-                    printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
+                    path_ejecutable=strtok(NULL,"?");
+                    printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable, "query_prueba");
                     char meth_env[255];
                     char query_env[255];
 
