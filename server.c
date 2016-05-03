@@ -314,8 +314,8 @@ int serve(int s) {
                     pipe(cgi_input);
                     pipe(cgi_output);
 
-                    path_ejecutable=strtok(url_completo,"?");
-                    printf("url_completo: %s\n",url_completo);
+                    path_ejecutable=strtok(nombre_archivo_uri,"?");
+                    printf("url_completo: %s\n",path_ejecutable);
                     path_ejecutable=strtok(NULL,"?");
                     printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable, "query_prueba");
                     char meth_env[255];
