@@ -18,6 +18,8 @@
 #define SIZE 8
 #define MSGSIZE 1024
 
+int sdo;
+
 void servidorCayo(){
     openlog("ServidorMurio", LOG_PID | LOG_CONS, LOG_USER);
     syslog(LOG_INFO, "El servidor fue apagado o termino su proceso de forma inesperada...\n");
@@ -216,125 +218,161 @@ int serve(int s) {
 
         printf("URL COMPLETA: %s\n",url_completo);
 
-        char *aux;
+        char *path_ejecutable;
         char *query;
 
         if(strstr(url_completo,"?") > 0){
-            aux=strtok(url_completo,"?");
-            query=strtok(NULL,"?");
-            printf("aux: %s\n || query: %s\n",aux,query);
 
-        }
+            pid_t pid;
+            int i, status;
+            char c;
 
-        da=fopen(url_completo, "r");
-        
+            int cgi_output[2];
+            int cgi_input[2];
 
-        if(da==NULL){
+            if(!fork()){
+                path_ejecutable=strtok(url_completo,"?");
+                query=strtok(NULL,"?");
+                printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
+                char meth_env[255];
+                char query_env[255];
 
-            //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
-            openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
-            closelog();
+                dup2(cgi_output[1], 1);
+                dup2(cgi_input[0], 0);
+                close(cgi_output[0]);
+                close(cgi_input[1]);
 
-            FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+                sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
+                putenv(meth_env);
 
-            fseek(error, 0L, SEEK_END);
-            tamano = ftell(error);
-            fseek(error, 0L, SEEK_SET);
+                sprintf(query_env, "QUERY_STRING=%s", query);
+                putenv(query_env);
 
-            char *archivo = malloc(tamano+1);
-            fread(archivo, tamano, 1, error);
-            fclose(error);
+                execlp(path_ejecutable, path_ejecutable, (char *) NULL);    
+            } else {    /* parent */
+                close(cgi_output[1]);
+                close(cgi_input[0]);
+                
+                while (read(cgi_output[0], &c, 1) > 0)
+                    send(sdo, &c, 1, 0);
 
-            //Mandar una respuesta con header 404, archivo no encontrado
-            sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
-            writeLine(s, command, strlen(command));
-            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-            writeLine(s, command, strlen(command));
-            sprintf(command, "Content-Type: text/html\r\n");
-            writeLine(s, command, strlen(command));
-            sprintf(command, "Content-Length: %d\r\n",tamano);
-            writeLine(s, command, strlen(command));
-            sprintf(command, "\r\n%s",archivo);
-            writeLine(s, command, strlen(command));
-
-            printf("No existe tal archivo!!\n");
-            free(archivo);
-
+                close(cgi_output[0]);
+                close(cgi_input[1]);
+                waitpid(pid, &status, 0);
+            }
+            
         }else{
 
-            //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
-            if(metodo==0){
-                 printf("SI EXISTE EL ARCHIVO YAY!!!\n");
+            da=fopen(url_completo, "r");
+            
 
-                fseek(da, 0L, SEEK_END);
-                tamano = ftell(da);
-                fseek(da, 0L, SEEK_SET);
+            if(da==NULL){
 
-                char buff_archivo[1024];
+                //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
+                openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+                syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+                closelog();
 
-                sprintf(command, "HTTP/1.0 200 OK\r\n");
+                FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+
+                fseek(error, 0L, SEEK_END);
+                tamano = ftell(error);
+                fseek(error, 0L, SEEK_SET);
+
+                char *archivo = malloc(tamano+1);
+                fread(archivo, tamano, 1, error);
+                fclose(error);
+
+                //Mandar una respuesta con header 404, archivo no encontrado
+                sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
                 writeLine(s, command, strlen(command));
-
                 sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
                 writeLine(s, command, strlen(command));
-
-                sprintf(command, "Content-Type: %s\r\n",tipoMime);
+                sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
-
                 sprintf(command, "Content-Length: %d\r\n",tamano);
                 writeLine(s, command, strlen(command));
-
-                sprintf(command, "\r\n");
+                sprintf(command, "\r\n%s",archivo);
                 writeLine(s, command, strlen(command));
 
-                char file[tamano];
-                int suma=0;
-                size=fread(file,1,tamano,da);
-                printf("ARCHIVO: %d\n",size);
+                printf("No existe tal archivo!!\n");
+                free(archivo);
 
-                while((size=write(s,&file[suma],MSGSIZE))>0){
-                    suma+=size;
-                    if(suma>=tamano){
-                        break;
+            }else{
+
+                //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
+                if(metodo==0){
+                     printf("SI EXISTE EL ARCHIVO YAY!!!\n");
+
+                    fseek(da, 0L, SEEK_END);
+                    tamano = ftell(da);
+                    fseek(da, 0L, SEEK_SET);
+
+                    char buff_archivo[1024];
+
+                    sprintf(command, "HTTP/1.0 200 OK\r\n");
+                    writeLine(s, command, strlen(command));
+
+                    sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+                    writeLine(s, command, strlen(command));
+
+                    sprintf(command, "Content-Type: %s\r\n",tipoMime);
+                    writeLine(s, command, strlen(command));
+
+                    sprintf(command, "Content-Length: %d\r\n",tamano);
+                    writeLine(s, command, strlen(command));
+
+                    sprintf(command, "\r\n");
+                    writeLine(s, command, strlen(command));
+
+                    char file[tamano];
+                    int suma=0;
+                    size=fread(file,1,tamano,da);
+                    printf("ARCHIVO: %d\n",size);
+
+                    while((size=write(s,&file[suma],MSGSIZE))>0){
+                        suma+=size;
+                        if(suma>=tamano){
+                            break;
+                        }
                     }
                 }
-            }
 
-            // else{
-            //     pid_t pid;
-            //     int pipe_entrada[2];
-            //     int pipe_salida[2]; 
+                // else{
+                //     pid_t pid;
+                //     int pipe_entrada[2];
+                //     int pipe_salida[2]; 
 
-            //     if ( (pid = fork()) < 0 ) {
-            //         printf("sdasdfasdf");
-            //     }
-            //     if (pid == 0){  /* child: CGI script */
-            //         char meth_env[255];
-            //         char query_env[255];
-            //         char length_env[255];
+                //     if ( (pid = fork()) < 0 ) {
+                //         printf("sdasdfasdf");
+                //     }
+                //     if (pid == 0){  /* child: CGI script */
+                //         char meth_env[255];
+                //         char query_env[255];
+                //         char length_env[255];
 
-            //         sprintf(meth_env, "REQUEST_METHOD=%s", method);
-            //         putenv(meth_env);
+                //         sprintf(meth_env, "REQUEST_METHOD=%s", method);
+                //         putenv(meth_env);
 
-            //         sprintf(query_env, "QUERY_STRING=%s", query_string);
-            //         putenv(query_env);
+                //         sprintf(query_env, "QUERY_STRING=%s", query_string);
+                //         putenv(query_env);
 
-            //         dup2(pipe_salida[1], 1);
-            //         dup2(pipe_entrada[0], 0);
-            //         close(pipe_salida[0]);
-            //         close(pipe_entrada[1]);
-            //     }
-            // }
+                //         dup2(pipe_salida[1], 1);
+                //         dup2(pipe_entrada[0], 0);
+                //         close(pipe_salida[0]);
+                //         close(pipe_entrada[1]);
+                //     }
+                // }
 
-        }    
-        fclose(da);
+            }    
+            fclose(da);
+        }
     }
     return 0;    
 }
 
 int main() {
-    int sd, sdo, addrlen, size;
+    int sd, addrlen, size;
     struct sockaddr_in sin, pin;
 
 
