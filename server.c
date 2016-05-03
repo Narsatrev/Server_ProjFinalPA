@@ -221,12 +221,14 @@ int serve(int s) {
 
         if(strstr(url_completo,"?") > 0){
             aux=strtok(url_completo,"?");
-            url_completo=aux;
+            da=fopen(aux, "r");
             query=strtok(NULL,"?");
             printf("aux: %s || query: %s\n",aux,query);
+        }else{
+            da=fopen(url_completo, "r");
         }        
 
-        da=fopen(url_completo, "r");
+        
 
         if(da==NULL){
 
