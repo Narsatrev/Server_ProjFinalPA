@@ -254,7 +254,11 @@ int serve(int s) {
 
                 printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
 
-                execlp(path_ejecutable, path_ejecutable, (char *) NULL);           
+                int x=execlp(path_ejecutable, path_ejecutable, (char *) NULL);           
+                
+                if(x<0){
+                    perror("execlp");
+                }
                 
                 printf("ejecutando php zi\n");
 
