@@ -270,8 +270,10 @@ int serve(int s) {
                 close(cgi_output[1]);
                 close(cgi_input[0]);
                 
-                while (read(cgi_output[0], &c, 1) > 0)
-                    send(sdo, &c, 1, 0);
+                while (read(cgi_output[0], &c, 1) > 0){
+                    sprintf(command, "%c", c);
+                    writeLine(s, command, strlen(command));
+                }
 
                 close(cgi_output[0]);
                 close(cgi_input[1]);
