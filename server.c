@@ -226,8 +226,8 @@ int serve(int s) {
         char *path_ejecutable;
         char *query;
 
-        //para el CGI de GET
-        if(metodo>0){
+        //para el CGI execlp
+        if(strstr(url_completo,"?") > 0){
 
             pid_t pid;
             int i, status;
@@ -237,10 +237,6 @@ int serve(int s) {
             int cgi_input[2];
 
             if(!fork()){
-
-                pipe(cgi_output);
-                pipe(cgi_input);
-
                 path_ejecutable=strtok(url_completo,"?");
                 query=strtok(NULL,"?");
                 printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
@@ -251,7 +247,6 @@ int serve(int s) {
                 dup2(cgi_input[0], 0);
                 close(cgi_output[0]);
                 close(cgi_input[1]);
-
 
                 sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
                 putenv(meth_env);
