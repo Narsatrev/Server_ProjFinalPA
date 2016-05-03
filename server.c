@@ -314,14 +314,16 @@ int serve(int s) {
                 int cgi_output[2];
                 int cgi_input[2];
 
+                char *token_archivo;
+
                 if(!fork()){
                     pipe(cgi_input);
                     pipe(cgi_output);
                     printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
-                    nombre_archivo_uri_copia=strtok(nombre_archivo_uri_copia,"?");
+                    token_archivo=strtok(nombre_archivo_uri_copia,"?");
                     printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
-                    nombre_archivo_uri_copia=strtok(NULL,"?");
-                    printf("3) path_ejecutable: %s\n || query: %s\n",nombre_archivo_uri_copia, "query_prueba");
+                    token_archivo=strtok(NULL,"?");
+                    printf("3) path_ejecutable: %s\n || query: %s\n",token_archivo, "query_prueba");
                     char meth_env[255];
                     char query_env[255];
 
