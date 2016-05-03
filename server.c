@@ -249,7 +249,7 @@ int serve(int s) {
                 sprintf(query_env, "QUERY_STRING=%s", query);
                 putenv(query_env);
 
-                printf("antes de ejecutar php zi\n");
+                printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
 
                 execlp(path_ejecutable, path_ejecutable, (char *) NULL);           
                 
