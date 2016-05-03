@@ -1,23 +1,23 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <string.h>
-#include <signal.h>
-#include <time.h>
-#include <arpa/inet.h>
-#include <stdlib.h>
-#include "listaMimeTypes.h"
-#include <syslog.h>
-#include <errno.h>
-#include <pthread.h>
-#include <unistd.h>
+    #include <stdio.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <sys/stat.h>
+    #include <netinet/in.h>
+    #include <netdb.h>
+    #include <string.h>
+    #include <signal.h>
+    #include <time.h>
+    #include <arpa/inet.h>
+    #include <stdlib.h>
+    #include "listaMimeTypes.h"
+    #include <syslog.h>
+    #include <errno.h>
+    #include <pthread.h>
+    #include <unistd.h>
 
-#define PORT 80
-#define SIZE 8
-#define MSGSIZE 1024
+    #define PORT 80
+    #define SIZE 8
+    #define MSGSIZE 1024
 
 int sdo;
 
@@ -97,14 +97,14 @@ int serve(int s) {
         command[size-2] = 0;
         size-=2;
 
-        //Guarda toda la informacion de las peticiones en el log ubicado en /var/log/messages
+            //Guarda toda la informacion de las peticiones en el log ubicado en /var/log/messages
         openlog("Peticiones_al_servidor", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Header de la peticion: %s\n",command);
         closelog();
 
         printf("[%s]\n", command);
 
-        //Guardar todos los comandos para su manipulacion posterior
+            //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
         strcat(buff,"\n");
 
@@ -118,20 +118,20 @@ int serve(int s) {
 
     char *token_header;
 
-    //primer token=>TIPO DE ACCION (GET, POST, ETC...
+        //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
 
     char *tipo_metodo = token_header;
 
-    //segundo token=>URI PETICION
+        //segundo token=>URI PETICION
     token_header = strtok(NULL," ");
 
     char *uri = token_header;
 
     int metodo=0;
 
-    //Si el uri de peticion contiene '?' debemos usar cgi para
-    //procesar los datos de la forma
+        //Si el uri de peticion contiene '?' debemos usar cgi para
+        //procesar los datos de la forma
     if(strstr(uri, "?")>0){
         if(strcmp(tipo_metodo,"GET")==0){
             metodo=1;
@@ -157,12 +157,12 @@ int serve(int s) {
 
     printf("ARCHIVO URI: %s LEN: %lu\n",nombre_archivo_uri,strlen(nombre_archivo_uri));
     printf("para el 403: %s\n",nombre_archivo_uri);
-    //ERROR 403    
+        //ERROR 403    
     if(!(strstr(nombre_archivo_uri,"."))){
 
         int tamano=0;
         printf("intentando acceder a un directorio restringido omg4!");
-        //Guardar en el log del sistema cada vez que alguien intento accesar a un directorio exista o no
+            //Guardar en el log del sistema cada vez que alguien intento accesar a un directorio exista o no
         openlog("IntentoDeAccesoRestringidoDirectorios", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Alguien intento acceder al recurso: %s\n", nombre_archivo_uri);
         closelog();
@@ -177,7 +177,7 @@ int serve(int s) {
         fread(archivo, tamano, 1, error);
         fclose(error);
 
-        //Mandar una respuesta con header 404, archivo no encontrado
+            //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 403 ACCESS FORBIDDEN\r\n");
         writeLine(s, command, strlen(command));
         sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
@@ -195,9 +195,9 @@ int serve(int s) {
     }else{
 
         char *token_extension;
-        //primer token=>path del archivo
+            //primer token=>path del archivo
         token_extension = strtok(nombre_archivo_uri,".");
-        //segundo token=>extension del archivo
+            //segundo token=>extension del archivo
         token_extension = strtok(NULL,".");
 
         char* tipoMime;
@@ -212,7 +212,7 @@ int serve(int s) {
         printf("EXTENSION ARCHIVO: %s\n", token_extension);
         printf("TIPO MIME: %s\n", tipoMime);    
 
-        //test recuperar y calcular tamano de archivo
+            //test recuperar y calcular tamano de archivo
         FILE *da;
         int tamano;
 
@@ -227,11 +227,82 @@ int serve(int s) {
         printf("URL COMPLETA: %s\n",url_completo);
 
         char *path_ejecutable;
-        char *query;
+        char *query;            
 
-        //para el CGI execlp
-        if(strstr(url_completo,"?") > 0){
+        da=fopen(url_completo, "r");
+        
 
+        if(da==NULL){
+
+                    //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
+            openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
+            syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
+            closelog();
+
+            FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
+
+            fseek(error, 0L, SEEK_END);
+            tamano = ftell(error);
+            fseek(error, 0L, SEEK_SET);
+
+            char *archivo = malloc(tamano+1);
+            fread(archivo, tamano, 1, error);
+            fclose(error);
+
+                    //Mandar una respuesta con header 404, archivo no encontrado
+            sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Type: text/html\r\n");
+            writeLine(s, command, strlen(command));
+            sprintf(command, "Content-Length: %d\r\n",tamano);
+            writeLine(s, command, strlen(command));
+            sprintf(command, "\r\n%s",archivo);
+            writeLine(s, command, strlen(command));
+
+            printf("No existe tal archivo!!\n");
+            free(archivo);
+
+        }else{
+
+                    //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
+            if(metodo==0){
+               printf("SI EXISTE EL ARCHIVO YAY!!!\n");
+
+               fseek(da, 0L, SEEK_END);
+               tamano = ftell(da);
+               fseek(da, 0L, SEEK_SET);
+
+               char buff_archivo[1024];
+
+               sprintf(command, "HTTP/1.0 200 OK\r\n");
+               writeLine(s, command, strlen(command));
+
+               sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+               writeLine(s, command, strlen(command));
+
+               sprintf(command, "Content-Type: %s\r\n",tipoMime);
+               writeLine(s, command, strlen(command));
+
+               sprintf(command, "Content-Length: %d\r\n",tamano);
+               writeLine(s, command, strlen(command));
+
+               sprintf(command, "\r\n");
+               writeLine(s, command, strlen(command));
+
+               char file[tamano];
+               int suma=0;
+               size=fread(file,1,tamano,da);
+               printf("ARCHIVO: %d\n",size);
+
+               while((size=write(s,&file[suma],MSGSIZE))>0){
+                suma+=size;
+                if(suma>=tamano){
+                    break;
+                }
+            }
+        }else{
             pid_t pid;
             int i, status;
             char c;
@@ -240,6 +311,9 @@ int serve(int s) {
             int cgi_input[2];
 
             if(!fork()){
+                pipe(cgi_input);
+                pipe(cgi_output);
+
                 path_ejecutable=strtok(url_completo,"?");
                 query=strtok(NULL,"?");
                 printf("path_ejecutable: %s\n || query: %s\n",path_ejecutable,query);
@@ -273,7 +347,7 @@ int serve(int s) {
 
                 exit(0);
 
-            }else{    /* parent */
+                        }else{    /* parent */
                 close(cgi_output[1]);
                 close(cgi_input[0]);
                 
@@ -286,115 +360,38 @@ int serve(int s) {
                 close(cgi_input[1]);
                 waitpid(pid, &status, 0);
             }
-            
-        }else{
-
-            da=fopen(url_completo, "r");
-            
-
-            if(da==NULL){
-
-                //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
-                openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
-                syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
-                closelog();
-
-                FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
-
-                fseek(error, 0L, SEEK_END);
-                tamano = ftell(error);
-                fseek(error, 0L, SEEK_SET);
-
-                char *archivo = malloc(tamano+1);
-                fread(archivo, tamano, 1, error);
-                fclose(error);
-
-                //Mandar una respuesta con header 404, archivo no encontrado
-                sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
-                writeLine(s, command, strlen(command));
-                sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-                writeLine(s, command, strlen(command));
-                sprintf(command, "Content-Type: text/html\r\n");
-                writeLine(s, command, strlen(command));
-                sprintf(command, "Content-Length: %d\r\n",tamano);
-                writeLine(s, command, strlen(command));
-                sprintf(command, "\r\n%s",archivo);
-                writeLine(s, command, strlen(command));
-
-                printf("No existe tal archivo!!\n");
-                free(archivo);
-
-            }else{
-
-                //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
-                if(metodo==0){
-                     printf("SI EXISTE EL ARCHIVO YAY!!!\n");
-
-                    fseek(da, 0L, SEEK_END);
-                    tamano = ftell(da);
-                    fseek(da, 0L, SEEK_SET);
-
-                    char buff_archivo[1024];
-
-                    sprintf(command, "HTTP/1.0 200 OK\r\n");
-                    writeLine(s, command, strlen(command));
-
-                    sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-                    writeLine(s, command, strlen(command));
-
-                    sprintf(command, "Content-Type: %s\r\n",tipoMime);
-                    writeLine(s, command, strlen(command));
-
-                    sprintf(command, "Content-Length: %d\r\n",tamano);
-                    writeLine(s, command, strlen(command));
-
-                    sprintf(command, "\r\n");
-                    writeLine(s, command, strlen(command));
-
-                    char file[tamano];
-                    int suma=0;
-                    size=fread(file,1,tamano,da);
-                    printf("ARCHIVO: %d\n",size);
-
-                    while((size=write(s,&file[suma],MSGSIZE))>0){
-                        suma+=size;
-                        if(suma>=tamano){
-                            break;
-                        }
-                    }
-                }
-
-                // else{
-                //     pid_t pid;
-                //     int pipe_entrada[2];
-                //     int pipe_salida[2]; 
-
-                //     if ( (pid = fork()) < 0 ) {
-                //         printf("sdasdfasdf");
-                //     }
-                //     if (pid == 0){  /* child: CGI script */
-                //         char meth_env[255];
-                //         char query_env[255];
-                //         char length_env[255];
-
-                //         sprintf(meth_env, "REQUEST_METHOD=%s", method);
-                //         putenv(meth_env);
-
-                //         sprintf(query_env, "QUERY_STRING=%s", query_string);
-                //         putenv(query_env);
-
-                //         dup2(pipe_salida[1], 1);
-                //         dup2(pipe_entrada[0], 0);
-                //         close(pipe_salida[0]);
-                //         close(pipe_entrada[1]);
-                //     }
-                // }
-
-            }    
-            fclose(da);
         }
-    }
-    return 0;    
+
+                    // else{
+                    //     pid_t pid;
+                    //     int pipe_entrada[2];
+                    //     int pipe_salida[2]; 
+
+                    //     if ( (pid = fork()) < 0 ) {
+                    //         printf("sdasdfasdf");
+                    //     }
+                    //     if (pid == 0){  /* child: CGI script */
+                    //         char meth_env[255];
+                    //         char query_env[255];
+                    //         char length_env[255];
+
+                    //         sprintf(meth_env, "REQUEST_METHOD=%s", method);
+                    //         putenv(meth_env);
+
+                    //         sprintf(query_env, "QUERY_STRING=%s", query_string);
+                    //         putenv(query_env);
+
+                    //         dup2(pipe_salida[1], 1);
+                    //         dup2(pipe_entrada[0], 0);
+                    //         close(pipe_salida[0]);
+                    //         close(pipe_entrada[1]);
+                    //     }
+                    // }
+
+    }    
+    fclose(da);
+}
+return 0;    
 }
 
 int main() {
@@ -402,7 +399,7 @@ int main() {
     struct sockaddr_in sin, pin;
 
 
-    // 1. Crear el socket
+        // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
 
     memset(&sin, 0, sizeof(sin));
@@ -410,28 +407,28 @@ int main() {
     sin.sin_addr.s_addr = INADDR_ANY;
     sin.sin_port = htons(PORT);
 
-    // 2. Asociar el socket a un IP/puerto
+        // 2. Asociar el socket a un IP/puerto
     bind(sd, (struct sockaddr *) &sin, sizeof(sin));
-    // 3. Configurar el backlog
+        // 3. Configurar el backlog
     listen(sd, 5);
 
     addrlen = sizeof(pin);
     
-    // 4. aceptar conexión
+        // 4. aceptar conexión
 
     pid_t pid;    
 
-    //FINALMENTE.... crudo pero funcional
-    //al padre no le va a importar que suceda con el hijo mientras
-    //este termine, por lo tanto los hijos nunca se transformaran en zombies
+        //FINALMENTE.... crudo pero funcional
+        //al padre no le va a importar que suceda con el hijo mientras
+        //este termine, por lo tanto los hijos nunca se transformaran en zombies
     signal(SIGCHLD, SIG_IGN);
 
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
         if (sdo == -1) {
-            //En coso de que suceda algo raro en el socket y el cliente
-            //no pueda conectarse, ingresar el error al log
+                //En coso de que suceda algo raro en el socket y el cliente
+                //no pueda conectarse, ingresar el error al log
             openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
@@ -447,70 +444,70 @@ int main() {
             exit(0);
         }
 
-        // if ((pid = fork()) == -1){
-        //     close(sdo);
-        //     continue;
-        // }else if(pid > 0){
-        //     close(sdo);
-        //     wait(0);
-        // }else if(pid == 0){
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     exit(0);
-        // }
+            // if ((pid = fork()) == -1){
+            //     close(sdo);
+            //     continue;
+            // }else if(pid > 0){
+            //     close(sdo);
+            //     wait(0);
+            // }else if(pid == 0){
+            //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            //     printf("Puerto %d\n", ntohs(pin.sin_port));
+            //     serve(sdo);
+            //     close(sdo);
+            //     exit(0);
+            // }
 
-        //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
+            //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
 
-        // pid_t id_proc;
-        // if (!(id_proc = fork())) {
-        //     if (!fork()){
-        //      //El nieto hijo ejecuta su proceso
-        //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //         printf("Puerto %d\n", ntohs(pin.sin_port));
-        //         serve(sdo);
-        //         close(sdo);
-        //     }else{
-        //       //El nieto proceso hijo termina
-        //       exit(0);
-        //     }
-        // } else {
-        //     //El proceso original espera a que el primer hijo termine, lo cual 
-        //     //es inmediatamente despues del segundo fork
-        //     waitpid(id_proc);
-        // }                   
+            // pid_t id_proc;
+            // if (!(id_proc = fork())) {
+            //     if (!fork()){
+            //      //El nieto hijo ejecuta su proceso
+            //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            //         printf("Puerto %d\n", ntohs(pin.sin_port));
+            //         serve(sdo);
+            //         close(sdo);
+            //     }else{
+            //       //El nieto proceso hijo termina
+            //       exit(0);
+            //     }
+            // } else {
+            //     //El proceso original espera a que el primer hijo termine, lo cual 
+            //     //es inmediatamente despues del segundo fork
+            //     waitpid(id_proc);
+            // }                   
 
-        //Multiproceso sin zombies (intento 1: parcialmente exitoso)
-        //cambiar para aumentar la capcidad de enkolamyento
+            //Multiproceso sin zombies (intento 1: parcialmente exitoso)
+            //cambiar para aumentar la capcidad de enkolamyento
 
-        // pid_t id_proc;
-        // if ( (id_proc = fork()) < 0 ) {
-        //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("fork");
-        //     return;
-        // }
-        // if (id_proc == 0){
-        //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-        //     printf("Puerto %d\n", ntohs(pin.sin_port));
-        //     serve(sdo);
-        //     close(sdo);
-        //     exit(0);
-        // }else{
-        //     waitpid(id_proc);
-        // } 
+            // pid_t id_proc;
+            // if ( (id_proc = fork()) < 0 ) {
+            //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
+            //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            //     closelog();
+            //     perror("fork");
+            //     return;
+            // }
+            // if (id_proc == 0){
+            //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+            //     printf("Puerto %d\n", ntohs(pin.sin_port));
+            //     serve(sdo);
+            //     close(sdo);
+            //     exit(0);
+            // }else{
+            //     waitpid(id_proc);
+            // } 
 
-        //Multithread (intento 1: fallido parcialmente, termina al regresar un 404)
+            //Multithread (intento 1: fallido parcialmente, termina al regresar un 404)
 
-        // pthread_t hiloCliente;    
-        // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-        //     closelog();
-        //     perror("pthread_create");
-        // }
+            // pthread_t hiloCliente;    
+            // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+            //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+            //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+            //     closelog();
+            //     perror("pthread_create");
+            // }
 
         atexit(servidorCayo);
     }
