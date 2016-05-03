@@ -49,9 +49,7 @@ int readLine(int s, char *line, int *result_size) {
             break;
         } 
     }
-
     *result_size = acum;
-
     return 0;
 }
 
@@ -73,7 +71,7 @@ int writeLine(int s, char *line, int total_size) {
             return size;
         } 
         acum += size;
-        if (acum >= total_size){
+        if(acum >= total_size){
             break;  
         } 
 
@@ -117,15 +115,33 @@ int serve(int s) {
 
     char *token_header;
 
-    char *metodo;
-
     //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
 
-    metodo=token_header;
+    char *tipo_metodo = token_header;
 
     //segundo token=>URI PETICION
     token_header = strtok(NULL," ");
+
+    char *uri = token_header;
+
+    int metodo=0;
+
+    //Si el uri de peticion contiene '?' debemos usar cgi para
+    //procesar los datos de la forma
+    if(strstr(uri, "?")>0){
+        if(strcmp(tipo_metodo,"GET")==0){
+            metodo=1;
+        }else{
+            if(strcmp(tipo_metodo,"POST")==0){
+                metodo=2;
+            }else{  
+                metodo=3;
+            }
+        }
+        printf("METODO %s\n",tipo_metodo);
+        printf("MODO CGI: %d\n",metodo);
+    }    
     
     char nombre_archivo_uri[500];
     if(strncmp(token_header,"/",strlen(token_header))==0){
@@ -205,7 +221,7 @@ int serve(int s) {
         da=fopen(url_completo, "r");
 
         if(da==NULL){
-                    
+
             //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
             openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
@@ -331,8 +347,6 @@ int main() {
             exit(0);
         }
 
-
-
         // if ((pid = fork()) == -1){
         //     close(sdo);
         //     continue;
@@ -348,6 +362,7 @@ int main() {
         // }
 
         //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
+
         // pid_t id_proc;
         // if (!(id_proc = fork())) {
         //     if (!fork()){
@@ -367,7 +382,7 @@ int main() {
         // }                   
 
         //Multiproceso sin zombies (intento 1: parcialmente exitoso)
-            //cambiar para aumentar la capcidad de enkolamyento
+        //cambiar para aumentar la capcidad de enkolamyento
 
         // pid_t id_proc;
         // if ( (id_proc = fork()) < 0 ) {
@@ -389,13 +404,13 @@ int main() {
 
         //Multithread (intento 1: fallido parcialmente, termina al regresar un 404)
 
-            // pthread_t hiloCliente;    
-            // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-            //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-            //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            //     closelog();
-            //     perror("pthread_create");
-            // }
+        // pthread_t hiloCliente;    
+        // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
+        //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
+        //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        //     closelog();
+        //     perror("pthread_create");
+        // }
 
         atexit(servidorCayo);
     }
