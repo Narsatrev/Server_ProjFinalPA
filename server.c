@@ -248,7 +248,6 @@ int serve(int s) {
                 putenv(meth_env);
                 printf("RM: %s\n",getenv("REQUEST_METHOD"));
 
-
                 sprintf(query_env, "QUERY_STRING=%s", query);
                 putenv(query_env);
                 printf("QS: %s\n",getenv("QUERY_STRING"));
