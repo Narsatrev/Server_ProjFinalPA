@@ -130,8 +130,9 @@ int serve(int s) {
 
     int metodo=0;
 
-        //Si el uri de peticion contiene '?' debemos usar cgi para
-        //procesar los datos de la forma
+    //Si el uri de peticion contiene '?' debemos usar cgi para
+    //procesar los datos de la forma
+
     if(strstr(uri, "?")>0){
         if(strcmp(tipo_metodo,"GET")==0){
             metodo=1;
@@ -196,7 +197,8 @@ int serve(int s) {
 
         char *token_extension;
             //primer token=>path del archivo
-        char *nombre_archivo_uri_copia = nombre_archivo_uri;
+        char nombre_archivo_uri_copia[512];
+        strcpy(nombre_archivo_uri_copia,nombre_archivo_uri);
 
         token_extension = strtok(nombre_archivo_uri,".");
             //segundo token=>extension del archivo
@@ -204,7 +206,7 @@ int serve(int s) {
 
         char* tipoMime;
 
-        if(strstr(token_extension,"php")>0){
+        if(strstr(token_extension,"php")>0) {
             strncpy(token_extension,"php",strlen(token_extension));
             tipoMime="text/html";
         }else{
