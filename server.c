@@ -216,6 +216,15 @@ int serve(int s) {
 
         printf("URL COMPLETA: %s\n",url_completo);
 
+        char *aux;
+        char *query;
+
+        if(strstr(url_completo,"?")>0){
+            aux=strtok(url_completo,"?")
+            query=strtok(NULL,"?");
+            printf("aux: %s || query: %s\n",aux,query);
+        }        
+
         da=fopen(url_completo, "r");
 
         if(da==NULL){
@@ -277,8 +286,6 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                FILE *fout=fdopen(s,"w");
-
                 char file[tamano];
                 int suma=0;
                 size=fread(file,1,tamano,da);
@@ -317,6 +324,7 @@ int serve(int s) {
             //         close(pipe_entrada[1]);
             //     }
             // }
+
         }    
         fclose(da);
     }
