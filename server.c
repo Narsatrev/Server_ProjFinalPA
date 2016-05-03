@@ -245,9 +245,12 @@ int serve(int s) {
 
                 sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
                 putenv(meth_env);
+                printf("RM: %s\n",getenv("REQUEST_METHOD"));
+
 
                 sprintf(query_env, "QUERY_STRING=%s", query);
                 putenv(query_env);
+                printf("QS: %s\n",getenv("QUERY_STRING"));
 
                 printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
 
