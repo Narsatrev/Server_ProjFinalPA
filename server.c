@@ -201,9 +201,9 @@ int serve(int s) {
         token_extension = strtok(NULL,".");
 
         char* tipoMime;
-        
+
         if(strstr(token_extension,"php")>0){
-            strncpy(token_extension,"php",strlen("php"));
+            strncpy(token_extension,"php",strlen(token_extension));
             tipoMime="text/html";
         }else{
             tipoMime=recuperarMimeType(token_extension);    
