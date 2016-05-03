@@ -196,6 +196,8 @@ int serve(int s) {
 
         char *token_extension;
             //primer token=>path del archivo
+        char *nombre_archivo_uri_copia=nombre_archivo_uri;
+
         token_extension = strtok(nombre_archivo_uri,".");
             //segundo token=>extension del archivo
         token_extension = strtok(NULL,".");
@@ -313,11 +315,11 @@ int serve(int s) {
                 if(!fork()){
                     pipe(cgi_input);
                     pipe(cgi_output);
-                    printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri);
-                    path_ejecutable=strtok(nombre_archivo_uri,"?");
-                    printf("2) url_completo: %s\n",path_ejecutable);
-                    path_ejecutable=strtok(NULL,"?");
-                    printf("3) path_ejecutable: %s\n || query: %s\n",path_ejecutable, "query_prueba");
+                    printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
+                    nombre_archivo_uri_copia=strtok(nombre_archivo_uri_copia,"?");
+                    printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
+                    nombre_archivo_uri_copia=strtok(NULL,"?");
+                    printf("3) path_ejecutable: %s\n || query: %s\n",nombre_archivo_uri_copia, "query_prueba");
                     char meth_env[255];
                     char query_env[255];
 
