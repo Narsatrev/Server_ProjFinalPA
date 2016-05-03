@@ -249,8 +249,11 @@ int serve(int s) {
                 sprintf(query_env, "QUERY_STRING=%s", query);
                 putenv(query_env);
 
-                execlp(path_ejecutable, path_ejecutable, (char *) NULL);    
-            } else {    /* parent */
+                execlp(path_ejecutable, path_ejecutable, (char *) NULL);                    
+
+                exit(0);
+
+            }else{    /* parent */
                 close(cgi_output[1]);
                 close(cgi_input[0]);
                 
