@@ -220,7 +220,7 @@ int serve(int s) {
         char *query;
 
         if(strstr(url_completo,"?")>0){
-            aux=strtok(url_completo,"?")
+            aux=strtok(url_completo,"?");
             query=strtok(NULL,"?");
             printf("aux: %s || query: %s\n",aux,query);
         }        
