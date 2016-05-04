@@ -351,8 +351,8 @@ int serve(int s) {
                     printf("Checkpoint 5\n");
                     printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
 
-                    int x=execlp("php","php", path_ejecutable, (char *)NULL);            
-                    if(x<0){
+                    int hayError=execlp("php","php", path_ejecutable, (char *)NULL);            
+                    if(hayError<0){
                         openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
                         syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
                         closelog();
