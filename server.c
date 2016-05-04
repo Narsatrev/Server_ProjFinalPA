@@ -326,15 +326,15 @@ int serve(int s) {
                         perror("pipe");
                     }
 
-                    // printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
+                    printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
 
-                    // token_archivo=strtok(nombre_archivo_uri_copia,"?");
+                    token_archivo=strtok(nombre_archivo_uri_copia,"?");
 
-                    // printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
+                    printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
 
-                    // token_archivo=strtok(NULL,"?");
+                    token_archivo=strtok(NULL,"?");
 
-                    // printf("3) path_ejecutable: %s\n || query: %s\n",token_archivo, "query_prueba");
+                    printf("3) path_ejecutable: %s\n || query: %s\n",token_archivo, "query_prueba");
 
                     printf("Checkpoint 1\n");
 
