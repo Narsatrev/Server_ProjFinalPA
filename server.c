@@ -299,14 +299,13 @@ int serve(int s) {
                size=fread(file,1,tamano,da);
                printf("ARCHIVO: %d\n",size);
 
-               while((size=write(s,&file[suma],MSGSIZE))>0){
+               while((size=write(s,&file[suma],MSGSIZE))>0){                
                     suma+=size;
                     if(suma>=tamano){
                         break;
                     }
                 }
 
-                
 
             }else{
                 pid_t pid;
@@ -319,29 +318,37 @@ int serve(int s) {
                 char *token_archivo;
 
                 if(!fork()){
+
                     pipe(cgi_input);
                     pipe(cgi_output);
+
                     printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
+
                     token_archivo=strtok(nombre_archivo_uri_copia,"?");
+
                     printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
+
                     token_archivo=strtok(NULL,"?");
+
                     printf("3) path_ejecutable: %s\n || query: %s\n",token_archivo, "query_prueba");
+
+                    printf("Checkpoint 1\n");
                     char meth_env[255];
                     char query_env[255];
-
+                    printf("Checkpoint 2\n");
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
                     close(cgi_output[0]);
                     close(cgi_input[1]);
-
+                    printf("Checkpoint 3\n");
                     sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
                     putenv(meth_env);
                     printf("RM: %s\n",getenv("REQUEST_METHOD"));
-
+                    printf("Checkpoint 4\n");
                     sprintf(query_env, "QUERY_STRING=%s", query);
                     putenv(query_env);
                     printf("QS: %s\n",getenv("QUERY_STRING"));
-
+                    printf("Checkpoint 5\n");
                     printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
 
                     int x=execlp("php","php", path_ejecutable, (char *)NULL);            
