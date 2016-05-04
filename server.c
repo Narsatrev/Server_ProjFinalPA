@@ -231,15 +231,13 @@ int serve(int s) {
 
         printf("URL COMPLETA: %s\n",url_completo);
 
-        char *path_ejecutable;
+        char *path_ejecutable= url_completo;
         char *query;            
 
         da=fopen(url_completo, "r");
 
-
-        if(da==NULL){
-
-                    //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
+        if(da == NULL){
+        //Guardar en el log del sistema cada vez que alguien intento accesar a un archivo que no existe
             openlog("ErrorArchivoNoEncontrado", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: El archivo %s no fue encontrado!\n", url_completo);
             closelog();
@@ -314,6 +312,8 @@ int serve(int s) {
 
                 int pipe_salida[2];
                 int pipe_entrada[2];
+
+                url_completo
 
                 char *token_archivo;
 
