@@ -343,13 +343,13 @@ int serve(int s) {
 
                     printf("Checkpoint 2\n");
 
-                    dup2(pipe_salida[1], 1);           
-                    dup2(pipe_entrada[0], 0);        
+                    // dup2(pipe_salida[1], 1);           
+                    // dup2(pipe_entrada[0], 0);        
 
                     printf("Checkpoint dup2\n");
 
-                    close(pipe_salida[0]);
-                    close(pipe_entrada[1]);
+                    // close(pipe_salida[0]);
+                    // close(pipe_entrada[1]);
 
                     printf("Checkpoint 3\n");
 
