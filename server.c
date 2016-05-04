@@ -279,8 +279,6 @@ int serve(int s) {
                tamano = ftell(da);
                fseek(da, 0L, SEEK_SET);
 
-               char buff_archivo[1024];
-
                sprintf(command, "HTTP/1.0 200 OK\r\n");
                writeLine(s, command, strlen(command));
 
@@ -307,6 +305,9 @@ int serve(int s) {
                         break;
                     }
                 }
+
+                
+
             }else{
                 pid_t pid;
                 int i, status;
