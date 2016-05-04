@@ -337,26 +337,31 @@ int serve(int s) {
 
                     // printf("3) path_ejecutable: %s\n || query: %s\n",token_archivo, "query_prueba");
 
+
                     char metodo_env[255];
                     char string_query[255];
 
-                    if(dup2(pipe_salida[1], 1)<0){
-                        perror("dup2");
-                        exit(0);
-                    }
-                    if(dup2(pipe_entrada[0], 0)<0){
-                        perror("dup2");
-                        exit(0);
-                    }
+                    printf("Checkpoint 2\n");
 
-                    if(close(pipe_salida[0])<0){
-                        perror("close");
-                        exit(0);                    
-                    }
-                    if(close(pipe_entrada[1])<0){
-                        perror("close");
-                        exit(0);                    
-                    }
+                    // if(dup2(pipe_salida[1], 1)<0){
+                    //     perror("dup2");
+                    //     exit(0);
+                    // }
+                    // if(dup2(pipe_entrada[0], 0)<0){
+                    //     perror("dup2");
+                    //     exit(0);
+                    // }
+
+                    printf("Checkpoint dup2\n");
+
+                    // if(close(pipe_salida[0])<0){
+                    //     perror("close");
+                    //     exit(0);                    
+                    // }
+                    // if(close(pipe_entrada[1])<0){
+                    //     perror("close");
+                    //     exit(0);                    
+                    // }
 
                     printf("Checkpoint 3\n");
 
@@ -364,7 +369,7 @@ int serve(int s) {
                     putenv(metodo_env);
                     printf("RM: %s\n",getenv("REQUEST_METHOD"));
 
-                    printf("Checkpoint 4 || query: %s\n",query);
+                    printf("Checkpoint 4 || string_query: %s || query: %s\n",string_query,query);
 
                     sprintf(string_query, "QUERY_STRING=%s", query);
                     if(putenv(string_query)<0){
