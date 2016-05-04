@@ -343,25 +343,25 @@ int serve(int s) {
 
                     printf("Checkpoint 2\n");
 
-                    if(dup2(pipe_salida[1], 1)<0){
-                        perror("dup2");
-                        exit(0);
-                    }
-                    if(dup2(pipe_entrada[0], 0)<0){
-                        perror("dup2");
-                        exit(0);
-                    }
+                    // if(dup2(pipe_salida[1], 1)<0){
+                    //     perror("dup2");
+                    //     exit(0);
+                    // }
+                    // if(dup2(pipe_entrada[0], 0)<0){
+                    //     perror("dup2");
+                    //     exit(0);
+                    // }
 
                     printf("Checkpoint dup2\n");
 
-                    if(close(pipe_salida[0])<0){
-                        perror("close");
-                        exit(0);                    
-                    }
-                    if(close(pipe_entrada[1])<0){
-                        perror("close");
-                        exit(0);                    
-                    }
+                    // if(close(pipe_salida[0])<0){
+                    //     perror("close");
+                    //     exit(0);                    
+                    // }
+                    // if(close(pipe_entrada[1])<0){
+                    //     perror("close");
+                    //     exit(0);                    
+                    // }
 
                     printf("Checkpoint 3\n");
 
