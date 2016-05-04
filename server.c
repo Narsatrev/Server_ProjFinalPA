@@ -338,8 +338,8 @@ int serve(int s) {
 
                     printf("Checkpoint 1\n");
 
-                    char meth_env[255];
-                    char query_env[255];
+                    char metodo_env[255];
+                    char string_query[255];
 
                     printf("Checkpoint 2\n");
 
@@ -365,14 +365,14 @@ int serve(int s) {
 
                     printf("Checkpoint 3\n");
 
-                    sprintf(meth_env, "REQUEST_METHOD=%s", "GET");
-                    putenv(meth_env);
+                    sprintf(metodo_env, "REQUEST_METHOD=%s", "GET");
+                    putenv(metodo_env);
                     printf("RM: %s\n",getenv("REQUEST_METHOD"));
 
                     printf("Checkpoint 4\n");
 
-                    sprintf(query_env, "QUERY_STRING=%s", query);
-                    putenv(query_env);
+                    sprintf(string_query, "QUERY_STRING=%s", query);
+                    putenv(string_query);
                     printf("QS: %s\n",getenv("QUERY_STRING"));
 
                     printf("Checkpoint 5\n");
