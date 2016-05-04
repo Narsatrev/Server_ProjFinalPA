@@ -444,7 +444,7 @@ int main() {
 
 
         // 1. Crear el socket
-    // sd = socket(AF_INET, SOCK_STREAM, 0);
+    sd = socket(AF_INET, SOCK_STREAM, 0);
     int habilitar = 1;
     if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &habilitar, sizeof(int)) < 0){        
         perror("setsockopt");
