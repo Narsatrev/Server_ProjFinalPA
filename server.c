@@ -369,7 +369,7 @@ int serve(int s) {
                     putenv(metodo_env);
                     printf("RM: %s\n",getenv("REQUEST_METHOD"));
 
-                    printf("Checkpoint 4\n");
+                    printf("Checkpoint 4 || string_query: %s || query: %s\n",string_query,query);
 
                     sprintf(string_query, "QUERY_STRING=%s", query);
                     if(putenv(string_query)<0){
