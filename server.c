@@ -358,7 +358,7 @@ int serve(int s) {
                         perror("close");
                         exit(0);                    
                     }
-                    if(close(pipe_entrada[1]){
+                    if(close(pipe_entrada[1])<0){
                         perror("close");
                         exit(0);                    
                     }
