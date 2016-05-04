@@ -312,15 +312,15 @@ int serve(int s) {
                 int i, status;
                 char c;
 
-                int cgi_output[2];
-                int cgi_input[2];
+                int pipe_salida[2];
+                int pipe_entrada[2];
 
                 char *token_archivo;
 
                 if(!fork()){
 
-                    pipe(cgi_input);
-                    pipe(cgi_output);
+                    pipe(pipe_entrada);
+                    pipe(pipe_salida);
 
                     printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
 
@@ -339,13 +339,19 @@ int serve(int s) {
 
                     printf("Checkpoint 2\n");
 
-                    dup2(cgi_output[1], 1);
-                    dup2(cgi_input[0], 0);
+                    if(dup2(pipe_salida[1], 1)<0){
+                        perror("dup2");
+                        exit(0);
+                    }
+                    if(dup2(pipe_entrada[0], 0)<0){
+                        perror("dup2");
+                        exit(0);
+                    }
 
                     printf("Checkpoint dup2\n");
 
-                    close(cgi_output[0]);
-                    close(cgi_input[1]);
+                    close(pipe_salida[0]);
+                    close(pipe_entrada[1]);
 
                     printf("Checkpoint 3\n");
 
@@ -376,16 +382,16 @@ int serve(int s) {
                     exit(0);
 
                 }else{    /* parent */
-                    close(cgi_output[1]);
-                    close(cgi_input[0]);
+                    close(pipe_salida[1]);
+                    close(pipe_entrada[0]);
 
-                    while (read(cgi_output[0], &c, 1) > 0){
+                    while (read(pipe_salida[0], &c, 1) > 0){
                         sprintf(command, "%c", c);
                         writeLine(s, command, strlen(command));
                     }
 
-                    close(cgi_output[0]);
-                    close(cgi_input[1]);
+                    close(pipe_salida[0]);
+                    close(pipe_entrada[1]);
                     waitpid(pid, &status, 0);
                 }
             }
