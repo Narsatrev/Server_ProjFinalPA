@@ -322,7 +322,7 @@ int serve(int s) {
                     if(pipe(pipe_entrada)<0){   
                         perror("pipe");
                     }
-                    if(pipe(pipe_salida){   
+                    if(pipe(pipe_salida)<0){   
                         perror("pipe");
                     }
 
