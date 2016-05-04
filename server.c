@@ -313,8 +313,6 @@ int serve(int s) {
                 int pipe_salida[2];
                 int pipe_entrada[2];
 
-                url_completo
-
                 char *token_archivo;
 
                 if(!fork()){
