@@ -372,9 +372,7 @@ int serve(int s) {
                     printf("Checkpoint 4\n");
 
                     sprintf(string_query, "QUERY_STRING=%s", query);
-                    printf("Checkpoint sprintf\n");
                     putenv(string_query);
-                    printf("Checkpoint putenv\n");
                     printf("QS: %s\n",getenv("QUERY_STRING"));
 
                     printf("Checkpoint 5\n");
