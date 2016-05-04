@@ -375,6 +375,9 @@ int serve(int s) {
                     if(putenv(string_query)<0){
                         perror("putenv");
                     }
+
+                    printf("Checkpoint stringquert\n");
+
                     printf("QS: %s\n",getenv("QUERY_STRING"));
 
                     printf("Checkpoint 5\n");
