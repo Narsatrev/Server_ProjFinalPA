@@ -447,7 +447,7 @@ int main() {
     // sd = socket(AF_INET, SOCK_STREAM, 0);
     int habilitar = 1;
     if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &habilitar, sizeof(int)) < 0){        
-        error("setsockopt(SO_REUSEADDR) failed");
+        perror("setsockopt");
     }
 
     memset(&sin, 0, sizeof(sin));
