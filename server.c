@@ -319,8 +319,12 @@ int serve(int s) {
 
                 if(!fork()){
 
-                    pipe(pipe_entrada);
-                    pipe(pipe_salida);
+                    if(pipe(pipe_entrada)<0){   
+                        perror("pipe");
+                    }
+                    if(pipe(pipe_salida){   
+                        perror("pipe");
+                    }
 
                     // printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
 
@@ -350,8 +354,14 @@ int serve(int s) {
 
                     printf("Checkpoint dup2\n");
 
-                    close(pipe_salida[0]);
-                    close(pipe_entrada[1]);
+                    if(close(pipe_salida[0])<0){
+                        perror("close");
+                        exit(0);                    
+                    }
+                    if(close(pipe_entrada[1]){
+                        perror("close");
+                        exit(0);                    
+                    }
 
                     printf("Checkpoint 3\n");
 
