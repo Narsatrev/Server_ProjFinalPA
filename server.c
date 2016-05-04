@@ -366,7 +366,7 @@ int serve(int s) {
                     printf("Checkpoint 3\n");
 
                     sprintf(metodo_env, "REQUEST_METHOD=%s", "GET");
-                    putenv(metodo_env);
+                    putenv(meth_env);
                     printf("RM: %s\n",getenv("REQUEST_METHOD"));
 
                     printf("Checkpoint 4\n");
