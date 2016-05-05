@@ -349,7 +349,7 @@ int serve(int s) {
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
                 
-                strcat("token_b","dsd");
+                // strcat("token_b","dsd");
                 // char *query_final;
                 // sprintf(query_final,"QUERY_STRING=%s",token_b);
                 // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
