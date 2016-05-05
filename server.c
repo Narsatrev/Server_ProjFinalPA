@@ -342,14 +342,17 @@ int serve(int s) {
 
                 int i;
 
-                printf("ESTE ES EL BUFFER:\n\n\n%s\n\n\n",buff);
                 char *token_a;
                 char *token_b;
                 token_a=strtok(buff," ");
                 token_a=strtok(NULL," ");
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
-                printf("TOKEN SHI SHI: %s\n",token_b);
+                
+                char *query_final;
+                sprintf(query_final,"QUERY_STRING=%s",token_b)
+
+                printf("QUERY FINAL SHI SHI: %s\n",query_final);
 
                 if(!fork()) {
                     
@@ -363,7 +366,7 @@ int serve(int s) {
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv(token_b);
+                    putenv(query_final);
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
