@@ -346,7 +346,7 @@ int serve(int s) {
 
                 char *string_p=(char *)malloc(t2+1);   
 
-                FILE *temp=fopen("temp.txt","w+");
+                int temp=fopen("temp.txt", O_WRONLY);
 
                 while (read(cgi_output[0], &c, 1) > 0){
                     write(temp,c,1);
