@@ -24,6 +24,14 @@
 
 int sdo;
 
+char buffFecha[1000];
+
+void calcularFecha(){
+    time_t now = time(0);
+    struct tm tm = *gmtime(&now);
+    strftime(buffFecha, sizeof buffFecha, "%a, %d %b %Y %H:%M:%S %Z", &tm);
+}
+
 void servidorCayo(){
     openlog("ServidorMurio", LOG_PID | LOG_CONS, LOG_USER);
     syslog(LOG_INFO, "El servidor fue apagado o termino su proceso de forma inesperada...\n");
@@ -211,7 +219,8 @@ int serve(int s) {
             //Mandar una respuesta con header 404, archivo no encontrado
         sprintf(command, "HTTP/1.0 403 ACCESS FORBIDDEN\r\n");
         writeLine(s, command, strlen(command));
-        sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+        calcularFecha();
+        sprintf(command, "Date: %s\r\n",buffFecha);
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: text/html\r\n");
         writeLine(s, command, strlen(command));
@@ -285,7 +294,8 @@ int serve(int s) {
                     //Mandar una respuesta con header 404, archivo no encontrado
             sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
             writeLine(s, command, strlen(command));
-            sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+            calcularFecha();
+            sprintf(command, "Date: %s\r\n",buffFecha);
             writeLine(s, command, strlen(command));
             sprintf(command, "Content-Type: text/html\r\n");
             writeLine(s, command, strlen(command));
@@ -310,7 +320,8 @@ int serve(int s) {
                sprintf(command, "HTTP/1.0 200 OK\r\n");
                writeLine(s, command, strlen(command));
 
-               sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+               calcularFecha();
+                sprintf(command, "Date: %s\r\n",buffFecha);
                writeLine(s, command, strlen(command));
 
                sprintf(command, "Content-Type: %s\r\n",tipoMime);
@@ -394,7 +405,8 @@ int serve(int s) {
                 sprintf(command, "HTTP/1.0 200 OK\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+                calcularFecha();
+                sprintf(command, "Date: %s\r\n",buffFecha);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "Content-Type: text/html\r\n");
