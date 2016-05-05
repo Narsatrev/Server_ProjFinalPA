@@ -344,7 +344,7 @@ int serve(int s) {
                 char c;
                 // char *str_pipe;
                 // int t=1;
-                str_pipe = (char *) malloc(t);
+                // str_pipe = (char *) malloc(t);
                 while (read(cgi_output[0], &c, 1) > 0){
                     t++;
                     printf("%c", c);
