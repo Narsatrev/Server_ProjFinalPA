@@ -361,26 +361,13 @@ int serve(int s) {
                 // printf("STRLEN:::: %lu",strlen(string_p));
 
                 int t=0;
-                int t3=0;
-                int cont=1;
-                char buffx[4096];
-                char *str_pet;
+                char buffx[100000];
                 while (read(cgi_output[0], &c, 1) > 0){
-                    if((t+1)==(4096)){
-                        t3+=t;
-                        strncat(str_pet,buffx,4096);
-                        memset(buffx, 0, sizeof(buffx));                        
-                        t=0;                        
-                        printf("CONT: %d\n",cont);
-                        printf("STRPET: %s\n",str_pet);
-                        cont++;
-                    }
                     buffx[t]=c;
                     t++;
                     // write(s,&c,1);
                 }
 
-                
 
 
                 char buffer[32];
@@ -395,11 +382,17 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: %d\r\n",46278);
+                sprintf(command, "Content-Length: %d\r\n",t);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
+
+                int aux=0;                
+                while(aux<t){                    
+                    write(s,&buffx[aux],1);
+                    aux++;
+                }
 
                 
                 printf("SIZE----> %d\n",t);
