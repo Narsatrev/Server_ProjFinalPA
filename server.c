@@ -359,12 +359,15 @@ int serve(int s) {
                     writeLine(s, command, strlen(command));
                     u++;
                 }
+                printf("ACABO IMPRIMIR BASURA");
 
                 char buf[400];
                 if(fgets(buf, 400, fin)<0){
                     perror("fgets");
                 }
                 printf("buf: %s\n",buf);
+
+                printf("ACABO IMPRIMIR BASURA 2");
 
                 // while(1) {
                 //     if(feof(fin)<0){
