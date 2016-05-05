@@ -341,17 +341,18 @@ int serve(int s) {
                 close(cgi_output[1]);
                 close(cgi_input[0]);
 
-                char *c;
-                char *str_pipe;
-                int t=1;
+                char c;
+                // char *str_pipe;
+                // int t=1;
                 str_pipe = (char *) malloc(t);
                 while (read(cgi_output[0], &c, 1) > 0){
                     t++;
-                    strcat(str_pipe,c);
-                    str_pipe=(char *) realloc(str_pipe, t);
+                    printf("%c", c);
+                    // strcat(str_pipe,c);
+                    // str_pipe=(char *) realloc(str_pipe, t);
                 }
 
-                printf("CONTENIDO: %s\n",str_pipe);
+                // printf("CONTENIDO: %s\n",str_pipe);
                 printf("SIZE: %d\n",t);
 
                 // FILE *fin = fdopen(message_fd[READ][READ], "r");
