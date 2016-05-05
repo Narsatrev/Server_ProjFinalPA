@@ -106,18 +106,27 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
+
+        char buff_query[512];
         if(strstr(command,"Referer")>0){
             int u=0;
             int contr=0;
+            int m=0;
             while(command[u]!='\0'){
                 if(command[u]=='\n'){
                     contr++;
                 }
                 if(contr==1){
-                    printf("%c",command[u]);
+                    buff_query[m]=command[u];
+                    m++;
+                }
+                if(contr>1){
+                    break;
                 }
                 u++;
-            }
+            }        
+
+            printf("buff_query: %s\n",buff_query);
 
         }
 
