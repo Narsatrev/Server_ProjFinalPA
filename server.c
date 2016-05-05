@@ -131,7 +131,7 @@ int serve(int s) {
                 token_query=strtok(buff_query,"?");
                 token_query=strtok(NULL,"?");
                 sprintf(query,"QUERY_STRING=%s",token_query);
-                query=token_query
+                query=token_query;
             }   
             printf("query: %s\n",query);
         }
