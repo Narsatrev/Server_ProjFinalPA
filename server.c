@@ -343,10 +343,10 @@ int serve(int s) {
 
                 char c;
                 // char *str_pipe;
-                // int t=1;
+                int t=0;
                 // str_pipe = (char *) malloc(t);
                 while (read(cgi_output[0], &c, 1) > 0){
-                    // t++;
+                    t++;
                     printf("%c", c);
                     // strcat(str_pipe,c);
                     // str_pipe=(char *) realloc(str_pipe, t);
