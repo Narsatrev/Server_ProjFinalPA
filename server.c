@@ -357,6 +357,7 @@ int serve(int s) {
                     writeLine(s, command, strlen(command));
                     u++;
                 }
+                wait(0);
 
                 // while(1) {
                 //     printf("CHECKPOINT 1: %d\n",x);   
