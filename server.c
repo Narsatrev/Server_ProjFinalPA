@@ -278,14 +278,14 @@ int serve(int s) {
             free(archivo);
 
         }else{
-            
+
             printf("METODO: %d\n",metodo);
 
 
             printf("QUERY SHI SHI SHI 12: %s\n",query);
             printf("QUERY SHI SHI SHI 2: %s\n",query);
             char query_buff[512];
-
+            printf(query[0]);
             // int cx=0;
             // while(query[cx]!='\n'){
             //     query_buff[cx]=query[cx];
