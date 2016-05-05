@@ -113,9 +113,10 @@ int serve(int s) {
                 if(command[u] == '\n'){
                     h++;
                 }
-
-                printf("%c",command[u]);   
-                u++;
+                if(h==1){
+                    printf("%c",command[u]);   
+                    u++;    
+                }                
             }
             // char *token_query;
             // token_query=strtok(command,"?");
