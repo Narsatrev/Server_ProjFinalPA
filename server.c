@@ -354,17 +354,6 @@ int serve(int s) {
                 printf("SIZE: %d\n",t);
                 printf("%s",bufferPipe);
 
-                char file[tamano];
-                int suma=0;
-                size=fread(cgi_output[0],1,tamano,da);
-                printf("ARCHIVO: %d\n",size);
-
-                // while((size=write(s,&file[suma],MSGSIZE))>0){                
-                //     suma+=size;
-                //     if(suma>=tamano){
-                //         break;
-                //     }
-                // }
 
                 char buffer[32];
                 int size = 0;
@@ -378,45 +367,22 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 32\r\n");
+                sprintf(command, "Content-Length: %d\r\n",t);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
                 int x=0;
-                int u=0;
+                int y=0;
 
-
-                while(u<9) {
-                    sprintf(command, "%d",u);
-                    writeLine(s, command, strlen(command));
-                    u++;
-                    printf("ACABO IMPRIMIR BASURA %d\n",u);
+                while((x=write(s,&bufferPipe[x],MSGSIZE))>0){                
+                    y+=x;
+                    if(y>=t){
+                        break;
+                    }
                 }
-                printf("JGDJFGDHJFAGDKJHFGDFKSJH");
 
-                // char buf[400];
-
-                // if(fgets(buf, 400, fin)<0){
-                //     perror("fgets");
-                // }
-                // printf("buf: %s\n",buf);
-
-                printf("ACABO IMPRIMIR BASURA 2");
-
-                // while(1) {
-                //     if(feof(fin)<0){
-                //         perror("feof");
-                //         printf("CHECKPOINT a: %d\n",x);   
-                //     }else{
-                //         printf("CHECKPOINT b: %d\n",x);   
-                //        break;   
-                //     }  
-                //     size = fread(buffer, 32, 1, fin);
-                //     x+=32;
-                //     fwrite(buffer, 32, 1, sdo);
-                // }                         
             }
     }    
     fclose(da);
