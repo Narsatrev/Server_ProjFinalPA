@@ -366,14 +366,11 @@ int serve(int s) {
                 char buffx[4096];
                 char *str_pet;
                 while (read(cgi_output[0], &c, 1) > 0){
-                    if((t3+1)==(4096*cont)){
+                    if((t+1)==(4096)){
                         t3+=t;
-                        char buffy[t3];
-                        strncpy(buffy,buffx,4096*cont);
-                        cont++;
+                        strncat(str_pet,buffx,4096);
                         memset(buffx, 0, sizeof(buffx));                        
-                        t=0;
-                        // strcat(str_pet,buffy);
+                        t=0;                        
                         printf("CONT:%d\n",cont);
                     }
                     buffx[t]=c;
