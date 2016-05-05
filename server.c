@@ -351,8 +351,7 @@ int serve(int s) {
                 
                 char *query_final;
                 sprintf(query_final,"QUERY_STRING=%s",token_b);
-
-                printf("QUERY FINAL SHI SHI: %s\n",query_final);
+                printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
 
                 if(!fork()) {
                     
@@ -361,12 +360,10 @@ int serve(int s) {
 
                     close(cgi_output[0]);
                     close(cgi_input[1]);
-
-                    
-
+            
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv(query_final);
+                    putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
