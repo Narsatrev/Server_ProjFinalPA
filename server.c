@@ -358,7 +358,7 @@ int serve(int s) {
                 printf("buf: %s\n",buf);
 
                 while(u<32) {
-                    sprintf(command, "%d",u;
+                    sprintf(command, "%d",u);
                     writeLine(s, command, strlen(command));
                     u++;
                 }
