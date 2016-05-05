@@ -352,7 +352,6 @@ int serve(int s) {
                     write(temp,c,1);
                     t2++;
                 }
-                fseek(temp,0L, SEEK_SET);
 
                 printf("SIZE:::::: %d\n",t2);
 
