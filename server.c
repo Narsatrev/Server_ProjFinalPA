@@ -110,7 +110,7 @@ int serve(int s) {
             char *token_query;
             token_query=strtok(command,"?");
             token_query=strtok(NULL,"?");
-            token_query=strtok(NULL,"'\n");
+            token_query=strtok(NULL,"\n");
             query=token_query;
             printf("QUERY 1: %s\n",query);
         }
