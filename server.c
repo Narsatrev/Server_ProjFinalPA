@@ -401,7 +401,8 @@ int serve(int s) {
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
-                
+
+                int aux=0;                
                 while(aux<t){      
                     write(s,&buffx[aux],1);
                     aux++;
