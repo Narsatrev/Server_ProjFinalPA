@@ -333,7 +333,9 @@ int serve(int s) {
                     putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
-                    execlp("php-cgi", "php-cgi", "test.php", 0);
+                    if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
+                        perror("execlp");
+                    }
                 }
                 // close(message_fd[READ][WRITE]);
                 // close(message_fd[WRITE][READ]);
