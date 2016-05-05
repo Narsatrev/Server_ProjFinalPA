@@ -378,6 +378,7 @@ int serve(int s) {
                     // t++;
                     write(s,&c,1);
                 }
+                exit(0);
 
                 // int x=0;
                 // int y=0;
