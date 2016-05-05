@@ -93,7 +93,7 @@ int serve(int s) {
     char *archivo_peticion;        
     char buff[2048];
 
-    char *query;            
+    char query[512];            
 
     while(1) {
         r = readLine(s, command, &size);
@@ -126,14 +126,13 @@ int serve(int s) {
                 }
                 u++;
             }        
-            // if(strstr(buff_query,"?")>0){
-            //     char *token_query;    
-            //     token_query=strtok(buff_query,"?");
-            //     token_query=strtok(NULL,"?");
-            //     sprintf(query,"QUERY_STRING=%s",token_query);
-            //     query=token_query;
-            // }   
-            // printf("query: %s\n",query);
+            if(strstr(buff_query,"?")>0){
+                char *token_query;    
+                token_query=strtok(buff_query,"?");
+                token_query=strtok(NULL,"?");
+                sprintf(query,"QUERY_STRING=%s",token_query);
+            }   
+            printf(query);
         }
 
             //Guardar todos los comandos para su manipulacion posterior
