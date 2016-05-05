@@ -342,6 +342,7 @@ int serve(int s) {
 
                 int i;
 
+                //////SUFFERING IS REAL.....al menos ya funciona el GET
                 char *token_a;
                 char *token_b;
                 token_a=strtok(buff," ");
@@ -354,24 +355,16 @@ int serve(int s) {
                 strcat(ggg,zyx);
                 strcat(ggg,xyz);
 
-                printf("ggg: %s\n",ggg);
-                // char *query_final;
-                // sprintf(query_final,"QUERY_STRING=%s",token_b);
-                // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
-                // static char *g=zyx;
-
                 if(!fork()) {
                     close(cgi_output[0]);
                     close(cgi_input[1]);
                     
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
-                    
-            
+                                
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
                     putenv(ggg);
-                    putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         perror("execlp");
@@ -384,6 +377,7 @@ int serve(int s) {
                 char c;
 
                 int t=0;
+                //buffer masivo para guardar la respuesta del procesamiento get
                 char buffx[100000];
                 while (read(cgi_output[0], &c, 1) > 0){                    
                     buffx[t]=c;
@@ -413,8 +407,6 @@ int serve(int s) {
                     write(s,&buffx[aux],1);
                     aux++;
                 }
-
-                printf("SIZE----> %d\n",t);
             }
     }    
     fclose(da);
