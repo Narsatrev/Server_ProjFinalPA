@@ -364,6 +364,7 @@ int serve(int s) {
                 int t3=0;
                 int cont=1;
                 char buffx[4096];
+                char *str_pet;
                 while (read(cgi_output[0], &c, 1) > 0){
                     if((t+1)==(4096*cont)){
                         t3+=t;
@@ -372,7 +373,8 @@ int serve(int s) {
                         cont++;
                         memset(buffx, 0, sizeof(buffx));                        
                         t=0;
-                        printf("SHI SHI:%s\n",buffy);
+                        strcat(str_pet,buffy);
+                        printf("CONT:%d\n",cont);
                     }
                     buffx[t]=c;
                     t++;
