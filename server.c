@@ -351,6 +351,7 @@ int serve(int s) {
                 char *xyz=token_b;
                 char *zyx="QUERY_STRING=";
                 strcat(zyx,xyz);
+                printf("ZYX: %s\n",zyx)
                 // char *query_final;
                 // sprintf(query_final,"QUERY_STRING=%s",token_b);
                 // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
