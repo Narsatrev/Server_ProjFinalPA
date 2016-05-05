@@ -113,14 +113,14 @@ int serve(int s) {
             query=token_query;
             printf("QUERY 1: %s\n",query);
 
-            char query_buff[512];
+            // char query_buff[512];
 
-            int cx=0;
-            while(query[cx]!='\n'){
-                query_buff[cx]=query[cx];
-                cx++;
-            }
-            printf("QUERY NO NEW LINE: %s\n",query_buff);
+            // int cx=0;
+            // while(query[cx]!='\n'){
+            //     query_buff[cx]=query[cx];
+            //     cx++;
+            // }
+            // printf("QUERY NO NEW LINE: %s\n",query_buff);
 
 
         }
