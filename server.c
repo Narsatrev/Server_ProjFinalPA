@@ -341,15 +341,17 @@ int serve(int s) {
                 close(cgi_output[1]);
                 close(cgi_input[0]);
 
-                char c;
-                // int t=0;
+                char *c;
+                int t2=1;
 
-                // char bufferPipe[100000];
+                char *string_p= malloc(t2+1);
 
-                // while (read(cgi_output[0], &c, 1) > 0){
-                //     bufferPipe[t]=c;
-                //     t++;
-                // }
+
+                while (read(cgi_output[0], &c, 1) > 0){            
+                    t2++;        
+                    string_p=malloc(t2);                    
+                    strcat(string_p, c);                                    
+                }
 
                 // printf("SIZE: %d\n",t);
                 // printf("%s",bufferPipe);
