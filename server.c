@@ -342,24 +342,19 @@ int serve(int s) {
                 close(cgi_input[0]);
 
                 char c;
-                // int t2=0;
+                int t2=0;
 
-                // char *string_p=(char *)malloc(t2+1);   
+                char *string_p=(char *)malloc(t2+1);   
 
-                // while (read(cgi_output[0], &c, 1) > 0){
+                FILE *temp=("temp.txt","w+");
 
-                //     printf("%c",c);
-                //     char x2[2]={c,'\0'};
-                //     t2++;
-                //     string_p=(char *)realloc(string_p,t2);
-                //     strcat(string_p, x2);
+                while (read(cgi_output[0], &c, 1) > 0){
+                    write(temp,&c,1);
+                    t2++;
+                }
+                fseek(temp,0L, SEEK_SET);
 
-                // }
-
-                // printf("SIZE:::::: %d\n",t2);
-                // printf("BUFFER:::: %s",string_p);
-                // printf("STRLEN:::: %lu",strlen(string_p));
-
+                printf("SIZE:::::: %d\n",t2);
 
                 char buffer[32];
                 int size = 0;
@@ -373,30 +368,15 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: %d\r\n",40000);
+                sprintf(command, "Content-Length: %d\r\n",t2);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                int t=0;
-
-                while (read(cgi_output[0], &c, 1) > 0){
-                    // bufferPipe[t]=c;
-                    t++;
+                while (read(temp, &c, 1) > 0){
                     write(s,&c,1);
                 }
-
-                // int x=0;
-                // int y=0;
-
-                // while((x=write(s,&bufferPipe[x],MSGSIZE))>0){                
-                //     y+=x;
-                //     if(y>=t){
-                //         break;
-                //     }
-                // }
-
             }
     }    
     fclose(da);
