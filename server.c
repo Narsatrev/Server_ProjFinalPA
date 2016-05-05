@@ -107,15 +107,25 @@ int serve(int s) {
 
         printf("[%s]\n", command);
         if(strstr(command,"Referer")>0){
-            char *token_query;
-            token_query=strtok(command,"?");
-            token_query=strtok(NULL,"?");
+            int u=0;
+            int h=0;
+            while(command[u]!='\n' && h<2){
+                if(command[u] == '\n'){
+                    h++;
+                }
 
-            char *token_query2;
-            token_query2=strtok(token_query,"Accept-Encoding");
+                printf("%c",command[u]);   
+                u++;
+            }
+            // char *token_query;
+            // token_query=strtok(command,"?");
+            // token_query=strtok(NULL,"?");
 
-            query=token_query2;
-            printf("QUERY 1: %s\n",query);
+            // char *token_query2;
+            // token_query2=strtok(token_query,"Accept-Encoding");
+
+            // query=token_query2;
+            // printf("QUERY 1: %s\n",query);
 
             // char query_buff[512];
 
