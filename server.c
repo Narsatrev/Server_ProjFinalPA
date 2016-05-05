@@ -333,8 +333,7 @@ int serve(int s) {
                         break;
                     }
                 }
-            }else{
-            // int message_fd[2][2];
+            }else{            
 
                 int cgi_output[2];
                 int cgi_input[2];
@@ -343,22 +342,24 @@ int serve(int s) {
 
                 int i;
 
-                // pipe(message_fd[READ]);
-                // pipe(message_fd[WRITE]);
+                printf("ESTE ES EL BUFFER:\n\n\n%s\n\n\n",buff);
+                char *token_a;
+                char *token_b;
+                token_a=strtok(buff," ");
+                token_a=strtok(NULL," ");
+                token_b=strtok(token_a,"?");
+                token_b=strtok(NULL,"?");
+                printf("TOKEN SHI SHI: %s\n",token_b);
 
                 if(!fork()) {
-                    // close(message_fd[READ][READ]);
-                    // close(message_fd[WRITE][WRITE]);
-
-                    // dup2(message_fd[READ][WRITE], 1);
-                    // dup2(message_fd[WRITE][READ], 0);
+                    
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
 
                     close(cgi_output[0]);
                     close(cgi_input[1]);
 
-                    printf("ESTE ES EL BUFFER:\n\n\n%s\n\n\n",buff);
+                    
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
@@ -369,8 +370,6 @@ int serve(int s) {
                         perror("execlp");
                     }
                 }
-                // close(message_fd[READ][WRITE]);
-                // close(message_fd[WRITE][READ]);
 
                 close(cgi_output[1]);
                 close(cgi_input[0]);
