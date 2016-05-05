@@ -365,10 +365,7 @@ int serve(int s) {
                 while (read(cgi_output[0], &c, 1) > 0){
                     buffx[t]=c;
                     t++;
-                    // write(s,&c,1);
                 }
-
-
 
                 char buffer[32];
                 int size = 0;
@@ -382,7 +379,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: %d\r\n",t);
+                sprintf(command, "Content-Length: %d\r\n",35);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
