@@ -327,16 +327,8 @@ int serve(int s) {
                 close(message_fd[READ][WRITE]);
                 close(message_fd[WRITE][READ]);
 
-                FILE *fin = fdopen(message_fd[READ][READ], "r");
-                FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
-
-                char buf[400];
-
-                if(fgets(buf, 400, fin)<0){
-                    perror("fgets");
-                }
-                printf("buf: %s\n",buf);
-                
+                // FILE *fin = fdopen(message_fd[READ][READ], "r");
+                // FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
 
                 char buffer[32];
                 int size = 0;
