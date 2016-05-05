@@ -106,13 +106,13 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
-        // if(strstr(command,"Referer")>0){
-        //     char *token_query;
-        //     token_query=strtok(command,"?");
-        //     token_query=strtok(NULL,"?");
-        //     query=token_query;
-        //     printf("QUERY 1: %s\n",query);
-        // }
+        if(strstr(command,"Referer")>0){
+            char *token_query;
+            token_query=strtok(command,"?");
+            token_query=strtok(NULL,"?");
+            query=token_query;
+            printf("QUERY 1: %s\n",query);
+        }
 
             //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
