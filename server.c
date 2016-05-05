@@ -396,13 +396,12 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: %d\r\n",t-50);
+                sprintf(command, "Content-Length: %d\r\n",t);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
-
-                int aux=50;                
+                
                 while(aux<t){      
                     write(s,&buffx[aux],1);
                     aux++;
