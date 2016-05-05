@@ -332,11 +332,11 @@ int serve(int s) {
                 printf("QUERY SHI SHI SHI 2: %s\n",query);
                 char query_buff[512];
 
-                int cx=0;
-                while(query[cx]!='\n'){
-                    query_buff[cx]=query[cx];
-                }
-                printf("QUERY NO NEW LINE: %s\n",query_buff);
+                // int cx=0;
+                // while(query[cx]!='\n'){
+                //     query_buff[cx]=query[cx];
+                // }
+                // printf("QUERY NO NEW LINE: %s\n",query_buff);
                 // char *query_string;
                 // sprintf(query_string,"QUERY_STRING=%s",query);    
                 // printf("QUERY STRING ZI: %s\n",query_string);                
