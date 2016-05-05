@@ -368,7 +368,7 @@ int serve(int s) {
                     if((t+1)==(4096*cont)){
                         t3+=t;
                         char buffy[t3];
-                        strncpy(buffy,buffx,4096*cont)
+                        strncpy(buffy,buffx,4096*cont);
                         cont++;
                         memset(buffx, 0, sizeof(buffx));                        
                         t=0;
