@@ -113,7 +113,7 @@ int serve(int s) {
                 if(command[u]=='\n'){
                     contr++;
                 }
-                if(cont==1){
+                if(contr==1){
                     printf("%c",command[u]);
                 }
                 u++;
