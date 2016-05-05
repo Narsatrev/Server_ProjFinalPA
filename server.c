@@ -341,16 +341,17 @@ int serve(int s) {
                 close(cgi_output[1]);
                 close(cgi_input[0]);
 
-                char *c;
+                char c;
                 int t2=0;
 
                 char *string_p=(char *)malloc(t2+1);    
 
-                while (read(cgi_output[0], c, 1) > 0){    
+                while (read(cgi_output[0], &c, 1) > 0){    
                     printf("%s",c);        
+                    char x2[2]={c,'\0'};
                     t2++;        
                     string_p=(char *)realloc(string_p,t2);                    
-                    strcat(string_p, c);                                    
+                    strcat(string_p, x2);                                    
                 }
 
                 printf("SIZE:::::: %d\n",t2);
