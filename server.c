@@ -107,7 +107,7 @@ int serve(int s) {
 
         printf("[%s]\n", command);
         if(strstr(command,"Referer")>0){
-            char token_query[512];
+            char *token_query;
             token_query=strtok(command,"?");
             token_query=strtok(NULL,"?");
             query=token_query;
