@@ -351,8 +351,9 @@ int serve(int s) {
                 char *xyz=token_b;
                 char *zyx="QUERY_STRING=";
                 char ggg[1024];
-                strcat(ggg,xyz);
                 strcat(ggg,zyx);
+                strcat(ggg,xyz);
+
                 printf("ggg: %s\n",ggg);
                 // char *query_final;
                 // sprintf(query_final,"QUERY_STRING=%s",token_b);
@@ -369,7 +370,7 @@ int serve(int s) {
             
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv(ggg);
+                    putenv("QUERY_STRING=world=444");
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
