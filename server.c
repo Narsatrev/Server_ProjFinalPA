@@ -18,6 +18,8 @@
     #define PORT 80
     #define SIZE 8
     #define MSGSIZE 1024
+    #define READ 0
+    #define WRITE 0
 
 int sdo;
 
