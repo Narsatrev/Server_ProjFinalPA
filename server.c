@@ -374,7 +374,7 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                while (read(temp,1,&c) > 0){
+                while (read(temp,&c,1) > 0){
                     write(s,&c,1);
                 }
             }
