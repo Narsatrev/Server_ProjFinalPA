@@ -342,13 +342,15 @@ int serve(int s) {
                 close(cgi_input[0]);
                 char c;
 
+
                 while (read(cgi_output[0], &c, 1) > 0){
                     printf("%c", c);
                 }
-                
+                printf("READ 2 ANTES\n");
                 while (read(cgi_output[0], &c, 1) > 0){
                     printf("%c", c);
                 }
+                printf("READ 2 DESPUES\n");
 
                 // FILE *fin = fdopen(message_fd[READ][READ], "r");
                 // FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
