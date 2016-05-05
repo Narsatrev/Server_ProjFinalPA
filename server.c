@@ -343,6 +343,7 @@ int serve(int s) {
 
                 char *string_p=(char *)malloc(t2+1);    
                 char *c;
+                int t2=0;
 
                 while (fread(c, 1, 1, cgi_output[0]) > 0){    
                     printf("%s",c);        
