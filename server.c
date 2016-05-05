@@ -352,7 +352,19 @@ int serve(int s) {
                 }
 
                 printf("SIZE: %d\n",t);
-                printf("%s\n",bufferPipe);
+                printf("%s",bufferPipe);
+
+                char file[tamano];
+                int suma=0;
+                size=fread(cgi_output[0],1,tamano,da);
+                printf("ARCHIVO: %d\n",size);
+
+                // while((size=write(s,&file[suma],MSGSIZE))>0){                
+                //     suma+=size;
+                //     if(suma>=tamano){
+                //         break;
+                //     }
+                // }
 
                 char buffer[32];
                 int size = 0;
@@ -366,7 +378,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 9\r\n");
+                sprintf(command, "Content-Length: %d\r\n",);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
