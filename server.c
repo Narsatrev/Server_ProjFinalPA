@@ -334,8 +334,8 @@ int serve(int s) {
                     // dup2(message_fd[WRITE][READ], 0);
 
                     printf("QUERY SHI SHI SHI: %s\n",query);
-                    char *query_string;
-                    sprintf(query_string,"QUERY_STRING=%s",query);
+                    char *query_string="QUERY_STRING=";
+                    strcat(query_string,query,strlen(query_string));
                     printf("QUERY SHI SHI SHI: %s\n",query_string);
 
                     dup2(cgi_output[1], 1);
