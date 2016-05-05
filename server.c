@@ -353,13 +353,12 @@ int serve(int s) {
                 int x=0;
 
                 while(1) {
+                    printf("TAM: %d\n",x);   
                     if(feof(fin)) break;
                     size = fread(buffer, 32, 1, fin);
                     x+=32;
                     fwrite(buffer, 32, 1, s);
-                    printf("TAM: %d\n",x);   
-                }         
-                
+                }                         
             }
     }    
     fclose(da);
