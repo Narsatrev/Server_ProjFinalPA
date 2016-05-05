@@ -132,7 +132,6 @@ int serve(int s) {
                 token_query=strtok(NULL,"?");
                 sprintf(query,"QUERY_STRING=%s",token_query);
             }   
-            printf(query);
         }
 
             //Guardar todos los comandos para su manipulacion posterior
@@ -359,6 +358,7 @@ int serve(int s) {
                     close(cgi_output[0]);
                     close(cgi_input[1]);
 
+                    printf("QUERY HFKJADSF: %s\n",query);
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
                     putenv("QUERY_STRING=hola=a&mundo=b");
