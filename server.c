@@ -270,7 +270,7 @@ int serve(int s) {
             free(archivo);
 
         }else{
-            printf("METODO: %d\n",mtodo);
+            printf("METODO: %d\n",metodo);
             if(metodo==0){
                 //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
                printf("SI EXISTE EL ARCHIVO YAY!!!\n");
