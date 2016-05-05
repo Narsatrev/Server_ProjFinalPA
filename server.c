@@ -330,6 +330,14 @@ int serve(int s) {
                 FILE *fin = fdopen(message_fd[READ][READ], "r");
                 FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
 
+                char buf[400];
+
+                if(fgets(buf, 400, fin)<0){
+                    perror("fgets");
+                }
+                printf("buf: %s\n",buf);
+                
+
                 char buffer[32];
                 int size = 0;
 
@@ -360,13 +368,12 @@ int serve(int s) {
                 }
                 printf("JGDJFGDHJFAGDKJHFGDFKSJH");
 
-                char buf[400];
-                FILE *pipe2=(fin, 'r');
+                // char buf[400];
 
-                if(fgets(buf, 400, pipe2)<0){
-                    perror("fgets");
-                }
-                printf("buf: %s\n",buf);
+                // if(fgets(buf, 400, fin)<0){
+                //     perror("fgets");
+                // }
+                // printf("buf: %s\n",buf);
 
                 printf("ACABO IMPRIMIR BASURA 2");
 
