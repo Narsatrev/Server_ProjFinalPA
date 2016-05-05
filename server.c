@@ -356,6 +356,7 @@ int serve(int s) {
                     sprintf(command, "%d\r\n",u);
                     writeLine(s, command, strlen(command));
                     u++;
+                    printf("s: %d\n",u);
                 }
 
                 // while(1) {
