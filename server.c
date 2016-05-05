@@ -353,7 +353,8 @@ int serve(int s) {
                 int x=0;
                 int u=0;
                 while(u<32) {
-                    sprintf(command, "%d x\r\n",u);
+                    fread(buffer, 32, 1, fin);
+                    sprintf(command, "%s",buffer);
                     writeLine(s, command, strlen(command));
                     u++;
                     printf("s: %d\n",u);
