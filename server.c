@@ -342,21 +342,23 @@ int serve(int s) {
                 close(cgi_input[0]);
 
                 char c;
-                int t2=0;
+                // int t2=0;
 
-                char *string_p=(char *)malloc(t2+1);    
+                // char *string_p=(char *)malloc(t2+1);   
 
-                while (read(cgi_output[0], &c, 1) > 0){    
-                    printf("%c",c);        
-                    char x2[2]={c,'\0'};
-                    t2++;        
-                    string_p=(char *)realloc(string_p,t2);                    
-                    strcat(string_p, x2);                                    
-                }
+                // while (read(cgi_output[0], &c, 1) > 0){
 
-                printf("SIZE:::::: %d\n",t2);
-                printf("BUFFER:::: %s",string_p);
-                printf("STRLEN:::: %lu",strlen(string_p));
+                //     printf("%c",c);
+                //     char x2[2]={c,'\0'};
+                //     t2++;
+                //     string_p=(char *)realloc(string_p,t2);
+                //     strcat(string_p, x2);
+
+                // }
+
+                // printf("SIZE:::::: %d\n",t2);
+                // printf("BUFFER:::: %s",string_p);
+                // printf("STRLEN:::: %lu",strlen(string_p));
 
 
                 char buffer[32];
@@ -371,8 +373,8 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                // sprintf(command, "Content-Length: %d\r\n",t);
-                // writeLine(s, command, strlen(command));
+                sprintf(command, "Content-Length: %d\r\n",100000);
+                writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
@@ -384,12 +386,6 @@ int serve(int s) {
                     t++;
                     write(s,&c,1);
                 }
-
-                sprintf(command, "\r\n");
-                writeLine(s, command, strlen(command));
-
-                sprintf(command, "Content-Length: %d\r\n",t);
-                writeLine(s, command, strlen(command));
 
                 // int x=0;
                 // int y=0;
