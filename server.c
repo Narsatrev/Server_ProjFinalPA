@@ -367,9 +367,8 @@ int serve(int s) {
                     if(k>50){
                         buffx[t]=c;
                         t++;
-                    }else{
-                        k++;
                     }
+                    k++;
                 }
 
                 char buffer[32];
