@@ -340,17 +340,19 @@ int serve(int s) {
 
                 close(cgi_output[1]);
                 close(cgi_input[0]);
-                char c;
 
+                char *c;
+                char *str_pipe;
+                int size=1;
+                str_pipe = (char *) malloc(size);
+                while (read(cgi_output[0], &c, 1) > 0){
+                    size++;
+                    strcat(str_pipe,c);
+                    str_pipe=(char *) realloc(str_pipe, size);
+                }
 
-                while (read(cgi_output[0], &c, 1) > 0){
-                    printf("%c", c);
-                }
-                printf("READ 2 ANTES\n");
-                while (read(cgi_output[0], &c, 1) > 0){
-                    printf("%c", c);
-                }
-                printf("READ 2 DESPUES\n");
+                printf("CONTENIDO: %s\n",str_pipe);
+                printf("SIZE: %d\n",size);
 
                 // FILE *fin = fdopen(message_fd[READ][READ], "r");
                 // FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
