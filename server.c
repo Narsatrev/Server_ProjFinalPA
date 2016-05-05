@@ -260,6 +260,7 @@ int serve(int s) {
         strcat(url_completo,token_extension);
 
         printf("URL COMPLETA: %s\n",url_completo);
+        printf("QUERY 666666: %s\n",query);
 
         char *path_ejecutable= url_completo;
         
