@@ -360,6 +360,26 @@ int serve(int s) {
                 // printf("BUFFER:::: %s",string_p);
                 // printf("STRLEN:::: %lu",strlen(string_p));
 
+                int t=0;
+                int t3=0;
+                int cont=1;
+                char buffx[4096];
+                while (read(cgi_output[0], &c, 1) > 0){
+                    if((t+1)==(4096*cont)){
+                        char buffy[t];
+                        strncpy(buffy,buffx,4096*cont)
+                        cont++;
+                        memset(buffx, 0, sizeof(buffx));
+                        t3+=t;
+                        t=0;
+                    }
+                    buffx[t]=c;
+                    t++;
+                    // write(s,&c,1);
+                }
+
+                printf("%s\n",buffy);
+
 
                 char buffer[32];
                 int size = 0;
@@ -379,13 +399,7 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                int t=0;
-
-                while (read(cgi_output[0], &c, 1) > 0){
-                    // bufferPipe[t]=c;
-                    t++;
-                    write(s,&c,1);
-                }
+                
                 printf("SIZE----> %d\n",t);
             }
     }    
