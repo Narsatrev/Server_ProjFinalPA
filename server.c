@@ -366,7 +366,7 @@ int serve(int s) {
                 char buffx[4096];
                 char *str_pet;
                 while (read(cgi_output[0], &c, 1) > 0){
-                    if((t+1)==(4096*cont)){
+                    if((t3+1)==(4096*cont)){
                         t3+=t;
                         char buffy[t3];
                         strncpy(buffy,buffx,4096*cont);
