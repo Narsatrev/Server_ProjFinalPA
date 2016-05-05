@@ -360,9 +360,9 @@ int serve(int s) {
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
                     
-                    setenv("REQUEST_METHOD","GET");
-                    setenv("REDIRECT_STATUS","true");
-                    setenv("QUERY_STRING","hola=a&mundo=b");
+                    setenv("REQUEST_METHOD","GET",1);
+                    setenv("REDIRECT_STATUS","true",1);
+                    setenv("QUERY_STRING","hola=a&mundo=b",1);
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         perror("execlp");
