@@ -352,33 +352,28 @@ int serve(int s) {
 
                 int x=0;
                 int u=0;
+
+                char buf[400];
+                fgets(buf, 400, fin);
+                printf("buf: %s\n",buf);
+
                 while(u<32) {
-                    if(fread(buffer, 32, 1, fin)<0){
-                        perror("fread");
-                    }
-                    printf("BUFFER: %s\n",buffer);
-                    sprintf(command, "%s",buffer);
+                    sprintf(command, "%d",u;
                     writeLine(s, command, strlen(command));
                     u++;
-                    printf("s: %d\n",u);
                 }
 
                 // while(1) {
-                //     printf("CHECKPOINT 1: %d\n",x);   
                 //     if(feof(fin)<0){
                 //         perror("feof");
                 //         printf("CHECKPOINT a: %d\n",x);   
                 //     }else{
                 //         printf("CHECKPOINT b: %d\n",x);   
                 //        break;   
-                //     } 
-                //     printf("CHECKPOINT 2: %d\n",x);   
+                //     }  
                 //     size = fread(buffer, 32, 1, fin);
-                //     printf("CHECKPOINT 3: %d\n",x);   
                 //     x+=32;
-                //     printf("CHECKPOINT 4: %d\n",x);   
                 //     fwrite(buffer, 32, 1, sdo);
-                //     printf("CHECKPOINT 5: %d\n",x);   
                 // }                         
             }
     }    
