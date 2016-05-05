@@ -350,7 +350,7 @@ int serve(int s) {
                 while(1) {
                     if(feof(fin)) break;
                     size = fread(buffer, 32, 1, fin);
-                    fwrite(buffer, 32, 1, &sdo);
+                    fwrite(buffer, 32, 1, s);
                 }            
             }
     }    
