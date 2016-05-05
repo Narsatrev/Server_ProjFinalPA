@@ -349,9 +349,9 @@ int serve(int s) {
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
                 
-                char *query_final;
-                sprintf(query_final,"QUERY_STRING=%s",token_b);
-                printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
+                // char *query_final;
+                // sprintf(query_final,"QUERY_STRING=%s",token_b);
+                // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
 
                 if(!fork()) {
                     close(cgi_output[0]);
@@ -360,9 +360,9 @@ int serve(int s) {
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
                     
-                    setenv("REQUEST_METHOD","GET",1);
-                    setenv("REDIRECT_STATUS","true",1);
-                    setenv("QUERY_STRING","hola=a&mundo=b",1);
+                    setenv("REQUEST_METHOD","GET",0);
+                    setenv("REDIRECT_STATUS","true",0);
+                    setenv("QUERY_STRING","hola=a&mundo=b",0);
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         perror("execlp");
