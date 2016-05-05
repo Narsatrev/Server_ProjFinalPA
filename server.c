@@ -350,7 +350,7 @@ int serve(int s) {
                 token_b=strtok(NULL,"?");
                 
                 char *query_final;
-                sprintf(query_final,"QUERY_STRING=%s",token_b)
+                sprintf(query_final,"QUERY_STRING=%s",token_b);
 
                 printf("QUERY FINAL SHI SHI: %s\n",query_final);
 
