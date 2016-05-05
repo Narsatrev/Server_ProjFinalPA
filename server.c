@@ -342,7 +342,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 32\r\n");
+                sprintf(command, "Content-Length: 9\r\n");
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
@@ -352,7 +352,7 @@ int serve(int s) {
                 int u=0;
 
 
-                while(u<32) {
+                while(u<9) {
                     sprintf(command, "%d",u);
                     writeLine(s, command, strlen(command));
                     u++;
