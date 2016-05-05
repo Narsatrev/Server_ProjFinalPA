@@ -326,7 +326,7 @@ int serve(int s) {
                 // pipe(message_fd[READ]);
                 // pipe(message_fd[WRITE]);
                 char *query_string="QUERY_STRING=";
-                strcat(query_string,query,strlen(query_string));
+                strncat(query_string,query,strlen(query_string));
                 printf("QUERY SHI SHI SHI 1: %s\n",query_string);
 
                 if(!fork()) {
