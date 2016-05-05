@@ -106,20 +106,20 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
-        if(strstr(command,"Referer")>0){
-            int u=0;
-            int contr=0;
-            while(command[u]!='\0'){
-                if(command[u]=='\n'){
-                    contr++;
-                }
-                if(contr==1){
-                    printf("%c",command[u]);
-                }
-                u++;
-            }
+        // if(strstr(command,"Referer")>0){
+        //     int u=0;
+        //     int contr=0;
+        //     while(command[u]!='\0'){
+        //         if(command[u]=='\n'){
+        //             contr++;
+        //         }
+        //         if(contr==1){
+        //             printf("%c",command[u]);
+        //         }
+        //         u++;
+        //     }
 
-        }
+        // }
 
             //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
