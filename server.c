@@ -278,7 +278,21 @@ int serve(int s) {
             free(archivo);
 
         }else{
+            
             printf("METODO: %d\n",metodo);
+
+
+            printf("QUERY SHI SHI SHI 12: %s\n",query);
+            printf("QUERY SHI SHI SHI 2: %s\n",query);
+            char query_buff[512];
+
+            int cx=0;
+            while(query[cx]!='\n'){
+                query_buff[cx]=query[cx];
+            }
+            printf("QUERY NO NEW LINE: %s\n",query_buff);
+
+
             if(metodo==0){
                 //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
                printf("SI EXISTE EL ARCHIVO YAY!!!\n");
@@ -327,16 +341,7 @@ int serve(int s) {
                 // pipe(message_fd[WRITE]);
                 // char *query_string;
                 // sprintf(query_string,"QUERY_STRING=%s",query);
-                // printf("QUERY SHI SHI SHI 1: %s\n",query_string);
-                printf("QUERY SHI SHI SHI 12: %s\n",query);
-                printf("QUERY SHI SHI SHI 2: %s\n",query);
-                char query_buff[512];
-
-                // int cx=0;
-                // while(query[cx]!='\n'){
-                //     query_buff[cx]=query[cx];
-                // }
-                // printf("QUERY NO NEW LINE: %s\n",query_buff);
+                // printf("QUERY SHI SHI SHI 1: %s\n",query_string);                
                 // char *query_string;
                 // sprintf(query_string,"QUERY_STRING=%s",query);    
                 // printf("QUERY STRING ZI: %s\n",query_string);                
