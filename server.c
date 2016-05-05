@@ -328,6 +328,7 @@ int serve(int s) {
                 // char *query_string;
                 // sprintf(query_string,"QUERY_STRING=%s",query);
                 // printf("QUERY SHI SHI SHI 1: %s\n",query_string);
+                printf("QUERY SHI SHI SHI 1: %s\n",query);
                 char *token_archivo;
                 token_archivo=strtok(nombre_archivo_uri_copia,"?");
 
