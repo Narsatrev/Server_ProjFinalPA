@@ -361,7 +361,7 @@ int serve(int s) {
                     printf("QUERY HFKJADSF: %s\n",query);
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv("QUERY_STRING=hola=a&mundo=b");
+                    putenv(query);
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
