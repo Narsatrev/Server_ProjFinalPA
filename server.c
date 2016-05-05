@@ -324,6 +324,7 @@ int serve(int s) {
                     // dup2(message_fd[WRITE][READ], 0);
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
+
                     close(cgi_output[0]);
                     close(cgi_input[1]);
 
@@ -341,15 +342,10 @@ int serve(int s) {
                 close(cgi_input[0]);
                 char c;
 
-                // FILE *fin = fdopen(cgi_output[0], "r");
-
-                int tam_pipe=0;
-                fseek(cgi_output[0], 0L, SEEK_END);
-                tam_pipe = ftell(cgi_output[0]);
-                fseek(cgi_output[0], 0L, SEEK_SET);
-
-                printf("tam_pipe: %d\n", tam_pipe);
-
+                while (read(cgi_output[0], &c, 1) > 0){
+                    printf("%c", c);
+                }
+                
                 while (read(cgi_output[0], &c, 1) > 0){
                     printf("%c", c);
                 }
