@@ -344,7 +344,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 0\r\n");
+                sprintf(command, "Content-Length: 32\r\n");
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
@@ -357,7 +357,6 @@ int serve(int s) {
                     writeLine(s, command, strlen(command));
                     u++;
                 }
-                wait(0);
 
                 // while(1) {
                 //     printf("CHECKPOINT 1: %d\n",x);   
