@@ -361,7 +361,6 @@ int serve(int s) {
                 // printf("STRLEN:::: %lu",strlen(string_p));
 
                 int t=0;
-                int k=0;
                 char buffx[100000];
                 while (read(cgi_output[0], &c, 1) > 0){                    
                     buffx[t]=c;
@@ -386,13 +385,10 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                int aux=0;                
+                int aux=50;                
                 while(aux<t){      
-                    if(k>50){              
-                        write(s,&buffx[aux],1);
-                        aux++;
-                    }
-                    k++;
+                    write(s,&buffx[aux],1);
+                    aux++;
                 }
 
                 
