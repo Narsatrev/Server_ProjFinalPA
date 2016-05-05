@@ -111,6 +111,7 @@ int serve(int s) {
             token_query=strtok(command,"?");
             token_query=strtok(NULL,"?");
             query=token_query;
+            printf("QUERY 1: %s\n",query);
         }
 
             //Guardar todos los comandos para su manipulacion posterior
@@ -331,6 +332,9 @@ int serve(int s) {
 
                     // dup2(message_fd[READ][WRITE], 1);
                     // dup2(message_fd[WRITE][READ], 0);
+
+                    printf("QUERY SHI SHI SHI: %s\n",query);
+                    
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
 
@@ -342,7 +346,7 @@ int serve(int s) {
                     // char *query_string;
                     // printf("QUERY SHI: %s\n",query);
                     // sprintf(query_string,"QUERY_STRING=%s",query);
-                    printf("QUERY SHI SHI SHI: %s\n",query);
+                    
                     putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
