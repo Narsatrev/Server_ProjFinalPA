@@ -347,7 +347,7 @@ int serve(int s) {
                 char *string_p=(char *)malloc(t2+1);    
 
                 while (read(cgi_output[0], &c, 1) > 0){    
-                    printf("%s",c);        
+                    printf("%c",c);        
                     char x2[2]={c,'\0'};
                     t2++;        
                     string_p=(char *)realloc(string_p,t2);                    
