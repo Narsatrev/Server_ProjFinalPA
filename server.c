@@ -260,7 +260,6 @@ int serve(int s) {
         strcat(url_completo,token_extension);
 
         printf("URL COMPLETA: %s\n",url_completo);
-        printf("QUERY 666666: %s\n",query);
 
         char *path_ejecutable= url_completo;
         
@@ -359,10 +358,11 @@ int serve(int s) {
                     close(cgi_output[0]);
                     close(cgi_input[1]);
 
-                    printf("QUERY HFKJADSF: %s\n",query);
+                    printf("ESTE ES EL BUFFER:\n\n\n%s\n\n\n",buff);
+
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv(query);
+                    putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
