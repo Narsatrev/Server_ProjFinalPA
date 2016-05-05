@@ -344,14 +344,14 @@ int serve(int s) {
                sprintf(command, "Content-Type: text/html\r\n");
                writeLine(s, command, strlen(command));
 
-               sprintf(command, "Content-Length: 2\r\n",);
+               sprintf(command, "Content-Length: 2\r\n");
                writeLine(s, command, strlen(command));
 
                sprintf(command, "\r\n");
                writeLine(s, command, strlen(command));
 
                int x=0;
-               
+
                 while(1) {
                     if(feof(fin)) break;
                     size = fread(buffer, 32, 1, fin);
