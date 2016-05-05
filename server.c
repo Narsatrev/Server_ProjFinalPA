@@ -339,10 +339,10 @@ int serve(int s) {
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    char *query_string;
-                    printf("QUERY SHI: %s\n",query);
-                    sprintf(query_string,"QUERY_STRING=%s",query);
-                    printf("QUERY SHI SHI SHI: %s\n",query_string);
+                    // char *query_string;
+                    // printf("QUERY SHI: %s\n",query);
+                    // sprintf(query_string,"QUERY_STRING=%s",query);
+                    printf("QUERY SHI SHI SHI: %s\n",query);
                     putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
