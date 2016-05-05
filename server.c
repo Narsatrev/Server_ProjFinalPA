@@ -110,7 +110,11 @@ int serve(int s) {
             char *token_query;
             token_query=strtok(command,"?");
             token_query=strtok(NULL,"?");
-            query=token_query;
+
+            char *token_query2;
+            token_query2=strtok(token_query,"Accept-Encoding");
+
+            query=token_query2;
             printf("QUERY 1: %s\n",query);
 
             // char query_buff[512];
