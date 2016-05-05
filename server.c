@@ -111,7 +111,6 @@ int serve(int s) {
             token_query=strtok(command,"?");
             token_query=strtok(NULL,"?");
             query=token_query;
-            printf("QUERY: %s\n",query);
         }
 
             //Guardar todos los comandos para su manipulacion posterior
@@ -340,7 +339,9 @@ int serve(int s) {
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv("QUERY_STRING=hola=a&mundo=b");
+                    char *query_string;
+                    sprintf(query_string,"QUERY_STRING=%s",query);
+                    putenv(query_string);
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
