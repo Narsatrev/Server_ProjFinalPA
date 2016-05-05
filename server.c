@@ -325,6 +325,9 @@ int serve(int s) {
 
                 // pipe(message_fd[READ]);
                 // pipe(message_fd[WRITE]);
+                char *query_string="QUERY_STRING=";
+                strcat(query_string,query,strlen(query_string));
+                printf("QUERY SHI SHI SHI 1: %s\n",query_string);
 
                 if(!fork()) {
                     // close(message_fd[READ][READ]);
@@ -333,10 +336,8 @@ int serve(int s) {
                     // dup2(message_fd[READ][WRITE], 1);
                     // dup2(message_fd[WRITE][READ], 0);
 
-                    printf("QUERY SHI SHI SHI: %s\n",query);
-                    char *query_string="QUERY_STRING=";
-                    // strcat(query_string,query,strlen(query_string));
-                    // printf("QUERY SHI SHI SHI: %s\n",query_string);
+                    printf("QUERY SHI SHI SHI 2: %s\n",query);
+                    
 
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
