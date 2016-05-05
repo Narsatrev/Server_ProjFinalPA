@@ -350,8 +350,10 @@ int serve(int s) {
                 token_b=strtok(NULL,"?");
                 char *xyz=token_b;
                 char *zyx="QUERY_STRING=";
-                strcat(zyx,xyz);
-                printf("ZYX: %s\n",zyx);
+                char ggg[1024];
+                strcat(ggg,xyz);
+                strcat(ggg,zyx);
+                printf("ggg: %s\n",ggg);
                 // char *query_final;
                 // sprintf(query_final,"QUERY_STRING=%s",token_b);
                 // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
@@ -367,7 +369,7 @@ int serve(int s) {
             
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    putenv(zyx);
+                    putenv(ggg);
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
