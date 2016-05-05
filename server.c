@@ -369,6 +369,9 @@ int serve(int s) {
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
+                        openlog("ErrorEXECLP", LOG_PID | LOG_CONS, LOG_USER);
+                        syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+                        closelog();
                         perror("execlp");
                     }
                 }
@@ -409,7 +412,6 @@ int serve(int s) {
                     aux++;
                 }
 
-                printf("SIZE----> %d\n",t);
             }
     }    
     fclose(da);
