@@ -345,7 +345,7 @@ int serve(int s) {
 
                 int tam_pipe=0;
                 fseek(cgi_output[0], 0L, SEEK_END);
-                tam_pipe = ftell(fin);
+                tam_pipe = ftell(cgi_output[0]);
                 fseek(cgi_output[0], 0L, SEEK_SET);
 
                 printf("tam_pipe: %d\n", tam_pipe);
