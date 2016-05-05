@@ -304,18 +304,28 @@ int serve(int s) {
                     }
                 }
             }else{
-            int message_fd[2][2];
+            // int message_fd[2][2];
+
+                int cgi_output[2];
+                int cgi_input[2];
+                pipe(cgi_output);
+                pipe(cgi_input);
+
                 int i;
 
-                pipe(message_fd[READ]);
-                pipe(message_fd[WRITE]);
+                // pipe(message_fd[READ]);
+                // pipe(message_fd[WRITE]);
 
                 if(!fork()) {
-                    close(message_fd[READ][READ]);
-                    close(message_fd[WRITE][WRITE]);
+                    // close(message_fd[READ][READ]);
+                    // close(message_fd[WRITE][WRITE]);
 
-                    dup2(message_fd[READ][WRITE], 1);
-                    dup2(message_fd[WRITE][READ], 0);
+                    // dup2(message_fd[READ][WRITE], 1);
+                    // dup2(message_fd[WRITE][READ], 0);
+                    dup2(cgi_output[1], 1);
+                    dup2(cgi_input[0], 0);
+                    close(cgi_output[0]);
+                    close(cgi_input[1]);
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
@@ -324,8 +334,11 @@ int serve(int s) {
 
                     execlp("php-cgi", "php-cgi", "test.php", 0);
                 }
-                close(message_fd[READ][WRITE]);
-                close(message_fd[WRITE][READ]);
+                // close(message_fd[READ][WRITE]);
+                // close(message_fd[WRITE][READ]);
+
+                close(cgi_output[1]);
+                close(cgi_input[0]);
 
                 // FILE *fin = fdopen(message_fd[READ][READ], "r");
                 // FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
