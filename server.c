@@ -342,17 +342,17 @@ int serve(int s) {
                 close(cgi_input[0]);
 
                 char c;
-                int t=0;
+                // int t=0;
 
-                char bufferPipe[100000];
+                // char bufferPipe[100000];
 
-                while (read(cgi_output[0], &c, 1) > 0){
-                    bufferPipe[t]=c;
-                    t++;
-                }
+                // while (read(cgi_output[0], &c, 1) > 0){
+                //     bufferPipe[t]=c;
+                //     t++;
+                // }
 
-                printf("SIZE: %d\n",t);
-                printf("%s",bufferPipe);
+                // printf("SIZE: %d\n",t);
+                // printf("%s",bufferPipe);
 
 
                 char buffer[32];
@@ -367,21 +367,27 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: %d\r\n",t);
-                writeLine(s, command, strlen(command));
+                // sprintf(command, "Content-Length: %d\r\n",t);
+                // writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                int x=0;
-                int y=0;
-
-                while((x=write(s,&bufferPipe[x],MSGSIZE))>0){                
-                    y+=x;
-                    if(y>=t){
-                        break;
-                    }
+                while (read(cgi_output[0], &c, 1) > 0){
+                    // bufferPipe[t]=c;
+                    // t++;
+                    write(s,&c,1);
                 }
+
+                // int x=0;
+                // int y=0;
+
+                // while((x=write(s,&bufferPipe[x],MSGSIZE))>0){                
+                //     y+=x;
+                //     if(y>=t){
+                //         break;
+                //     }
+                // }
 
             }
     }    
