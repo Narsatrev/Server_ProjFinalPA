@@ -335,23 +335,25 @@ int serve(int s) {
                 char buffer[32];
                 int size = 0;
 
-               //  sprintf(command, "HTTP/1.0 200 OK\r\n");
-               // writeLine(s, command, strlen(command));
+                sprintf(command, "HTTP/1.0 200 OK\r\n");
+               writeLine(s, command, strlen(command));
 
-               // sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-               // writeLine(s, command, strlen(command));
+               sprintf(command, "Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+               writeLine(s, command, strlen(command));
 
-               // sprintf(command, "Content-Type: text/html\r\n");
-               // writeLine(s, command, strlen(command));
+               sprintf(command, "Content-Type: text/html\r\n");
+               writeLine(s, command, strlen(command));
 
                // sprintf(command, "Content-Length: %d\r\n",tamano);
                // writeLine(s, command, strlen(command));
-
+               int x=0;
                 while(1) {
                     if(feof(fin)) break;
                     size = fread(buffer, 32, 1, fin);
-                    fwrite(buffer, 32, 1, sdo);
-                }            
+                    c+=32;
+                    fwrite(buffer, 32, 1, s);
+                }         
+                printf("TAM: %d\n",x);   
             }
     }    
     fclose(da);
