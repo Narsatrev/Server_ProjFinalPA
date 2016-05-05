@@ -83,8 +83,6 @@ int writeLine(int s, char *line, int total_size) {
         size = ((total_size-acum)>=SIZE)?SIZE:(total_size-acum)%SIZE;
         strncpy(buffer, line+acum, size);
     }
-    printf("size: %d\n",size);
-    printf("Acabe! Exitosamente!\n");
     return 0;
 }
 
