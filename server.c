@@ -363,12 +363,9 @@ int serve(int s) {
                 int t=0;
                 int k=0;
                 char buffx[100000];
-                while (read(cgi_output[0], &c, 1) > 0){
-                    if(k>50){
-                        buffx[t]=c;
-                        t++;
-                    }
-                    k++;
+                while (read(cgi_output[0], &c, 1) > 0){                    
+                    buffx[t]=c;
+                    t++;
                 }
 
                 char buffer[32];
@@ -390,9 +387,12 @@ int serve(int s) {
                 writeLine(s, command, strlen(command));
 
                 int aux=0;                
-                while(aux<t){                    
-                    write(s,&buffx[aux],1);
-                    aux++;
+                while(aux<t){      
+                    if(k>50){              
+                        write(s,&buffx[aux],1);
+                        aux++;
+                    }
+                    k++;
                 }
 
                 
