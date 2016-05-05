@@ -346,7 +346,7 @@ int serve(int s) {
 
                 char *string_p=(char *)malloc(t2+1);   
 
-                FILE *temp=("temp.txt","w+");
+                FILE *temp=fopen("temp.txt","w+");
 
                 while (read(cgi_output[0], &c, 1) > 0){
                     write(temp,&c,1);
@@ -374,7 +374,7 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                while (fread(&c, 1, 1, temp) > 0){
+                while (read(temp, &c, 1) > 0){
                     write(s,&c,1);
                 }
             }
