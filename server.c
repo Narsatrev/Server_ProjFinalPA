@@ -354,7 +354,9 @@ int serve(int s) {
                 int u=0;
 
                 char buf[400];
-                fgets(buf, 400, fin);
+                if(fgets(buf, 400, fin)<0){
+                    perror("fgets");
+                }
                 printf("buf: %s\n",buf);
 
                 while(u<32) {
