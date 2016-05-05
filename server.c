@@ -341,22 +341,18 @@ int serve(int s) {
                 close(cgi_output[1]);
                 close(cgi_input[0]);
 
-                char *c;
-                int t2=1;
+                char *string_p=(char *)malloc(t2+1);    
 
-                char *string_p= malloc(t2+1);
-
-
-                while (read(cgi_output[0], &c, 1) > 0){            
+                while (fread(c, 1, 1, cgi_output[0]) > 0){    
+                    printf("%s",c);        
                     t2++;        
-                    string_p=malloc(t2);                    
+                    string_p=(char *)realloc(string_p,t2);                    
                     strcat(string_p, c);                                    
                 }
 
-
-
-                printf("SIZE: %d\n",t2);
-                printf("%s",string_p);
+                printf("SIZE:::::: %d\n",t2);
+                printf("BUFFER:::: %s",string_p);
+                printf("STRLEN:::: %lu",strlen(string_p));
 
 
                 char buffer[32];
