@@ -126,14 +126,14 @@ int serve(int s) {
                 }
                 u++;
             }        
-            if(strstr(buff_query,"?")>0){
-                char *token_query;    
-                token_query=strtok(buff_query,"?");
-                token_query=strtok(NULL,"?");
-                sprintf(query,"QUERY_STRING=%s",token_query);
-                query=token_query;
-            }   
-            printf("query: %s\n",query);
+            // if(strstr(buff_query,"?")>0){
+            //     char *token_query;    
+            //     token_query=strtok(buff_query,"?");
+            //     token_query=strtok(NULL,"?");
+            //     sprintf(query,"QUERY_STRING=%s",token_query);
+            //     query=token_query;
+            // }   
+            // printf("query: %s\n",query);
         }
 
             //Guardar todos los comandos para su manipulacion posterior
