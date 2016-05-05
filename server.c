@@ -344,7 +344,7 @@ int serve(int s) {
                 char c;
                 int t=0;
 
-                char bufferPipe[4096];
+                char bufferPipe[100000];
 
                 while (read(cgi_output[0], &c, 1) > 0){
                     bufferPipe[t]=c;
