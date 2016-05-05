@@ -107,17 +107,17 @@ int serve(int s) {
 
         printf("[%s]\n", command);
         if(strstr(command,"Referer")>0){
-            int u=0;
-            int h=0;
-            while(command[u]!='\n' && h<2){
-                if(command[u] == '\n'){
-                    h++;
-                }
-                if(h==1){
-                    printf("%c",command[u]);   
-                    u++;    
-                }                
-            }
+            // int u=0;
+            // int h=0;
+            // while(command[u]!='\n' && h<2){
+            //     if(command[u] == '\n'){
+            //         h++;
+            //     }
+            //     if(h==1){
+            //         printf("%c",command[u]);   
+            //         u++;    
+            //     }                
+            // }
             // char *token_query;
             // token_query=strtok(command,"?");
             // token_query=strtok(NULL,"?");
