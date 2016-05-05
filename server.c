@@ -354,8 +354,9 @@ int serve(int s) {
 
                 while(1) {
                     printf("CHECKPOINT 1: %d\n",x);   
-                    if(feof(fin)){
-                        printf("CHECKPOINT fin: %d\n",x);   
+                    if(feof(fin)<0){
+                        perror("feof");
+                    }else{
                        break;   
                     } 
                     printf("CHECKPOINT 2: %d\n",x);   
