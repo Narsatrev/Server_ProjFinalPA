@@ -330,7 +330,7 @@ int serve(int s) {
                 // printf("QUERY SHI SHI SHI 1: %s\n",query_string);
                 printf("QUERY SHI SHI SHI 12: %s\n",query);
                 printf("QUERY SHI SHI SHI 2: %s\n",query);
-                char[512] query_buff;
+                char query_buff[512];
                 int i=0;
                 while(query[i]!='\n'){
                     query_buff[i]=query[i];
