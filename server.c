@@ -344,7 +344,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 1024\r\n");
+                sprintf(command, "Content-Length: 32\r\n");
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
@@ -360,11 +360,11 @@ int serve(int s) {
                     u++;
                 }
 
-                char buf[400];
-                if(fgets(buf, 400, fin)<0){
-                    perror("fgets");
-                }
-                printf("buf: %s\n",buf);
+                // char buf[400];
+                // if(fgets(buf, 400, fin)<0){
+                //     perror("fgets");
+                // }
+                // printf("buf: %s\n",buf);
 
                 // while(1) {
                 //     if(feof(fin)<0){
