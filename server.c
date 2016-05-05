@@ -344,7 +344,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 28\r\n");
+                sprintf(command, "Content-Length: 1024\r\n");
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
