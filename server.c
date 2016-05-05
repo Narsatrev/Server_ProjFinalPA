@@ -344,31 +344,37 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 2\r\n");
+                sprintf(command, "Content-Length: 32\r\n");
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
                 int x=0;
+                int u=0;
+                while(u<32) {
+                    sprintf(command, "%d\r\n",u);
+                    writeLine(s, command, strlen(command));
+                    u++;
+                }
 
-                while(1) {
-                    printf("CHECKPOINT 1: %d\n",x);   
-                    if(feof(fin)<0){
-                        perror("feof");
-                        printf("CHECKPOINT a: %d\n",x);   
-                    }else{
-                        printf("CHECKPOINT b: %d\n",x);   
-                       break;   
-                    } 
-                    printf("CHECKPOINT 2: %d\n",x);   
-                    size = fread(buffer, 32, 1, fin);
-                    printf("CHECKPOINT 3: %d\n",x);   
-                    x+=32;
-                    printf("CHECKPOINT 4: %d\n",x);   
-                    fwrite(buffer, 32, 1, sdo);
-                    printf("CHECKPOINT 5: %d\n",x);   
-                }                         
+                // while(1) {
+                //     printf("CHECKPOINT 1: %d\n",x);   
+                //     if(feof(fin)<0){
+                //         perror("feof");
+                //         printf("CHECKPOINT a: %d\n",x);   
+                //     }else{
+                //         printf("CHECKPOINT b: %d\n",x);   
+                //        break;   
+                //     } 
+                //     printf("CHECKPOINT 2: %d\n",x);   
+                //     size = fread(buffer, 32, 1, fin);
+                //     printf("CHECKPOINT 3: %d\n",x);   
+                //     x+=32;
+                //     printf("CHECKPOINT 4: %d\n",x);   
+                //     fwrite(buffer, 32, 1, sdo);
+                //     printf("CHECKPOINT 5: %d\n",x);   
+                // }                         
             }
     }    
     fclose(da);
