@@ -355,12 +355,6 @@ int serve(int s) {
                 strcat(ggg,zyx);
                 strcat(ggg,xyz);
 
-                printf("ggg: %s\n",ggg);
-                // char *query_final;
-                // sprintf(query_final,"QUERY_STRING=%s",token_b);
-                // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
-                // static char *g=zyx;
-
                 if(!fork()) {
                     close(cgi_output[0]);
                     close(cgi_input[1]);
