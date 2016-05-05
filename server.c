@@ -360,7 +360,9 @@ int serve(int s) {
                 printf("ACABO IMPRIMIR BASURA");
 
                 char buf[400];
-                if(fgets(buf, 400, fin)<0){
+                FILE *pipe2=(fin, 'r');
+
+                if(fgets(buf, 400, pipe2)<0){
                     perror("fgets");
                 }
                 printf("buf: %s\n",buf);
