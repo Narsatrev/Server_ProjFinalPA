@@ -106,13 +106,11 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
-        if(strstr(command,"Referer")>0){
-            char *token_query;
-            token_query=strtok(command,"?");
-            token_query=strtok(NULL,"?");
-            query=token_query;
-            printf("QUERY 1: %s\n",query);
-        }
+        // if(strstr(command,"Referer")>0){
+        //     char *token_query;
+        //     token_query
+        //     printf("REFERER SHI SHI SHI\n");
+        // }
 
             //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
@@ -325,9 +323,6 @@ int serve(int s) {
 
                 // pipe(message_fd[READ]);
                 // pipe(message_fd[WRITE]);
-                char *query_string;
-                sprintf(query_string,"QUERY_STRING=%s",query);
-                printf("QUERY SHI SHI SHI 1: %s\n",query_string);
 
                 if(!fork()) {
                     // close(message_fd[READ][READ]);
@@ -335,10 +330,6 @@ int serve(int s) {
 
                     // dup2(message_fd[READ][WRITE], 1);
                     // dup2(message_fd[WRITE][READ], 0);
-
-                    printf("QUERY SHI SHI SHI 2: %s\n",query);
-                    
-
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
 
@@ -347,8 +338,6 @@ int serve(int s) {
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    
-                    
                     putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
