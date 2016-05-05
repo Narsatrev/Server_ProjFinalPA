@@ -353,17 +353,18 @@ int serve(int s) {
                 int x=0;
                 int u=0;
 
-                char buf[400];
-                if(fgets(buf, 400, fin)<0){
-                    perror("fgets");
-                }
-                printf("buf: %s\n",buf);
 
                 while(u<32) {
                     sprintf(command, "%d",u);
                     writeLine(s, command, strlen(command));
                     u++;
                 }
+
+                char buf[400];
+                if(fgets(buf, 400, fin)<0){
+                    perror("fgets");
+                }
+                printf("buf: %s\n",buf);
 
                 // while(1) {
                 //     if(feof(fin)<0){
