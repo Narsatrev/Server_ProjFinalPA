@@ -344,19 +344,19 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: 32\r\n");
+                sprintf(command, "Content-Length: 0\r\n");
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                int x=0;
-                int u=0;
-                while(u<32) {
-                    sprintf(command, "%d\r\n",u);
-                    writeLine(s, command, strlen(command));
-                    u++;
-                }
+                // int x=0;
+                // int u=0;
+                // while(u<32) {
+                //     sprintf(command, "%d\r\n",u);
+                //     writeLine(s, command, strlen(command));
+                //     u++;
+                // }
 
                 // while(1) {
                 //     printf("CHECKPOINT 1: %d\n",x);   
