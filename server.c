@@ -340,6 +340,10 @@ int serve(int s) {
                 close(cgi_output[1]);
                 close(cgi_input[0]);
 
+                while (read(cgi_output[0], &c, 1) > 0){
+                    printf("%c", c);
+                }
+
                 // FILE *fin = fdopen(message_fd[READ][READ], "r");
                 // FILE *fout = fdopen(message_fd[WRITE][WRITE], "w");
 
