@@ -1,3 +1,4 @@
+
     #include <stdio.h>
     #include <sys/types.h>
     #include <sys/socket.h>
@@ -92,6 +93,8 @@ int serve(int s) {
     char *archivo_peticion;        
     char buff[2048];
 
+    char *query;            
+
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
@@ -104,7 +107,11 @@ int serve(int s) {
 
         printf("[%s]\n", command);
         if(strstr(command,"Referer")>0){
-            printf("REFERER SHI SHI SHI\n");
+            char *token_query;
+            token_query=strtok(command,"?");
+            token_query=strtok(NULL,"?");
+            query=token_query;
+            printf("QUERY: %s\n",query);
         }
 
             //Guardar todos los comandos para su manipulacion posterior
@@ -235,7 +242,7 @@ int serve(int s) {
         printf("URL COMPLETA: %s\n",url_completo);
 
         char *path_ejecutable= url_completo;
-        char *query;            
+        
 
         da=fopen(url_completo, "r");
 
