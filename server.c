@@ -341,16 +341,16 @@ int serve(int s) {
                 close(cgi_input[0]);
                 char c;
 
-                FILE *fin = fdopen(cgi_output[0], "r");
+                // FILE *fin = fdopen(cgi_output[0], "r");
 
                 int tam_pipe=0;
-                fseek(fin, 0L, SEEK_END);
+                fseek(cgi_output[0], 0L, SEEK_END);
                 tam_pipe = ftell(fin);
-                fseek(fin, 0L, SEEK_SET);
+                fseek(cgi_output[0], 0L, SEEK_SET);
 
                 printf("tam_pipe: %d\n", tam_pipe);
 
-                while (read(fin, &c, 1) > 0){
+                while (read(cgi_output[0], &c, 1) > 0){
                     printf("%c", c);
                 }
 
