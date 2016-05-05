@@ -354,7 +354,10 @@ int serve(int s) {
 
                 while(1) {
                     printf("CHECKPOINT 1: %d\n",x);   
-                    if(feof(fin)) break;
+                    if(feof(fin)){
+                        printf("CHECKPOINT fin: %d\n",x);   
+                       break;   
+                    } 
                     printf("CHECKPOINT 2: %d\n",x);   
                     size = fread(buffer, 32, 1, fin);
                     printf("CHECKPOINT 3: %d\n",x);   
