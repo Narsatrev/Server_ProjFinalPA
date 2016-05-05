@@ -353,8 +353,10 @@ int serve(int s) {
                     strcat(string_p, c);                                    
                 }
 
-                // printf("SIZE: %d\n",t);
-                // printf("%s",bufferPipe);
+
+
+                printf("SIZE: %d\n",t2);
+                printf("%s",string_p);
 
 
                 char buffer[32];
