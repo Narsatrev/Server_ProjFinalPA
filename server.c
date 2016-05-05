@@ -19,7 +19,7 @@
     #define SIZE 8
     #define MSGSIZE 1024
     #define READ 0
-    #define WRITE 1
+    #define WRITE 0
 
 int sdo;
 
