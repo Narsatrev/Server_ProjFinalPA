@@ -349,7 +349,7 @@ int serve(int s) {
                 FILE *temp=fopen("temp.txt","w+");
 
                 while (read(cgi_output[0], &c, 1) > 0){
-                    write(temp,&c,1);
+                    write(temp,c,1);
                     t2++;
                 }
                 fseek(temp,0L, SEEK_SET);
