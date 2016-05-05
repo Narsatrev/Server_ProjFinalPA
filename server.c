@@ -335,10 +335,10 @@ int serve(int s) {
                 }
             }else{            
 
-                int cgi_output[2];
-                int cgi_input[2];
-                pipe(cgi_output);
-                pipe(cgi_input);
+                int pipe_salida[2];
+                int pipe_entrada[2];
+                pipe(pipe_salida);
+                pipe(pipe_entrada);
 
                 int i;
 
@@ -356,11 +356,11 @@ int serve(int s) {
                 strcat(ggg,xyz);
 
                 if(!fork()) {
-                    close(cgi_output[0]);
-                    close(cgi_input[1]);
+                    close(pipe_salida[0]);
+                    close(pipe_entrada[1]);
                     
-                    dup2(cgi_output[1], 1);
-                    dup2(cgi_input[0], 0);
+                    dup2(pipe_salida[1], 1);
+                    dup2(pipe_entrada[0], 0);
                     
             
                     putenv("REQUEST_METHOD=GET");
@@ -373,14 +373,14 @@ int serve(int s) {
                     }
                 }
 
-                close(cgi_output[1]);
-                close(cgi_input[0]);
+                close(pipe_salida[1]);
+                close(pipe_entrada[0]);
 
                 char c;
 
                 int t=0;
                 char buffx[100000];
-                while (read(cgi_output[0], &c, 1) > 0){                    
+                while (read(pipe_salida[0], &c, 1) > 0){                    
                     buffx[t]=c;
                     t++;
                 }
