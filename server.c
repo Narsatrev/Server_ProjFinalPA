@@ -106,39 +106,13 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
-        // if(strstr(command,"Referer")>0){
-            // int u=0;
-            // int h=0;
-            // while(command[u]!='\n' && h<2){
-            //     if(command[u] == '\n'){
-            //         h++;
-            //     }
-            //     if(h==1){
-            //         printf("%c",command[u]);   
-            //         u++;    
-            //     }                
-            // }
-            // char *token_query;
-            // token_query=strtok(command,"?");
-            // token_query=strtok(NULL,"?");
-
-            // char *token_query2;
-            // token_query2=strtok(token_query,"Accept-Encoding");
-
-            // query=token_query2;
-            // printf("QUERY 1: %s\n",query);
-
-            // char query_buff[512];
-
-            // int cx=0;
-            // while(query[cx]!='\n'){
-            //     query_buff[cx]=query[cx];
-            //     cx++;
-            // }
-            // printf("QUERY NO NEW LINE: %s\n",query_buff);
-
-
-        // }
+        if(strstr(command,"Referer")>0){
+            char *token_query;
+            token_query=strtok(command,"?");
+            token_query=strtok(NULL,"?");
+            query=token_query;
+            printf("QUERY 1: %s\n",query);
+        }
 
             //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
@@ -310,7 +284,13 @@ int serve(int s) {
 
             printf("QUERY SHI SHI SHI 12: %s\n",query);
             printf("QUERY SHI SHI SHI 2: %s\n",query);
-            
+            // char query_buff[512];
+            // printf(query[0]);
+            // int cx=0;
+            // while(query[cx]!='\n'){
+            //     query_buff[cx]=query[cx];
+            // }
+            // printf("QUERY NO NEW LINE: %s\n",query_buff);
 
 
             if(metodo==0){
