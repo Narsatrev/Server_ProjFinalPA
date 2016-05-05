@@ -379,7 +379,7 @@ int serve(int s) {
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
 
-                sprintf(command, "Content-Length: %d\r\n",t);
+                sprintf(command, "Content-Length: %d\r\n",t-50);
                 writeLine(s, command, strlen(command));
 
                 sprintf(command, "\r\n");
