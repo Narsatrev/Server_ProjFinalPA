@@ -334,7 +334,10 @@ int serve(int s) {
                     // dup2(message_fd[WRITE][READ], 0);
 
                     printf("QUERY SHI SHI SHI: %s\n",query);
-                    
+                    char *query_string;
+                    sprintf(query_string,"QUERY_STRING=%s",query);
+                    printf("QUERY SHI SHI SHI: %s\n",query_string);
+
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
 
@@ -343,9 +346,7 @@ int serve(int s) {
 
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
-                    // char *query_string;
-                    // printf("QUERY SHI: %s\n",query);
-                    // sprintf(query_string,"QUERY_STRING=%s",query);
+                    
                     
                     putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
