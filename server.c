@@ -343,7 +343,7 @@ int serve(int s) {
                     // dup2(message_fd[READ][WRITE], 1);
                     // dup2(message_fd[WRITE][READ], 0);
 
-
+                    printf("QUERY SHI SHI SHI 3: %s\n",query);
 
                     dup2(cgi_output[1], 1);
                     dup2(cgi_input[0], 0);
