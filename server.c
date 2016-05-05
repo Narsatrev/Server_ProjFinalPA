@@ -386,6 +386,7 @@ int serve(int s) {
                     t++;
                     write(s,&c,1);
                 }
+                printf("SIZE----> %d\n",t);
             }
     }    
     fclose(da);
