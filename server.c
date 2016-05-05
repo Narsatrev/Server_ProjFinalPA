@@ -106,13 +106,13 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
-        if(strstr(command,"Referer")>0){
-            char *token_query;
-            token_query=strtok(command,"?");
-            token_query=strtok(NULL,"?");
-            query=token_query;
-            printf("QUERY 1: %s\n",query);
-        }
+        // if(strstr(command,"Referer")>0){
+        //     char *token_query;
+        //     token_query=strtok(command,"?");
+        //     token_query=strtok(NULL,"?");
+        //     query=token_query;
+        //     printf("QUERY 1: %s\n",query);
+        // }
 
             //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
@@ -325,9 +325,19 @@ int serve(int s) {
 
                 // pipe(message_fd[READ]);
                 // pipe(message_fd[WRITE]);
-                char *query_string;
-                sprintf(query_string,"QUERY_STRING=%s",query);
-                printf("QUERY SHI SHI SHI 1: %s\n",query_string);
+                // char *query_string;
+                // sprintf(query_string,"QUERY_STRING=%s",query);
+                // printf("QUERY SHI SHI SHI 1: %s\n",query_string);
+                char *token_archivo;
+                token_archivo=strtok(nombre_archivo_uri_copia,"?");
+
+                // printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
+
+                token_archivo=strtok(NULL,"?");
+                query=token_archivo;
+
+                printf("QUERY SHI SHI SHI 1: %s\n",query);
+
 
                 if(!fork()) {
                     // close(message_fd[READ][READ]);
