@@ -353,11 +353,15 @@ int serve(int s) {
                 int x=0;
 
                 while(1) {
-                    printf("TAM: %d\n",x);   
+                    printf("CHECKPOINT 1: %d\n",x);   
                     if(feof(fin)) break;
+                    printf("CHECKPOINT 2: %d\n",x);   
                     size = fread(buffer, 32, 1, fin);
+                    printf("CHECKPOINT 3: %d\n",x);   
                     x+=32;
-                    fwrite(buffer, 32, 1, s);
+                    printf("CHECKPOINT 4: %d\n",x);   
+                    fwrite(buffer, 32, 1, sdo);
+                    printf("CHECKPOINT 5: %d\n",x);   
                 }                         
             }
     }    
