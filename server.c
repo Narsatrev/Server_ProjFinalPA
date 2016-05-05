@@ -350,13 +350,13 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
-                // int x=0;
-                // int u=0;
-                // while(u<32) {
-                //     sprintf(command, "%d\r\n",u);
-                //     writeLine(s, command, strlen(command));
-                //     u++;
-                // }
+                int x=0;
+                int u=0;
+                while(u<32) {
+                    sprintf(command, "%d\r\n",u);
+                    writeLine(s, command, strlen(command));
+                    u++;
+                }
 
                 // while(1) {
                 //     printf("CHECKPOINT 1: %d\n",x);   
