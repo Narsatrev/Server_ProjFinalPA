@@ -366,19 +366,20 @@ int serve(int s) {
                 char buffx[4096];
                 while (read(cgi_output[0], &c, 1) > 0){
                     if((t+1)==(4096*cont)){
-                        char buffy[t];
+                        t3+=t;
+                        char buffy[t3];
                         strncpy(buffy,buffx,4096*cont)
                         cont++;
-                        memset(buffx, 0, sizeof(buffx));
-                        t3+=t;
+                        memset(buffx, 0, sizeof(buffx));                        
                         t=0;
+                        printf("SHI SHI:%s\n",buffy);
                     }
                     buffx[t]=c;
                     t++;
                     // write(s,&c,1);
                 }
 
-                printf("%s\n",buffy);
+                
 
 
                 char buffer[32];
