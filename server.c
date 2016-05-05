@@ -350,7 +350,7 @@ int serve(int s) {
                 while(1) {
                     if(feof(fin)) break;
                     size = fread(buffer, 32, 1, fin);
-                    c+=32;
+                    x+=32;
                     fwrite(buffer, 32, 1, s);
                 }         
                 printf("TAM: %d\n",x);   
