@@ -373,12 +373,19 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
+                int t=0;
+
                 while (read(cgi_output[0], &c, 1) > 0){
                     // bufferPipe[t]=c;
-                    // t++;
+                    t++;
                     write(s,&c,1);
                 }
-                exit(0);
+
+                sprintf(command, "\r\n");
+                writeLine(s, command, strlen(command));
+
+                sprintf(command, "Content-Length: %d\r\n",t);
+                writeLine(s, command, strlen(command));
 
                 // int x=0;
                 // int y=0;
