@@ -361,10 +361,15 @@ int serve(int s) {
                 // printf("STRLEN:::: %lu",strlen(string_p));
 
                 int t=0;
+                int k=0;
                 char buffx[100000];
                 while (read(cgi_output[0], &c, 1) > 0){
-                    buffx[t]=c;
-                    t++;
+                    if(k>50){
+                        buffx[t]=c;
+                        t++;
+                    }else{
+                        k++;
+                    }
                 }
 
                 char buffer[32];
