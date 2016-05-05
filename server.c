@@ -356,8 +356,9 @@ int serve(int s) {
                     sprintf(command, "%d",u);
                     writeLine(s, command, strlen(command));
                     u++;
+                    printf("ACABO IMPRIMIR BASURA %d\n",u);
                 }
-                printf("ACABO IMPRIMIR BASURA");
+                printf("JGDJFGDHJFAGDKJHFGDFKSJH");
 
                 char buf[400];
                 FILE *pipe2=(fin, 'r');
