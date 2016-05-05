@@ -340,8 +340,10 @@ int serve(int s) {
                     putenv("REQUEST_METHOD=GET");
                     putenv("REDIRECT_STATUS=True");
                     char *query_string;
+                    printf("QUERY SHI: %s\n",query);
                     sprintf(query_string,"QUERY_STRING=%s",query);
-                    putenv(query_string);
+                    printf("QUERY SHI SHI SHI: %s\n",query_string);
+                    putenv("QUERY_STRING=hola=a&mundo=b");
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
