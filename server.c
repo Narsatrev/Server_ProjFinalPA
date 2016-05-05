@@ -349,11 +349,12 @@ int serve(int s) {
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
                 char *xyz=token_b;
-                strcat(token_b,"dsd");
+                char *zyx="QUERY_STRING=";
+                strcat(zyx,xyz);
                 // char *query_final;
                 // sprintf(query_final,"QUERY_STRING=%s",token_b);
                 // printf("QUERY FINAL SHI SHI: %s\n",query_final);                    
-                static char *g="QUERY_STRING=hola=a&mundo=b";
+                static char *g=zyx;
 
                 if(!fork()) {
                     close(cgi_output[0]);
