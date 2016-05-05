@@ -269,8 +269,7 @@ int serve(int s) {
 
         }else{
 
-                    //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
-            if(metodo==0){
+                //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
                printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
                fseek(da, 0L, SEEK_END);
@@ -303,125 +302,6 @@ int serve(int s) {
                         break;
                     }
                 }
-
-
-            }else{
-                pid_t pid;
-                int i, status;
-                char c;
-
-                int pipe_salida[2];
-                int pipe_entrada[2];
-
-                char *token_archivo;
-
-                if(!fork()){
-
-                    if(pipe(pipe_entrada)<0){   
-                        perror("pipe");
-                    }
-                    if(pipe(pipe_salida)<0){   
-                        perror("pipe");
-                    }
-
-                    // printf("1) nombre_archivo_uri: %s\n",nombre_archivo_uri_copia);
-
-                    token_archivo=strtok(nombre_archivo_uri_copia,"?");
-
-                    // printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
-
-                    token_archivo=strtok(NULL,"?");
-                    query=token_archivo;
-
-                    // printf("3) path_ejecutable: %s\n || query: %s\n",token_archivo, "query_prueba");
-
-
-                    char metodo_env[255];
-                    char string_query[255];
-
-                    printf("Checkpoint 2\n");
-
-                    dup2(pipe_salida[1], 1);           
-                    dup2(pipe_entrada[0], 0);        
-
-                    printf("Checkpoint dup2\n");
-
-                    close(pipe_salida[0]);
-                    close(pipe_entrada[1]);
-
-                    printf("Checkpoint 3\n");
-
-                    sprintf(metodo_env, "REQUEST_METHOD=%s", "GET");
-                    putenv(metodo_env);
-                    printf("RM: %s\n",getenv("REQUEST_METHOD"));
-
-                    printf("Checkpoint 4 || string_query: %s || query: %s\n",string_query,query);
-
-                    sprintf(string_query, "QUERY_STRING=%s", query);
-                    if(putenv(string_query)<0){
-                        perror("putenv");
-                    }
-
-                    printf("Checkpoint stringquert\n");
-
-                    printf("QS: %s\n",getenv("QUERY_STRING"));
-
-                    printf("Checkpoint 5\n");
-
-                    printf("antes de ejecutar php zi con path: %s\n",path_ejecutable);
-
-                    int hayError=execlp("php","php", path_ejecutable, (char *)NULL);            
-                    if(hayError<0){
-                        openlog("ErrorEjecutarPHP", LOG_PID | LOG_CONS, LOG_USER);
-                        syslog(LOG_INFO, "Error: El archivo php %s no fue encontrado o no fue posible ejecutarlo!\n", path_ejecutable);
-                        closelog();
-                        perror("execlp");
-                    }
-
-                    printf("ejecutando php zi\n");
-
-                    exit(0);
-
-                }else{    /* parent */
-                    close(pipe_salida[1]);
-                    close(pipe_entrada[0]);
-
-                    while (read(pipe_salida[0], &c, 1) > 0){
-                        sprintf(command, "%c", c);
-                        writeLine(s, command, strlen(command));
-                    }
-
-                    close(pipe_salida[0]);
-                    close(pipe_entrada[1]);
-                    waitpid(pid, &status, 0);
-                }
-            }
-
-                    // else{
-                    //     pid_t pid;
-                    //     int pipe_entrada[2];
-                    //     int pipe_salida[2]; 
-
-                    //     if ( (pid = fork()) < 0 ) {
-                    //         printf("sdasdfasdf");
-                    //     }
-                    //     if (pid == 0){  /* child: CGI script */
-                    //         char meth_env[255];
-                    //         char query_env[255];
-                    //         char length_env[255];
-
-                    //         sprintf(meth_env, "REQUEST_METHOD=%s", method);
-                    //         putenv(meth_env);
-
-                    //         sprintf(query_env, "QUERY_STRING=%s", query_string);
-                    //         putenv(query_env);
-
-                    //         dup2(pipe_salida[1], 1);
-                    //         dup2(pipe_entrada[0], 0);
-                    //         close(pipe_salida[0]);
-                    //         close(pipe_entrada[1]);
-                    //     }
-                    // }
 
     }    
     fclose(da);
