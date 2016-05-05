@@ -329,15 +329,15 @@ int serve(int s) {
                 // sprintf(query_string,"QUERY_STRING=%s",query);
                 // printf("QUERY SHI SHI SHI 1: %s\n",query_string);
                 printf("QUERY SHI SHI SHI 12: %s\n",query);
-                char *token_archivo;
-                token_archivo=strtok(nombre_archivo_uri_copia,"?");
+                // char *token_archivo;
+                // token_archivo=strtok(nombre_archivo_uri_copia,"?");
 
-                // printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
+                // // printf("2) url_completo: %s\n",nombre_archivo_uri_copia);
 
-                token_archivo=strtok(NULL,"?");
-                query=token_archivo;
+                // token_archivo=strtok(NULL,"?");
+                // query=token_archivo;
 
-                printf("QUERY SHI SHI SHI 1: %s\n",query);
+                // printf("QUERY SHI SHI SHI 1: %s\n",query);
 
 
                 if(!fork()) {
