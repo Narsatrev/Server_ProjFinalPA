@@ -371,7 +371,9 @@ int serve(int s) {
                         strncat(str_pet,buffx,4096);
                         memset(buffx, 0, sizeof(buffx));                        
                         t=0;                        
-                        printf("CONT:%d\n",cont);
+                        printf("CONT: %d\n",cont);
+                        printf("STRPET: %s\n",str_pet);
+                        cont++;
                     }
                     buffx[t]=c;
                     t++;
