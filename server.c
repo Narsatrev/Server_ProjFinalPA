@@ -103,6 +103,9 @@ int serve(int s) {
         closelog();
 
         printf("[%s]\n", command);
+        if(strstr(command,"Referer")>0){
+            printf("REFERER SHI SHI SHI\n");
+        }
 
             //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
@@ -344,23 +347,6 @@ int serve(int s) {
                 close(cgi_input[0]);
 
                 char c;
-                // int t2=0;
-
-                // char *string_p=(char *)malloc(t2+1);   
-
-                // while (read(cgi_output[0], &c, 1) > 0){
-
-                //     printf("%c",c);
-                //     char x2[2]={c,'\0'};
-                //     t2++;
-                //     string_p=(char *)realloc(string_p,t2);
-                //     strcat(string_p, x2);
-
-                // }
-
-                // printf("SIZE:::::: %d\n",t2);
-                // printf("BUFFER:::: %s",string_p);
-                // printf("STRLEN:::: %lu",strlen(string_p));
 
                 int t=0;
                 char buffx[100000];
@@ -393,7 +379,6 @@ int serve(int s) {
                     aux++;
                 }
 
-                
                 printf("SIZE----> %d\n",t);
             }
     }    
