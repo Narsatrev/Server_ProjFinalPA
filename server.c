@@ -360,11 +360,11 @@ int serve(int s) {
                     u++;
                 }
 
-                // char buf[400];
-                // if(fgets(buf, 400, fin)<0){
-                //     perror("fgets");
-                // }
-                // printf("buf: %s\n",buf);
+                char buf[400];
+                if(fgets(buf, 400, fin)<0){
+                    perror("fgets");
+                }
+                printf("buf: %s\n",buf);
 
                 // while(1) {
                 //     if(feof(fin)<0){
