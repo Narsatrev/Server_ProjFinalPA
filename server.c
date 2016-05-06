@@ -127,7 +127,7 @@ int readLine(int s, char *line, int *result_size) {
                 printf("DOBLE SALTO ZI!");        
             }
             // printf("BUFFER: %s\n",buffer);
-        //     break;
+            break;
         }        
     }
 
