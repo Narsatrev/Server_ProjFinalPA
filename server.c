@@ -54,13 +54,20 @@ char *recuperarMimeType(char *extension){
 
 int contSaltos=0;
 
+char residuos[1024];
+
 int readLine(int s, char *line, int *result_size) {
+
+    //vaciar los residuos para permitir la entrada de los datos del post
+    memset(&residuos[0], 0, sizeof(residuos));
+
     int acum=0, size;
     char buffer[SIZE];
 
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
         strncpy(line+acum, buffer, size);
+        strncpy(residuos,buffer,size);
         printf("BUFFER: %s\n",buffer);
         acum += size;
         if(line[acum-1] == '\n' && line[acum-2] == '\r') {
@@ -68,6 +75,9 @@ int readLine(int s, char *line, int *result_size) {
             break;    
         } 
     }
+
+
+
     *result_size = acum;
     return 0;
 }
@@ -311,6 +321,7 @@ int serve(int s) {
                 //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
                printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
+
                fseek(da, 0L, SEEK_END);
                tamano = ftell(da);
                fseek(da, 0L, SEEK_SET);
@@ -343,8 +354,7 @@ int serve(int s) {
                     }
                 }
             }else{            
-
-
+                printf("RESIDUOS: %s\n",residuos);
                 //separar las pipes para entender mejor que 
                 //esta pasando.. la sintaxis n_pipe[2][2]
                 int pipe_salida[2];
