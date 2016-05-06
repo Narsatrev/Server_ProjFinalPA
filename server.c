@@ -453,10 +453,10 @@ int serve(int s) {
                 memset(&ggg, 0, sizeof(ggg));
                 strcat(ggg,zyx);
 
-                if(metodo=1){
+                if(metodo==1){
                     strcat(ggg,xyz);    
                 }
-                if(metodo=2){
+                if(metodo==2){
                     strcat(ggg,residuos); 
                     strcat(content_length,ctt);
                     strcat(content_length,nums);
