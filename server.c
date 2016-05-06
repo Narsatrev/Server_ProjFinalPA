@@ -84,22 +84,22 @@ int readLine(int s, char *line, int *result_size) {
 
 
         acum += size;
-        // if(!esPost){
+        if(!esPost){
             if(line[acum-1] == '\n' && line[acum-2] == '\r') {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }     
-        // }else{
-        //     if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
+        }else{
+            if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
         //         // int j=0;
         //         // while(j<29){
 
         //         // }
-        //         // printf("DOBLE SALTO ZI!");        
-        //     }
-        //     // printf("BUFFER: %s\n",buffer);
+                // printf("DOBLE SALTO ZI!");        
+            }
+            // printf("BUFFER: %s\n",buffer);
         //     break;
-        // }        
+        }        
     }
 
 
