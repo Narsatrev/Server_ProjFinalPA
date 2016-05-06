@@ -90,15 +90,12 @@ int readLine(int s, char *line, int *result_size) {
                 if(strstr(line,"Length")>0){
                     char * aux; 
                     aux=strstr(line,"Content-Length");
-                    int posicion_substring=aux-line;
-                    printf("LINEA1: %s\n",line);          
+                    int posicion_substring=aux-line;;          
                     char *xgh=line+posicion_substring;
-                    printf("LINEA2: %s\n",line);          
                     char *token_pos1;
                     char *token_pos2;
                     char *token_pos3;
                     token_pos1=strtok(xgh," ");
-                    printf("LINEA3: %s\n",line);          
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
@@ -119,9 +116,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                // printf("LINEA: %s\n",line);
-                    // printf("shi");               
-                break;
+                    printf("shi");               
             } 
         // }else{
             // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
