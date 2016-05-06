@@ -92,9 +92,11 @@ int readLine(int s, char *line, int *result_size) {
                     printf("Ubicacion: %s\n",line+posicion_substring);          
                     char *xgh=line+posicion_substring;
                     char *token_pos1;
+                    char *token_pos2;
                     token_pos1=strtok(xgh," ");
                     token_pos1=strtok(NULL," ");
-                    printf("TOKEN CHAK: %s\n",token_pos1);                
+                    token_pos2=strtok(token_pos1,"C");
+                    printf("TOKEN CHAK: %s\n",token_pos2);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
