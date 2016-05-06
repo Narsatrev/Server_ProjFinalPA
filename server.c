@@ -148,6 +148,8 @@ int serve(int s) {
 
     while(1) {
         r = readLine(s, command, &size);
+        printf("COMMAND COMPLETO: %s\n",command);
+
         command[size-2] = 0;
         size-=2;
 
