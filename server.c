@@ -69,7 +69,7 @@ int readLine(int s, char *line, int *result_size) {
         strncpy(line+acum, buffer, size);
         strncat(residuos,buffer,8);
         printf("BUFFER: %s\n",buffer);
-        printf("RESIDUOS: %s\n",residuos);
+        // printf("RESIDUOS: %s\n",residuos);
         acum += size;
         if(line[acum-1] == '\n' && line[acum-2] == '\r') {
             printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
