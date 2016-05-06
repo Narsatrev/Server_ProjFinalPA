@@ -24,10 +24,10 @@ mediante GET y POST para ejecutar archivos .php (o bien el lenguaje de tu elecci
 w
 Evaluación según la siguiente tabla:
 (DONE)50 - Entrega solo .html.
-(DONE 2/3)+10 - Entrega páginas completas (con imágenes).
+(DONE)+10 - Entrega páginas completas (con imágenes).
 (DONE)+5 - usa syslog para loggear todo request/error.
 (DONE)+15 - Multithread, sin memory leaks.
-+10 - Ejecuta  CGI mediante GET.
+(DONE)+10 - Ejecuta  CGI mediante GET.
 +10 - Ejecuta CGI mediante POST.
 +20 - recibe archivos usando <input type="file"> (y se pueden consultar con un 
 directorio virtual).
