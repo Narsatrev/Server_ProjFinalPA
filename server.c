@@ -104,7 +104,7 @@ int serve(int s) {
 
     char query[512];            
 
-    int esPost=0;
+    int esPost=1;
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
@@ -120,7 +120,7 @@ int serve(int s) {
         char buff_query[512];
 
 
-        if(strstr(command,"Referer")>0){
+        if(strstr(command,"POST")>0){
             esPost=1;
         }
 
