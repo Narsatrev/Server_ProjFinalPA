@@ -64,11 +64,8 @@ int readLine(int s, char *line, int *result_size) {
         printf("BUFFER: %s\n",buffer);
         acum += size;
         if(line[acum-1] == '\n' && line[acum-2] == '\r') {
-            contSaltos++;
             printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
-            if(contSaltos==2){
-                break;    
-            }
+            break;    
         } 
     }
     *result_size = acum;
