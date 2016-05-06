@@ -104,12 +104,13 @@ int serve(int s) {
 
     char query[512];            
 
+    int esPost=0;
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
         size-=2;
 
-            //Guarda toda la informacion de las peticiones en el log ubicado en /var/log/messages
+        //Guarda toda la informacion de las peticiones en el log ubicado en /var/log/messages
         openlog("Peticiones_al_servidor", LOG_PID | LOG_CONS, LOG_USER);
         syslog(LOG_INFO, "Header de la peticion: %s\n",command);
         closelog();
@@ -118,36 +119,16 @@ int serve(int s) {
 
         char buff_query[512];
 
-        // if(strstr(command,"Referer")>0){
-        //     int u=0;
-        //     int contr=0;
-        //     int m=0;
-        //     while(command[u]!='\0'){
-        //         if(command[u]=='\n'){
-        //             contr++;
-        //         }
-        //         if(contr==1){
-        //             buff_query[m]=command[u];
-        //             m++;
-        //         }
-        //         if(contr>1){
-        //             break;
-        //         }
-        //         u++;
-        //     }        
-        //     if(strstr(buff_query,"?")>0){
-        //         char *token_query;    
-        //         token_query=strtok(buff_query,"?");
-        //         token_query=strtok(NULL,"?");
-        //         sprintf(query,"QUERY_STRING=%s",token_query);
-        //     }   
-        // }
 
-            //Guardar todos los comandos para su manipulacion posterior
+        if(strstr(command,"Referer")>0){
+            esPost=1;
+        }
+
+        //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
         strcat(buff,"\n");
 
-        if(command[size-1] == '\n' && command[size-2] == '\r') {
+        if(command[size-1] == '\n' && command[size-2] == '\r' && !esPost) {
             break;
         }
     }
@@ -157,12 +138,12 @@ int serve(int s) {
 
     char *token_header;
 
-        //primer token=>TIPO DE ACCION (GET, POST, ETC...
+    //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
 
     char *tipo_metodo = token_header;
 
-        //segundo token=>URI PETICION
+    //segundo token=>URI PETICION
     token_header = strtok(NULL," ");
 
     char *uri = token_header;
@@ -472,7 +453,7 @@ int main() {
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
-        
+
         if (sdo == -1) {
                 //En coso de que suceda algo raro en el socket y el cliente
                 //no pueda conectarse, ingresar el error al log
