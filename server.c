@@ -100,7 +100,7 @@ int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
     char *archivo_peticion;        
-    char buff[2048];
+    char buff[8192];
 
     char query[512];            
 
@@ -145,8 +145,8 @@ int serve(int s) {
         }
     }
 
-    char buff_aux[2048];
-    strncpy(buff_aux,buff,2048);
+    char buff_aux[8192];
+    strncpy(buff_aux,buff,8192);
 
     char *token_header;
 
@@ -354,8 +354,8 @@ int serve(int s) {
                 char *token_a;
                 char *token_b;
 
-                // char buff_aux[2048];
-                // strncpy(buff_aux,buff,2048);
+                // char buff_aux[8192];
+                // strncpy(buff_aux,buff,8192);
                 token_a=strtok(buff," ");
                 token_a=strtok(NULL," ");
                 token_b=strtok(token_a,"?");
