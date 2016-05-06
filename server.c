@@ -59,6 +59,7 @@ int readLine(int s, char *line, int *result_size) {
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
         strncpy(line+acum, buffer, size);
+        printf("BUFFER: %s\n",buffer);
         acum += size;
         if(line[acum-1] == '\n' && line[acum-2] == '\r') {
             break;
