@@ -424,6 +424,9 @@ int serve(int s) {
                     }
                 }
 
+                char content_length[100];
+                char *ctt="CONTENT_LENGTH=";
+
                 //separar las pipes para entender mejor que 
                 //esta pasando.. la sintaxis n_pipe[2][2]
                 int pipe_salida[2];
@@ -450,7 +453,9 @@ int serve(int s) {
                     strcat(ggg,xyz);    
                 }
                 if(metodo=2){
-                    strcat(ggg,residuos);       
+                    strcat(ggg,residuos); 
+                    strcat(content_length,ctt);
+                    strcat(content_length,longitudPost);
                 }
                 
 
@@ -467,7 +472,8 @@ int serve(int s) {
                     }
                     if(metodo==2){
                         putenv("REQUEST_METHOD=POST");
-                        putenv(ggg);     
+                        putenv(ggg);
+                        putenv(content_length);     
                     }
                     
                     putenv("REDIRECT_STATUS=True");                    
