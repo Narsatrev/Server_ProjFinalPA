@@ -80,7 +80,7 @@ int readLine(int s, char *line, int *result_size) {
             printf("ES POST DESDE READLINE!!!\n");
         }
 
-        // printf("LINEA: %s\n",line);
+        printf("LINEA: %s\n",line);
 
 
         acum += size;
@@ -149,7 +149,7 @@ int serve(int s) {
 
     while(1) {
         r = readLine(s, command, &size);
-        printf("COMMAND COMPLETO: %s\n",command);
+        // printf("COMMAND COMPLETO: %s\n",command);
 
         command[size-2] = 0;
         size-=2;
