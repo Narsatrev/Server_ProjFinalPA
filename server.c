@@ -101,6 +101,10 @@ int readLine(int s, char *line, int *result_size) {
                     char buff[50];
                     strncpy(buff,token_pos2,50);
                     printf("TOKEN CHAK: %s",buff);                
+                    int y;
+                    for(y=0;y<strlen(buff);y++){
+                        printf(buff[y]);
+                    }
                 }   
                 banderaUbicacionContentLength=1; 
             }
