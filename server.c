@@ -82,8 +82,8 @@ int readLine(int s, char *line, int *result_size) {
             printf("ES POST DESDE READLINE!!!\n");
         }
 
-        printf("LINEA: %s\n",line);
-        strcat(buffer_post,line);
+        // printf("LINEA: %s\n",line);
+        strcpy(buffer_post,line);
 
 
         acum += size;
