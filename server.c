@@ -100,14 +100,10 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
-
                     int i=0;
-                    int result;
-                    for(i=0; i<strlen(buff); i++){
-                        result = result * 10 + ( buff[i] - '0' );
-                    }
+                    sscanf(buff, "%d", &i);
+                    printf("RES: %d\n",i);
 
-                    printf("TOKEN CHAK: %d",result);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
