@@ -137,15 +137,15 @@ int serve(int s) {
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             printf("ENCONTRE UN SALTO DE LINEA!");
             if(esPost){
-                if(command[size-1] == '\n' && command[size-2] == '\r' && command[size-3] == '\n' && command[size-4] == '\r') {
                 contadorLineaVaciaParaElPost++;
                 printf("CONTADOR DE LINEAS!!!: %d\n",contadorLineaVaciaParaElPost);
-                if(esPost && contadorLineaVaciaParaElPost==3){
+                if(esPost && contadorLineaVaciaParaElPost==1){
                     break;
                 }         
             }else{
                 break;
-            }               
+            }
+               
         }
     }
 
