@@ -64,17 +64,28 @@ int readLine(int s, char *line, int *result_size) {
     int acum=0, size;
     char buffer[SIZE];
 
+    int esPost=0;
+
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
         strncpy(line+acum, buffer, size);
         strncat(residuos,buffer,8);
         // printf("BUFFER: %s\n",buffer);
         // printf("RESIDUOS: %s\n",residuos);
+        
+        if(strstr(buffer,"POST")>0){
+            esPost=1;
+            printf("ES POST!!!\n");
+        }
+
+
         acum += size;
-        if(line[acum-1] == '\n' && line[acum-2] == '\r') {
-            // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
-            break;    
-        } 
+        if(!esPost){
+            if(line[acum-1] == '\n' && line[acum-2] == '\r') {
+                // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
+                break;    
+            }     
+        }        
     }
 
 
