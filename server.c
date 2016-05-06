@@ -194,7 +194,7 @@ int serve(int s) {
 
         if(strstr(command,"POST")>0){
             esPost=1;
-            printf("ES POST!!!\n");
+            // printf("ES POST!!!\n");
         }
 
         //Guardar todos los comandos para su manipulacion posterior
