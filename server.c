@@ -99,7 +99,7 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos2=strtok(token_pos1,"C");
                     int f=0;
                     char buff[50];
-                    strncpy(buff,token_pos2);
+                    strcpy(buff,token_pos2);
                     while(f<50){
                         if(buff[f]=='\n'){
                             break;
