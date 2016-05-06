@@ -106,8 +106,7 @@ int readLine(int s, char *line, int *result_size) {
             }
         }
 
-        
-
+    
 
         acum += size;
         // if(!esPost){
@@ -115,7 +114,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                if(esPost && banderaUbicacionContentLength){
+                if(esPost){
                     strcpy(residuos,line);             
                     banderaLiberar=1;
                     break;       
