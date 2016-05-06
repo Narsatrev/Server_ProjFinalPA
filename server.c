@@ -77,7 +77,8 @@ int readLine(int s, char *line, int *result_size) {
 
         if(strstr(buffer,"POST")>0){
             esPost=1;
-            // printf("ES POST DESDE READLINE!!!\n");                       
+            // printf("ES POST DESDE READLINE!!!\n");
+                       
         }
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
@@ -100,7 +101,6 @@ int readLine(int s, char *line, int *result_size) {
                     sscanf(buff, "%d", &longitudPost);                    
                 }   
                 banderaUbicacionContentLength=1; 
-                // printf("BANDERA SI\n");
             }
         }
 
@@ -113,7 +113,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                if(esPost){
+                if(esPost && banderaUbicacionContentLength){
                     strcpy(residuos,line);             
                     break;       
                 }                
@@ -217,7 +217,6 @@ int serve(int s) {
 
     //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
-    printf("TOKEN HEADER: %s\n",token_header);
 
     char *tipo_metodo = token_header;
 
