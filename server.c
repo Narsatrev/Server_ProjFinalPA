@@ -103,6 +103,7 @@ int readLine(int s, char *line, int *result_size) {
                     printf("TOKEN CHAK: %s",buff);                
                     int y;
                     for(y=0;y<strlen(buff);y++){
+                        printf("SHI\n");
                         printf(buff[y]);
                     }
                 }   
