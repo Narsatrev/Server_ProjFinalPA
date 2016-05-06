@@ -104,7 +104,8 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
-                    sscanf(buff, "%d", &longitudPost);                    
+                    sscanf(buff, "%d", &longitudPost);      
+                    printf("longitudPost %d\n\n",longitudPost);              
                 }   
                 banderaUbicacionContentLength=1; 
             }
