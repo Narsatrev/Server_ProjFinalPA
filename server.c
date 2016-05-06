@@ -82,7 +82,6 @@ int readLine(int s, char *line, int *result_size) {
             // printf("ES POST DESDE READLINE!!!\n");
                        
         }
-
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
@@ -114,10 +113,10 @@ int readLine(int s, char *line, int *result_size) {
 
         acum += size;
         // if(!esPost){
-            if(line[acum-1] == '\n' && line[acum-2] == '\r') {
+            if(line[acum-1] == '\n' && line[acum-2] == '\r' && !esPost) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
-            }     
+            } 
         // }else{
             // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
         //         // int j=0;
@@ -410,7 +409,7 @@ int serve(int s) {
 
                 }else{
                     if(metodo==2){
-                        
+
                     }
                 }
 
