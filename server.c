@@ -88,9 +88,7 @@ int readLine(int s, char *line, int *result_size) {
                 if(strstr(line,"Length")>0){
                     char * aux; 
                     aux=strstr(line,"Content-Length");
-                    int posicion_substring=aux-line;
-                    printf("Lugar donde zi: %d\n",posicion_substring);      
-                    printf("Ubicacion: %s\n",line+posicion_substring);          
+                    int posicion_substring=aux-line;;          
                     char *xgh=line+posicion_substring;
                     char *token_pos1;
                     char *token_pos2;
