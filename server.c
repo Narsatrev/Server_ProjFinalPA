@@ -133,6 +133,7 @@ int serve(int s) {
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             if(esPost){
                 contadorLineaVaciaParaElPost++;
+                printf("CONTADOR DE LINEAS!!!: %d\n",contadorLineaVaciaParaElPost);
                 if(esPost && contadorLineaVaciaParaElPost==2){
                     break;
                 }         
