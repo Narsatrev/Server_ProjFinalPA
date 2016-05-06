@@ -105,9 +105,9 @@ int readLine(int s, char *line, int *result_size) {
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     sscanf(buff, "%d", &longitudPost);      
-                    printf("longitudPost %d\n\n",longitudPost);
-                    printf("LINEA: %s\n",line);  
-                    printf("LINEA BUFFER: %s\n",buffer_linea);            
+                    // printf("longitudPost %d\n\n",longitudPost);
+                    // printf("LINEA: %s\n",line);  
+                    // printf("LINEA BUFFER: %s\n",buffer_linea);            
                 }   
                 banderaUbicacionContentLength=1; 
             }
@@ -124,6 +124,7 @@ int readLine(int s, char *line, int *result_size) {
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r'){
                 printf("LINEA RESIDUOS: %s\n",line);
+                printf("longitudPost %d\n\n",longitudPost);
                 strcpy(residuos,line);                             
                 printf("POST ZI asdfajskdfh\n");
             }
