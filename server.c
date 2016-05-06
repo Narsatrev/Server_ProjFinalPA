@@ -103,6 +103,7 @@ int readLine(int s, char *line, int *result_size) {
                             break;
                         }
                         printf("%c",token_pos2[f]);
+                        f++;
                     }
                     // printf("TOKEN CHAK: %s\n",token_pos2);                
                 }   
