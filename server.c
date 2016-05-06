@@ -99,7 +99,7 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
-                    strncpy(buff,token_pos2,50);
+                    strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     printf("TOKEN CHAK: %s",buff);                
                     int y;
                     for(y=0;y<strlen(buff);y++){
