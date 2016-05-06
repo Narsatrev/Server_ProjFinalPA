@@ -81,7 +81,7 @@ int readLine(int s, char *line, int *result_size) {
             char * pos_cont_length=0;
             if(strstr(line,"Content-Length")>0){
                 pos_cont_length=strstr(line,"Content-Length");
-                printf("Lugar donde zi: %d\n",pos_cont_length);                
+                printf("Lugar donde zi: %s\n",pos_cont_length);                
             }
         }
 
