@@ -102,7 +102,6 @@ int readLine(int s, char *line, int *result_size) {
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     sscanf(buff, "%d", &longitudPost);
                     printf("RES: %d\n",longitudPost);
-
                 }   
                 banderaUbicacionContentLength=1; 
             }
@@ -117,9 +116,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                if(banderaUbicacionContentLength){
-                    printf("shi");
-                }                
+                    printf("shi");               
             } 
         // }else{
             // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
