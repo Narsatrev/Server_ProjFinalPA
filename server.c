@@ -82,6 +82,7 @@ int readLine(int s, char *line, int *result_size) {
                        
         }
 
+        //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             if(strstr(line,"Cache-Control")>0){
                 if(strstr(line,"Length")>0){
@@ -95,8 +96,15 @@ int readLine(int s, char *line, int *result_size) {
                     char *token_pos2;
                     token_pos1=strtok(xgh," ");
                     token_pos1=strtok(NULL," ");
-                    token_pos2=strtok(token_pos1,"\n");
-                    printf("TOKEN CHAK: %s\n",token_pos2);                
+                    token_pos2=strtok(token_pos1,"C");
+                    int f=0;
+                    while(c<strlen(token_pos2)){
+                        if(token_pos2[f]=='\n'){
+                            break;
+                        }
+                        printf("%c",token_pos2[f]);
+                    }
+                    // printf("TOKEN CHAK: %s\n",token_pos2);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
