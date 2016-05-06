@@ -459,6 +459,8 @@ int serve(int s) {
                     putenv(ggg);
                     putenv("SCRIPT_FILENAME=test.php");
 
+                    printf("%s",url_completo);
+
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         openlog("ErrorEXECLP", LOG_PID | LOG_CONS, LOG_USER);
                         syslog(LOG_INFO, "Error: %s\n", strerror(errno));
