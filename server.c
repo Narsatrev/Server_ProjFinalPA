@@ -83,7 +83,7 @@ int readLine(int s, char *line, int *result_size) {
                        
         }
 
-        Sacer el content length.....
+        // Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
             //de content length
