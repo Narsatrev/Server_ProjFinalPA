@@ -105,6 +105,7 @@ int readLine(int s, char *line, int *result_size) {
                             break;
                         }
                         printf("%c",buff[f]);
+                        f++;
                     }
                     printf("TOKEN CHAK: %s\n",buff);                
                 }   
