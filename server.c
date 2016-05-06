@@ -57,7 +57,7 @@ int contSaltos=0;
 char residuos[1024];
 int longitudPost=0;
 
-int banderaUbicacionContentLength=1;
+int banderaUbicacionContentLength=0;
 int banderaLiberar=0;
 int esPost=0;
 
