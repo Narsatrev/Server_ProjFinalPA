@@ -88,8 +88,11 @@ int readLine(int s, char *line, int *result_size) {
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
             //de content length
             if(strstr(buffer_linea,"Cache-Control")>0){
+                //buscar donde esta el content=length
                 if(strstr(buffer_linea,"Length")>0){
                     char * aux; 
+                    //proceso tedioso para obtener content length para leer tantos bytes
+                    //como sean necesarios al final del proceso
                     aux=strstr(buffer_linea,"Content-Length");
                     int posicion_substring=aux-buffer_linea;        
                     char *xgh=buffer_linea+posicion_substring;
@@ -102,9 +105,6 @@ int readLine(int s, char *line, int *result_size) {
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     sscanf(buff, "%d", &longitudPost);      
-                    // printf("longitudPost %d\n\n",longitudPost);
-                    // printf("LINEA: %s\n",line);  
-                    // printf("LINEA BUFFER: %s\n",buffer_linea);            
                 }   
                 banderaUbicacionContentLength=1; 
             }
@@ -115,10 +115,10 @@ int readLine(int s, char *line, int *result_size) {
         acum += size;
         if(!esPost){
             if(line[acum-1] == '\n' && line[acum-2] == '\r' ) {
-                // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }
         }else{
+            //cuando hay una doble linea significa que abajo viene el body de todo el documento
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r'){
                 
                 strcpy(residuos,line);                             
@@ -280,7 +280,7 @@ int serve(int s) {
         fread(archivo, tamano, 1, error);
         fclose(error);
 
-            //Mandar una respuesta con header 404, archivo no encontrado
+        //Mandar una respuesta con header 403, es un directorio por lo tanto esta prohibido
         sprintf(command, "HTTP/1.0 403 ACCESS FORBIDDEN\r\n");
         writeLine(s, command, strlen(command));
         calcularFecha();
@@ -372,7 +372,7 @@ int serve(int s) {
             free(archivo);
 
         }else{
-            printf("METODO: %d\n",metodo);
+            printf("METODO zi: %d\n",metodo);
             if(metodo==0){
                 //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
                printf("SI EXISTE EL ARCHIVO YAY!!!\n");
@@ -409,6 +409,7 @@ int serve(int s) {
                         break;
                     }
                 }
+            //si no es un archivo estatico, requiere procesamiento, seleccionar get o post
             }else{            
 
                 if(metodo==1){
