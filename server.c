@@ -475,6 +475,7 @@ int serve(int s) {
                         putenv("REQUEST_METHOD=GET");
                         putenv(ggg);    
                     }
+                    //para el post
                     if(metodo==2){
                         putenv("REQUEST_METHOD=POST");
                         putenv(ggg);
