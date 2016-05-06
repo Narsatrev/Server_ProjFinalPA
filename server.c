@@ -52,6 +52,8 @@ char *recuperarMimeType(char *extension){
     return buffTipoMime;
 }
 
+int contSaltos=0;
+
 int readLine(int s, char *line, int *result_size) {
     int acum=0, size;
     char buffer[SIZE];
@@ -62,8 +64,11 @@ int readLine(int s, char *line, int *result_size) {
         printf("BUFFER: %s\n",buffer);
         acum += size;
         if(line[acum-1] == '\n' && line[acum-2] == '\r') {
+            contSaltos++;
             printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
-            break;
+            if(contSaltos==2){
+                break;    
+            }
         } 
     }
     *result_size = acum;
