@@ -104,7 +104,7 @@ int readLine(int s, char *line, int *result_size) {
                     int y;
                     for(y=0;y<strlen(buff);y++){
                         printf("SHI\n");
-                        printf(buff[y]);
+                        // printf(buff[y]);
                     }
                 }   
                 banderaUbicacionContentLength=1; 
