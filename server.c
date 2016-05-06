@@ -115,7 +115,7 @@ int readLine(int s, char *line, int *result_size) {
             }else{
                 int t=0;
                 while(t<longitudPost){
-                    puts(line[t]);
+                    printf("%c",line[t]);
                     t++;
                 }                
             } 
