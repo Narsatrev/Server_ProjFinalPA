@@ -460,6 +460,7 @@ int serve(int s) {
                     strcat(ggg,residuos); 
                     strcat(content_length,ctt);
                     strcat(content_length,nums);
+                    printf("CONTENT_LENGTH: %s\n", content_length);
                 }
                 
                 if(!fork()) {
