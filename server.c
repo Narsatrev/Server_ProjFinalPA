@@ -429,16 +429,14 @@ int serve(int s) {
 
                 int i;
 
-                //////SUFFERING IS REAL.....
                 char *token_a;
                 char *token_b;
 
-                // char buff_aux[8192];
-                // strncpy(buff_aux,buff,8192);
                 token_a=strtok(buff," ");
                 token_a=strtok(NULL," ");
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
+                //auxilaires para los tokens del query
                 char *xyz=token_b;
                 char *zyx="QUERY_STRING=";
                 //query string final
@@ -459,8 +457,6 @@ int serve(int s) {
                     putenv(ggg);
                     putenv("SCRIPT_FILENAME=test.php");
 
-                    printf("%s",url_completo);
-
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         openlog("ErrorEXECLP", LOG_PID | LOG_CONS, LOG_USER);
                         syslog(LOG_INFO, "Error: %s\n", strerror(errno));
@@ -476,7 +472,8 @@ int serve(int s) {
                 char c;
 
                 int t=0;
-                char buffx[100000];
+                //leer del pipe de salida del proceso para pintarlo en pantalla
+                char buffx[120000];
                 while (read(pipe_salida[0], &c, 1) > 0){                    
                     buffx[t]=c;
                     t++;
@@ -501,6 +498,7 @@ int serve(int s) {
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
+                //pintar en pantalla lo que proceso el php
                 int aux=50;                
                 while(aux<t){      
                     write(s,&buffx[aux],1);
