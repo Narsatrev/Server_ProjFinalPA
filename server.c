@@ -123,6 +123,7 @@ int serve(int s) {
 
     while(1) {
         r = readLine(s, command, &size);
+        printf("RESIDUOS: %s\n",residuos);
         command[size-2] = 0;
         size-=2;
 
@@ -354,7 +355,7 @@ int serve(int s) {
                     }
                 }
             }else{            
-                printf("RESIDUOS: %s\n",residuos);
+
                 //separar las pipes para entender mejor que 
                 //esta pasando.. la sintaxis n_pipe[2][2]
                 int pipe_salida[2];
