@@ -217,6 +217,7 @@ int serve(int s) {
 
     //primer token=>TIPO DE ACCION (GET, POST, ETC...
     token_header = strtok(buff_aux," ");
+    printf("TOKEN HEADER: %s\n", token_header);
 
     char *tipo_metodo = token_header;
 
