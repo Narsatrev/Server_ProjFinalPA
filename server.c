@@ -114,7 +114,7 @@ int readLine(int s, char *line, int *result_size) {
                 break;    
             }else{
                 strcpy(residuos,line);
-                printf("RESIDUOS: %s\n"residuos);
+                printf("RESIDUOS: %s\n",residuos);
             } 
 
         // }else{
