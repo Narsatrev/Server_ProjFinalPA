@@ -87,7 +87,8 @@ int readLine(int s, char *line, int *result_size) {
                 char * aux; 
                 aux=strstr(line,"Content-Length");
                 int posicion_substring=aux-line;
-                printf("Lugar donde zi: %d\n",posicion_substring);                
+                printf("Lugar donde zi: %d\n",posicion_substring);      
+                printf("Ubicacion: %s\n",line+posicion_substring);          
                 banderaUbicacionContentLength=1;
             }    
         }
