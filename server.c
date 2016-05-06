@@ -461,6 +461,8 @@ int serve(int s) {
                     strcat(content_length,ctt);
                     strcat(content_length,nums);
                 }
+
+                printf("GGG: %s\n",ggg);
                 
                 if(!fork()) {
                     close(pipe_salida[0]);
