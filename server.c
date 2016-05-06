@@ -417,7 +417,8 @@ int serve(int s) {
 
                 }else{
                     if(metodo==2){
-                        
+                        printf("RESIUDOS: %s\n",residuos);
+                        printf("Longitud: %s\n",longitudPost);
                     }
                 }
 
