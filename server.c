@@ -19,6 +19,7 @@
     #define PORT 80
     #define SIZE 8
     #define MSGSIZE 1024
+
     #define READ 0
     #define WRITE 0
 
@@ -355,6 +356,7 @@ int serve(int s) {
                 pipe(pipe_entrada);
 
                 int i;
+
                 //////SUFFERING IS REAL.....
                 char *token_a;
                 char *token_b;
@@ -470,6 +472,7 @@ int main() {
     while(1){
 
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
+        
         if (sdo == -1) {
                 //En coso de que suceda algo raro en el socket y el cliente
                 //no pueda conectarse, ingresar el error al log
