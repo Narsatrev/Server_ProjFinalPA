@@ -83,6 +83,8 @@ int readLine(int s, char *line, int *result_size) {
                 esPost=0;
             }
         }
+
+        printf("LINE: %s\n",line);
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
@@ -118,7 +120,7 @@ int readLine(int s, char *line, int *result_size) {
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r' ) {
                 printf("POST ZI asdfajskdfh\n");
-                printf("LINE: %s\n",line);
+
             }
             // strcpy(residuos,line);             
         } 
