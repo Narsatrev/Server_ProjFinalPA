@@ -96,7 +96,13 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos1=strtok(xgh," ");
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
-                    printf("TOKEN CHAK: %s",token_pos2);                
+                    char* p = token_pos2 + strlen(token_pos2) - 1;
+                    for (;*p != ','; --p) 
+                    {
+                      ;
+                    }
+                    char* lastword = strtok(p + 1,"\n");
+                    printf("TOKEN CHAK: %s",lastword);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
