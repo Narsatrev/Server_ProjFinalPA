@@ -113,7 +113,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                strncpy(residuos,line);
+                strcpy(residuos,line);
                 printf("RESIDUOS: %s\n"residuos);
             } 
 
