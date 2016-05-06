@@ -117,7 +117,9 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                printf("shi");
+                if(banderaUbicacionContentLength){
+                    printf("shi");
+                }                
             } 
         // }else{
             // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
