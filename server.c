@@ -134,7 +134,7 @@ int serve(int s) {
             if(esPost){
                 contadorLineaVaciaParaElPost++;
                 printf("CONTADOR DE LINEAS!!!: %d\n",contadorLineaVaciaParaElPost);
-                if(esPost && contadorLineaVaciaParaElPost==2){
+                if(esPost && contadorLineaVaciaParaElPost==1){
                     break;
                 }         
             }else{
