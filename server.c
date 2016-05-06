@@ -89,7 +89,11 @@ int readLine(int s, char *line, int *result_size) {
                     aux=strstr(line,"Content-Length");
                     int posicion_substring=aux-line;
                     printf("Lugar donde zi: %d\n",posicion_substring);      
-                    printf("Ubicacion: %s\n",line+posicion_substring);                          
+                    printf("Ubicacion: %s\n",line+posicion_substring);          
+                    char *xgh=line+posicion_substring;
+                    char token_pos1;
+                    token_pos1=strtok(xgh," ");
+                    printf("TOKEN CHAK: %s\n",token_pos1);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
