@@ -460,7 +460,6 @@ int serve(int s) {
                     strcat(ggg,residuos); 
                     strcat(content_length,ctt);
                     strcat(content_length,nums);
-                    printf("CONTENT_LENGTH: %s\n", content_length);
                 }
                 
                 if(!fork()) {
@@ -480,9 +479,15 @@ int serve(int s) {
                         putenv(content_length);     
                     }
                     
-                    putenv("REDIRECT_STATUS=True");                    
-                    putenv("SCRIPT_FILENAME=test.php");
+                    putenv("REDIRECT_STATUS=True"); 
 
+                    if(metodo==1){
+                        putenv("SCRIPT_FILENAME=test.php");    
+                    }                   
+                    if(metodo==2){
+                        putenv("SCRIPT_FILENAME=test2.php");    
+                    }                   
+                    
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         openlog("ErrorEXECLP", LOG_PID | LOG_CONS, LOG_USER);
                         syslog(LOG_INFO, "Error: %s\n", strerror(errno));
@@ -491,9 +496,14 @@ int serve(int s) {
                     }
                 }
 
-
                 close(pipe_salida[1]);
                 close(pipe_entrada[0]);
+
+                if(metodo==2){
+                    for (i = 0; i < longitudPost; i++) {
+                        write(pipe_entrada[1], &residuos[i], 1);
+                    }
+                }
 
                 char c;
 
