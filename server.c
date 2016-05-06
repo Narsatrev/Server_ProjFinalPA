@@ -27,8 +27,8 @@ int sdo;
 char buffFecha[1000];
 
 void calcularFecha(){
-    time_t now = time(0);
-    struct tm tm = *gmtime(&now);
+    time_t esteInstante = time(0);
+    struct tm tm = *gmtime(&esteInstante);
     strftime(buffFecha, sizeof buffFecha, "%a, %d %b %Y %H:%M:%S %Z", &tm);
 }
 
@@ -168,22 +168,22 @@ int serve(int s) {
 
     int metodo=0;
 
-    //Si el uri de peticion contiene '?' debemos usar cgi para
-    //procesar los datos de la forma
+    //Si el uri de peticion contiene '?' o es de tipo POST 
+    //debemos usar cgi para procesar los datos de la forma
 
-    if(strstr(uri, "?")>0){
-        if(strcmp(tipo_metodo,"GET")==0){
-            metodo=1;
-        }else{
-            if(strcmp(tipo_metodo,"POST")==0){
-                metodo=2;
-            }else{  
-                metodo=3;
+    if(strcmp(tipo_metodo,"POST")==0){
+        metodo=2;
+    }else{
+        if(strstr(uri, "?")>0){
+            if(strcmp(tipo_metodo,"GET")==0){
+                metodo=1;
+            }else{
+                    metodo=3;
             }
-        }
-        printf("METODO %s\n",tipo_metodo);
-        printf("MODO CGI: %d\n",metodo);
-    }    
+            printf("METODO %s\n",tipo_metodo);
+            printf("MODO CGI: %d\n",metodo);
+        }    
+    }
 
     char nombre_archivo_uri[500];
     if(strncmp(token_header,"/",strlen(token_header))==0){
@@ -346,6 +346,9 @@ int serve(int s) {
                 }
             }else{            
 
+
+                //separar las pipes para entender mejor que 
+                //esta pasando.. la sintaxis n_pipe[2][2]
                 int pipe_salida[2];
                 int pipe_entrada[2];
                 pipe(pipe_salida);
@@ -362,6 +365,7 @@ int serve(int s) {
                 token_b=strtok(NULL,"?");
                 char *xyz=token_b;
                 char *zyx="QUERY_STRING=";
+                //query string final
                 char ggg[1024];
                 strcat(ggg,zyx);
                 strcat(ggg,xyz);
@@ -484,71 +488,6 @@ int main() {
             close(sdo);
             exit(0);
         }
-
-            // if ((pid = fork()) == -1){
-            //     close(sdo);
-            //     continue;
-            // }else if(pid > 0){
-            //     close(sdo);
-            //     wait(0);
-            // }else if(pid == 0){
-            //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            //     printf("Puerto %d\n", ntohs(pin.sin_port));
-            //     serve(sdo);
-            //     close(sdo);
-            //     exit(0);
-            // }
-
-            //Multiproceso sin zombies (intento 2: exitoso, pero hace cosas raras con los el orden de los 404,403 y 200....)
-
-            // pid_t id_proc;
-            // if (!(id_proc = fork())) {
-            //     if (!fork()){
-            //      //El nieto hijo ejecuta su proceso
-            //         printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            //         printf("Puerto %d\n", ntohs(pin.sin_port));
-            //         serve(sdo);
-            //         close(sdo);
-            //     }else{
-            //       //El nieto proceso hijo termina
-            //       exit(0);
-            //     }
-            // } else {
-            //     //El proceso original espera a que el primer hijo termine, lo cual 
-            //     //es inmediatamente despues del segundo fork
-            //     waitpid(id_proc);
-            // }                   
-
-            //Multiproceso sin zombies (intento 1: parcialmente exitoso)
-            //cambiar para aumentar la capcidad de enkolamyento
-
-            // pid_t id_proc;
-            // if ( (id_proc = fork()) < 0 ) {
-            //     openlog("ErrorCreacionNuevoProcesoCliente", LOG_PID | LOG_CONS, LOG_USER);
-            //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            //     closelog();
-            //     perror("fork");
-            //     return;
-            // }
-            // if (id_proc == 0){
-            //     printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            //     printf("Puerto %d\n", ntohs(pin.sin_port));
-            //     serve(sdo);
-            //     close(sdo);
-            //     exit(0);
-            // }else{
-            //     waitpid(id_proc);
-            // } 
-
-            //Multithread (intento 1: fallido parcialmente, termina al regresar un 404)
-
-            // pthread_t hiloCliente;    
-            // if (pthread_create(&hiloCliente , NULL, serve, sdo) != 0){
-            //     openlog("ErrorCreacionNuevoThreadClinete", LOG_PID | LOG_CONS, LOG_USER);
-            //     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            //     closelog();
-            //     perror("pthread_create");
-            // }
 
         atexit(servidorCayo);
     }
