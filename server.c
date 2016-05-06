@@ -56,6 +56,7 @@ int contSaltos=0;
 
 char residuos[1024];
 
+int banderaUbicacionContentLength=0;
 int readLine(int s, char *line, int *result_size) {
 
     int acum=0, size;
