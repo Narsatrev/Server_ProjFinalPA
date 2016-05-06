@@ -113,9 +113,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                strcpy(residuos,line);
-                printf("RESIDUOS: %s\n",residuos);
-                printf("RES: %d\n",longitudPost);
+                strcpy(residuos,line);                
             } 
 
         // }else{
@@ -410,7 +408,8 @@ int serve(int s) {
 
                 }else{
                     if(metodo==2){
-
+                        printf("RESIDUOS: %s\n",residuos);
+                        printf("RES: %d\n",longitudPost);
                     }
                 }
 
