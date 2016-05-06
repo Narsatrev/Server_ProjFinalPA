@@ -104,6 +104,9 @@ int serve(int s) {
 
     char query[512];            
 
+    int esPost=0;
+    int contadorLineaVaciaParaElPost=0;
+
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
@@ -119,6 +122,7 @@ int serve(int s) {
         char buff_query[512];
 
         if(strstr(command,"POST")>0){
+            esPost=1;
             printf("ES POST!!!\n");
         }
 
@@ -127,7 +131,15 @@ int serve(int s) {
         strcat(buff,"\n");
 
         if(command[size-1] == '\n' && command[size-2] == '\r') {
-            break;
+            if(esPost){
+                contadorLineaVaciaParaElPost++;
+                if(esPost && contadorLineaVaciaParaElPost==2){
+                    break;
+                }         
+            }else{
+                break;
+            }
+               
         }
     }
 
