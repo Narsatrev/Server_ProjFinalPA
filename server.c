@@ -450,15 +450,16 @@ int serve(int s) {
                 char *zyx="QUERY_STRING=";
                 //query string final
                 char ggg[2048];
+                memset(&ggg, 0, sizeof(ggg));
                 strcat(ggg,zyx);
-                
+
                 if(metodo=1){
                     strcat(ggg,xyz);    
                 }
                 if(metodo=2){
-                    // strcat(ggg,residuos); 
-                    // strcat(content_length,ctt);
-                    // strcat(content_length,nums);
+                    strcat(ggg,residuos); 
+                    strcat(content_length,ctt);
+                    strcat(content_length,nums);
                 }
                 
                 if(!fork()) {
