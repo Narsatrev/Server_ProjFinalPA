@@ -20,9 +20,6 @@
     #define SIZE 8
     #define MSGSIZE 1024
 
-    #define READ 0
-    #define WRITE 0
-
 int sdo;
 
 char buffFecha[1000];
@@ -58,7 +55,7 @@ char residuos[1024];
 int longitudPost=0;
 
 int banderaUbicacionContentLength=0;
-int banderaLiberar=0;
+int procesamientoPostTerminado=0;
 int esPost=0;
 
 int readLine(int s, char *line, int *result_size) {
@@ -130,25 +127,11 @@ int readLine(int s, char *line, int *result_size) {
                     perror("read");
                 }
                 printf("POR FAVAR: %s\n",buffer);
+                procesamientoPostTerminado=1;
                 break;
             }            
         } 
-
-
-        // }else{
-            // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
-        //         // int j=0;
-        //         // while(j<29){
-
-        //         // }
-                // printf("DOBLE SALTO ZI!");        
-            // }
-            // printf("BUFFER: %s\n",buffer);
-        //     break;
-        // }        
     }
-
-
 
     *result_size = acum;
     return 0;
@@ -222,6 +205,11 @@ int serve(int s) {
             if(command[size-1] == '\n' && command[size-2] == '\r') {
                 break;               
             }    
+        }else{
+            if(procesamientoPostTerminado){
+                break;
+                procesamientoPostTerminado=0;
+            }
         }
         
     }
@@ -478,6 +466,7 @@ int serve(int s) {
                         perror("execlp");
                     }
                 }
+
 
                 close(pipe_salida[1]);
                 close(pipe_entrada[0]);
