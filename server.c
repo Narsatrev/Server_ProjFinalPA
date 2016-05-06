@@ -79,7 +79,8 @@ int readLine(int s, char *line, int *result_size) {
             esPost=1;
             printf("ES POST DESDE READLINE!!!\n");
             int pos_cont_length=0;
-            if((pos_cont_length=strstr(line,"Content-Length"))>0){
+            if(strstr(line,"Content-Length")>0){
+                pos_cont_length=strstr(line,"Content-Length");
                 printf("Lugar donde zi: %d\n",pos_cont_length);                
             }
         }
