@@ -353,9 +353,9 @@ int serve(int s) {
                 char *token_a;
                 char *token_b;
 
-                char buff_aux_pipes[2048];
-                strncpy(buff_aux_pipes,buff,2048);
-                token_a=strtok(buff_aux_pipes," ");
+                // char buff_aux[2048];
+                // strncpy(buff_aux,buff,2048);
+                token_a=strtok(buff," ");
                 token_a=strtok(NULL," ");
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
