@@ -84,29 +84,29 @@ int readLine(int s, char *line, int *result_size) {
         }
 
         //Sacer el content length.....
-        if(!banderaUbicacionContentLength){
-            //ya que aparezca el numero completo (Cache-control es la linea que sigue)
-            //de content length
-            if(strstr(line,"Cache-Control")>0){
-                if(strstr(line,"Length")>0){
-                    char * aux; 
-                    aux=strstr(line,"Content-Length");
-                    int posicion_substring=aux-line;;          
-                    char *xgh=line+posicion_substring;
-                    char *token_pos1;
-                    char *token_pos2;
-                    char *token_pos3;
-                    token_pos1=strtok(xgh," ");
-                    token_pos1=strtok(NULL," ");
-                    token_pos2=strtok(token_pos1,"C");
-                    char buff[50];
-                    strncpy(buff,token_pos2,strlen(token_pos2)-2);
-                    sscanf(buff, "%d", &longitudPost);
-                    printf("RES: %d\n",longitudPost);
+        // if(!banderaUbicacionContentLength){
+        //     //ya que aparezca el numero completo (Cache-control es la linea que sigue)
+        //     //de content length
+        //     if(strstr(line,"Cache-Control")>0){
+        //         if(strstr(line,"Length")>0){
+        //             char * aux; 
+        //             aux=strstr(line,"Content-Length");
+        //             int posicion_substring=aux-line;;          
+        //             char *xgh=line+posicion_substring;
+        //             char *token_pos1;
+        //             char *token_pos2;
+        //             char *token_pos3;
+        //             token_pos1=strtok(xgh," ");
+        //             token_pos1=strtok(NULL," ");
+        //             token_pos2=strtok(token_pos1,"C");
+        //             char buff[50];
+        //             strncpy(buff,token_pos2,strlen(token_pos2)-2);
+        //             sscanf(buff, "%d", &longitudPost);
+        //             printf("RES: %d\n",longitudPost);
 
-                }   
-                banderaUbicacionContentLength=1; 
-            }
+        //         }   
+        //         banderaUbicacionContentLength=1; 
+        //     }
         }
 
         // printf("LINEA: %s\n",line);
