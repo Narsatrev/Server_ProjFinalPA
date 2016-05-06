@@ -83,32 +83,32 @@ int readLine(int s, char *line, int *result_size) {
         strcpy(buffer_linea,line);
         // printf("LINEA BUFFER: %s\n",buffer_linea);
         
-        // //Sacer el content length.....
-        // if(!banderaUbicacionContentLength){
-        //     //ya que aparezca el numero completo (Cache-control es la linea que sigue)
-        //     //de content length
-        //     if(strstr(buffer_linea,"Cache-Control")>0){
-        //         //buscar donde esta el content=length
-        //         if(strstr(buffer_linea,"Length")>0){
-        //             char * aux; 
-        //             //proceso tedioso para obtener content length para leer tantos bytes
-        //             //como sean necesarios al final del proceso
-        //             aux=strstr(buffer_linea,"Content-Length");
-        //             int posicion_substring=aux-buffer_linea;        
-        //             char *xgh=buffer_linea+posicion_substring;
-        //             char *token_pos1;
-        //             char *token_pos2;
-        //             char *token_pos3;
-        //             token_pos1=strtok(xgh," ");
-        //             token_pos1=strtok(NULL," ");
-        //             token_pos2=strtok(token_pos1,"C");
-        //             char buff[50];
-        //             strncpy(buff,token_pos2,strlen(token_pos2)-2);
-        //             sscanf(buff, "%d", &longitudPost);      
-        //         }   
-        //         banderaUbicacionContentLength=1; 
-        //     }
-        // }
+        //Sacer el content length.....
+        if(!banderaUbicacionContentLength){
+            //ya que aparezca el numero completo (Cache-control es la linea que sigue)
+            //de content length
+            if(strstr(buffer_linea,"Cache-Control")>0){
+                //buscar donde esta el content=length
+                if(strstr(buffer_linea,"Length")>0){
+                    char * aux; 
+                    //proceso tedioso para obtener content length para leer tantos bytes
+                    //como sean necesarios al final del proceso
+                    aux=strstr(buffer_linea,"Content-Length");
+                    int posicion_substring=aux-buffer_linea;        
+                    char *xgh=buffer_linea+posicion_substring;
+                    char *token_pos1;
+                    char *token_pos2;
+                    char *token_pos3;
+                    token_pos1=strtok(xgh," ");
+                    token_pos1=strtok(NULL," ");
+                    token_pos2=strtok(token_pos1,"C");
+                    char buff[50];
+                    strncpy(buff,token_pos2,strlen(token_pos2)-2);
+                    sscanf(buff, "%d", &longitudPost);      
+                }   
+                banderaUbicacionContentLength=1; 
+            }
+        }
 
     
 
