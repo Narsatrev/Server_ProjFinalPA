@@ -84,8 +84,8 @@ int readLine(int s, char *line, int *result_size) {
             }
         }
         strcpy(buffer_linea,line);
-        printf("LINEA BUFFER: %s\n",buffer_linea);
-        printf("LINEA: %s\n",line);
+        // printf("LINEA BUFFER: %s\n",buffer_linea);
+        
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
@@ -105,7 +105,8 @@ int readLine(int s, char *line, int *result_size) {
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     sscanf(buff, "%d", &longitudPost);      
-                    printf("longitudPost %d\n\n",longitudPost);              
+                    printf("longitudPost %d\n\n",longitudPost);
+                    printf("LINEA: %s\n",line);              
                 }   
                 banderaUbicacionContentLength=1; 
             }
