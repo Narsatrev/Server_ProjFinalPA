@@ -130,7 +130,7 @@ int readLine(int s, char *line, int *result_size) {
             }
         //     // printf("BUFFER: %s\n",buffer);
         //     break;
-            printf("LINEA: %s\n",line);
+            // printf("LINEA: %s\n",line);
         }        
     }
 
