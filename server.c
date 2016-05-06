@@ -125,7 +125,7 @@ int readLine(int s, char *line, int *result_size) {
                     perror("read");
                 }
                 printf("POR FAVAR: %s\n",buffer);
-                strcpy(residuos,buffer,longitudPost);
+                strncpy(residuos,buffer,longitudPost);
 
                 procesamientoPostTerminado=1;
                 break;
