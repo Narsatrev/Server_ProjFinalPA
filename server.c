@@ -127,7 +127,7 @@ int readLine(int s, char *line, int *result_size) {
                 printf("POR FAVAR: %s\n",buffer);
                 memset(&residuos, 0, sizeof(residuos));
                 strncpy(residuos,buffer,longitudPost);
-                
+
 
                 procesamientoPostTerminado=1;
                 break;
@@ -420,7 +420,7 @@ int serve(int s) {
                 }else{
                     if(metodo==2){
                         printf("RESIUDOS: %s\n",residuos);
-                        printf("Longitud: %s\n",longitudPost);
+                        printf("Longitud: %d\n",longitudPost);
                     }
                 }
 
