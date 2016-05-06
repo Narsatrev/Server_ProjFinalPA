@@ -451,16 +451,16 @@ int serve(int s) {
                 //query string final
                 char ggg[2048];
                 strcat(ggg,zyx);
+                
                 if(metodo=1){
                     strcat(ggg,xyz);    
                 }
                 if(metodo=2){
-                    strcat(ggg,residuos); 
-                    strcat(content_length,ctt);
-                    strcat(content_length,nums);
+                    // strcat(ggg,residuos); 
+                    // strcat(content_length,ctt);
+                    // strcat(content_length,nums);
                 }
                 
-
                 if(!fork()) {
                     close(pipe_salida[0]);
                     close(pipe_entrada[1]);
