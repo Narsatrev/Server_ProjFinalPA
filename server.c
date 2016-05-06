@@ -55,6 +55,7 @@ char *recuperarMimeType(char *extension){
 int contSaltos=0;
 
 char residuos[1024];
+int longitudPost=0;
 
 int banderaUbicacionContentLength=0;
 int readLine(int s, char *line, int *result_size) {
@@ -63,7 +64,7 @@ int readLine(int s, char *line, int *result_size) {
     char buffer[SIZE];
 
     int esPost=0;
-    int longitudPost=0;
+    
 
     // char buffer_
 
@@ -97,8 +98,7 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
-                    sscanf(buff, "%d", &longitudPost);
-                    printf("RES: %d\n",longitudPost);
+                    sscanf(buff, "%d", &longitudPost);                    
                 }   
                 banderaUbicacionContentLength=1; 
             }
@@ -115,6 +115,7 @@ int readLine(int s, char *line, int *result_size) {
             }else{
                 strcpy(residuos,line);
                 printf("RESIDUOS: %s\n",residuos);
+                printf("RES: %d\n",longitudPost);
             } 
 
         // }else{
