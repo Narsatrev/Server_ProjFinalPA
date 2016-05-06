@@ -59,15 +59,14 @@ int longitudPost=0;
 
 int banderaUbicacionContentLength=0;
 int banderaLiberar=0;
+int esPost=0;
+
 int readLine(int s, char *line, int *result_size) {
 
     int acum=0, size;
     char buffer[SIZE];
 
-    int esPost=0;
     
-
-    // char buffer_
 
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
@@ -80,7 +79,9 @@ int readLine(int s, char *line, int *result_size) {
             esPost=1;
             // printf("ES POST DESDE READLINE!!!\n");                       
         }else{
-            banderaLiberar=1;
+            if(strstr(buffer,"GET")>0){
+                esPost=0;
+            }
         }
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
@@ -109,17 +110,16 @@ int readLine(int s, char *line, int *result_size) {
     
 
         acum += size;
-        // if(!esPost){
-            if(line[acum-1] == '\n' && line[acum-2] == '\r' && banderaLiberar) {
+        if(!esPost){
+            if(line[acum-1] == '\n' && line[acum-2] == '\r' ) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
-            }else{
-                if(esPost){
-                    strcpy(residuos,line);             
-                    banderaLiberar=1;
-                    break;       
-                }                
-            } 
+            }
+        }else{
+            strcpy(residuos,line);             
+            break;       
+        } 
+
 
         // }else{
             // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
