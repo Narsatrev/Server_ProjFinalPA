@@ -66,7 +66,7 @@ int readLine(int s, char *line, int *result_size) {
 
     int esPost=0;
 
-    char buffer_
+    // char buffer_
 
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
