@@ -61,10 +61,10 @@ int readLine(int s, char *line, int *result_size) {
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
         strncpy(line+acum, buffer, size);
-        printf("BUFFER: %s\n",buffer);
+        // printf("BUFFER: %s\n",buffer);
         acum += size;
         if(line[acum-1] == '\n' && line[acum-2] == '\r') {
-            printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
+            // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
             break;    
         } 
     }
@@ -136,15 +136,15 @@ int serve(int s) {
 
         if(command[size-1] == '\n' && command[size-2] == '\r') {
             printf("ENCONTRE UN SALTO DE LINEA!");
-            if(esPost){
+            // if(esPost){
                 contadorLineaVaciaParaElPost++;
-                printf("CONTADOR DE LINEAS!!!: %d\n",contadorLineaVaciaParaElPost);
-                if(esPost && contadorLineaVaciaParaElPost==1){
-                    break;
-                }         
-            }else{
-                break;
-            }
+                // printf("CONTADOR DE LINEAS!!!: %d\n",contadorLineaVaciaParaElPost);
+                // if(esPost && contadorLineaVaciaParaElPost==1){
+                    // break;
+                // }         
+            // }else{
+                // break;
+            // }
                
         }
     }
