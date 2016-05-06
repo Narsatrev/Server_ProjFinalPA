@@ -147,9 +147,9 @@ int serve(int s) {
         strcat(buff,command);
         strcat(buff,"\n");
 
-        if(command[size-1] == '\n' && command[size-2] == '\r') {
-            break;
-        }
+        // if(command[size-1] == '\n' && command[size-2] == '\r') {
+        //     break;
+        // }
     }
 
     char buff_aux[2048];
