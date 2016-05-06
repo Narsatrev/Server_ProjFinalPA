@@ -444,9 +444,15 @@ int serve(int s) {
                 char *xyz=token_b;
                 char *zyx="QUERY_STRING=";
                 //query string final
-                char ggg[1024];
+                char ggg[2048];
                 strcat(ggg,zyx);
-                strcat(ggg,xyz);
+                if(metodo=1){
+                    strcat(ggg,xyz);    
+                }
+                if(metodo=2){
+                    strcat(ggg,residuos);       
+                }
+                
 
                 if(!fork()) {
                     close(pipe_salida[0]);
@@ -455,10 +461,16 @@ int serve(int s) {
                     dup2(pipe_salida[1], 1);
                     dup2(pipe_entrada[0], 0);
                     
-            
-                    putenv("REQUEST_METHOD=GET");
-                    putenv("REDIRECT_STATUS=True");
-                    putenv(ggg);
+                    if(metodo==1){
+                        putenv("REQUEST_METHOD=GET");
+                        putenv(ggg);    
+                    }
+                    if(metodo==2){
+                        putenv("REQUEST_METHOD=POST");
+                        putenv(ggg);     
+                    }
+                    
+                    putenv("REDIRECT_STATUS=True");                    
                     putenv("SCRIPT_FILENAME=test.php");
 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
