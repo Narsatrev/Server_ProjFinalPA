@@ -116,6 +116,8 @@ int readLine(int s, char *line, int *result_size) {
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && !esPost) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
+            }else{
+                printf("shi");
             } 
         // }else{
             // if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
