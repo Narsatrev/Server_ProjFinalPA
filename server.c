@@ -98,14 +98,15 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
                     int f=0;
-                    while(f<strlen(token_pos2)){
-                        if(token_pos2[f]=='\n'){
+                    char buff[50];
+                    strncpy(buff,token_pos2);
+                    while(f<50){
+                        if(buff[f]=='\n'){
                             break;
                         }
-                        printf("%c",token_pos2[f]);
-                        f++;
+                        printf("%c",buff[f]);
                     }
-                    // printf("TOKEN CHAK: %s\n",token_pos2);                
+                    printf("TOKEN CHAK: %s\n",buff);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
