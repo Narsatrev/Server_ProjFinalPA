@@ -116,13 +116,7 @@ int readLine(int s, char *line, int *result_size) {
         // if(!esPost){
             if(line[acum-1] == '\n' && line[acum-2] == '\r') {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
-                if(line[acum-3] == '\n' && line[acum-4] == '\r'){
-                    if(!esPost){            
-                                printf("DOBLE SALTO ZI!");           
-                    }
-                }else{
-                    break;        
-                }                
+                break;    
             }     
         // }else{
         //     if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
@@ -416,7 +410,7 @@ int serve(int s) {
 
                 }else{
                     if(metodo==2){
-
+                        
                     }
                 }
 
