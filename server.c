@@ -92,14 +92,13 @@ int readLine(int s, char *line, int *result_size) {
                     char * aux; 
                     aux=strstr(line,"Content-Length");
                     int posicion_substring=aux-line;;          
-                    // char *yyy=line+posicion_substring;
-                    char *yyy;
-                    strcpy(yyy,line);
-                    char *xgh=yyy+posicion_substring;
+                    char *xgh=line+posicion_substring;
+                    char *xgh2;
+                    strcpy(xgh2,xgh);
                     char *token_pos1;
                     char *token_pos2;
                     char *token_pos3;
-                    token_pos1=strtok(xgh," ");
+                    token_pos1=strtok(xgh2," ");
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
