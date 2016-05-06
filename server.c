@@ -104,7 +104,6 @@ int serve(int s) {
 
     char query[512];            
 
-    int esPost=1;
     while(1) {
         r = readLine(s, command, &size);
         command[size-2] = 0;
@@ -119,16 +118,36 @@ int serve(int s) {
 
         char buff_query[512];
 
-
-        if(strstr(command,"POST")>0){
-            esPost=1;
-        }
+        // if(strstr(command,"Referer")>0){
+        //     int u=0;
+        //     int contr=0;
+        //     int m=0;
+        //     while(command[u]!='\0'){
+        //         if(command[u]=='\n'){
+        //             contr++;
+        //         }
+        //         if(contr==1){
+        //             buff_query[m]=command[u];
+        //             m++;
+        //         }
+        //         if(contr>1){
+        //             break;
+        //         }
+        //         u++;
+        //     }        
+        //     if(strstr(buff_query,"?")>0){
+        //         char *token_query;    
+        //         token_query=strtok(buff_query,"?");
+        //         token_query=strtok(NULL,"?");
+        //         sprintf(query,"QUERY_STRING=%s",token_query);
+        //     }   
+        // }
 
         //Guardar todos los comandos para su manipulacion posterior
         strcat(buff,command);
         strcat(buff,"\n");
 
-        if(command[size-1] == '\n' && command[size-2] == '\r' && !esPost) {
+        if(command[size-1] == '\n' && command[size-2] == '\r') {
             break;
         }
     }
