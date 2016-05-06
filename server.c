@@ -67,7 +67,7 @@ int readLine(int s, char *line, int *result_size) {
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
         strncpy(line+acum, buffer, size);
-        strncpy(residuos,buffer,size);
+        strncpy(residuos,buffer,strlen(residuos)+strlen(buffer));
         printf("BUFFER: %s\n",buffer);
         printf("RESIDUOS: %s\n",residuos);
         acum += size;
