@@ -66,7 +66,7 @@ int readLine(int s, char *line, int *result_size) {
     int acum=0, size;
     char buffer[SIZE];
 
-    
+    char buffer_linea[1024];    
 
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
@@ -83,18 +83,18 @@ int readLine(int s, char *line, int *result_size) {
                 esPost=0;
             }
         }
-
-        printf("LINE: %s\n",line);
+        strcpy(buffer_linea,line);
+        printf("LINE: %s\n",buffer_linea);
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
             //de content length
-            if(strstr(line,"Cache-Control")>0){
-                if(strstr(line,"Length")>0){
+            if(strstr(buffer_linea,"Cache-Control")>0){
+                if(strstr(buffer_linea,"Length")>0){
                     char * aux; 
-                    aux=strstr(line,"Content-Length");
-                    int posicion_substring=aux-line;;          
-                    char *xgh=line+posicion_substring;
+                    aux=strstr(buffer_linea,"Content-Length");
+                    int posicion_substring=aux-buffer_linea;        
+                    char *xgh=buffer_linea+posicion_substring;
                     char *token_pos1;
                     char *token_pos2;
                     char *token_pos3;
