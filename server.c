@@ -352,7 +352,10 @@ int serve(int s) {
                 //////SUFFERING IS REAL.....
                 char *token_a;
                 char *token_b;
-                token_a=strtok(buff," ");
+
+                char buff_aux_pipes[2048];
+                strncpy(buff_aux_pipes,buff,2048);
+                token_a=strtok(buff_aux_pipes," ");
                 token_a=strtok(NULL," ");
                 token_b=strtok(token_a,"?");
                 token_b=strtok(NULL,"?");
