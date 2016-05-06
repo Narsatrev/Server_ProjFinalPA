@@ -98,7 +98,7 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
                     int f=0;
-                    while(c<strlen(token_pos2)){
+                    while(f<strlen(token_pos2)){
                         if(token_pos2[f]=='\n'){
                             break;
                         }
