@@ -93,7 +93,7 @@ int readLine(int s, char *line, int *result_size) {
                     aux=strstr(line,"Content-Length");
                     int posicion_substring=aux-line;;          
                     // char *yyy=line+posicion_substring;
-                    char yyy;
+                    char *yyy;
                     strcpy(yyy,line);
                     char *xgh=yyy+posicion_substring;
                     char *token_pos1;
