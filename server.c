@@ -127,6 +127,11 @@ int readLine(int s, char *line, int *result_size) {
                 printf("longitudPost %d\n\n",longitudPost);
                 strcpy(residuos,line);                             
                 printf("POST ZI asdfajskdfh\n");
+                char shi[longitudPost];                
+                if(read(s, buffer, longitudPost)<0){
+                    perror("read");
+                }
+                printf("POR FAVAR: %s\n",buffer);
             }
             
         } 
