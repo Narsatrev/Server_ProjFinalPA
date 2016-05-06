@@ -66,6 +66,8 @@ int readLine(int s, char *line, int *result_size) {
 
     int esPost=0;
 
+    char buffer_
+
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
         strncpy(line+acum, buffer, size);
@@ -78,6 +80,8 @@ int readLine(int s, char *line, int *result_size) {
             printf("ES POST!!!\n");
         }
 
+        printf("LINEA: %s\n",line);
+
 
         acum += size;
         if(!esPost){
@@ -87,6 +91,10 @@ int readLine(int s, char *line, int *result_size) {
             }     
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
+                // int j=0;
+                // while(j<29){
+
+                // }
                 printf("DOBLE SALTO ZI!");        
             }
             printf("BUFFER: %s\n",buffer);
