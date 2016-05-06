@@ -134,7 +134,7 @@ int serve(int s) {
         strcat(buff,command);
         strcat(buff,"\n");
 
-        if(command[size-1] == '\n' && command[size-2] == '\r') {
+        if(command[size-1] == '\n' && command[size-2] == '\r' && command[size-3] == '\n' && command[size-4] == '\r') {
             printf("ENCONTRE UN SALTO DE LINEA!");
             if(esPost){
                 if(command[size-1] == '\n' && command[size-2] == '\r' && command[size-3] == '\n' && command[size-4] == '\r') {
