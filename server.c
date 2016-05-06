@@ -106,7 +106,8 @@ int readLine(int s, char *line, int *result_size) {
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     sscanf(buff, "%d", &longitudPost);      
                     printf("longitudPost %d\n\n",longitudPost);
-                    printf("LINEA: %s\n",line);              
+                    printf("LINEA: %s\n",line);  
+                    printf("LINEA BUFFER: %s\n",buffer_linea);            
                 }   
                 banderaUbicacionContentLength=1; 
             }
