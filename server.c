@@ -123,17 +123,15 @@ int readLine(int s, char *line, int *result_size) {
             }
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r'){
-                printf("LINEA RESIDUOS: %s\n",line);
-                printf("longitudPost %d\n\n",longitudPost);
+                
                 strcpy(residuos,line);                             
-                printf("POST ZI asdfajskdfh\n");
                 char shi[longitudPost];                
                 if(read(s, buffer, longitudPost)<0){
                     perror("read");
                 }
                 printf("POR FAVAR: %s\n",buffer);
-            }
-            
+                break;
+            }            
         } 
 
 
