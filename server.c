@@ -83,7 +83,7 @@ int readLine(int s, char *line, int *result_size) {
                        
         }
 
-        // Sacer el content length.....
+        //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
             //de content length
@@ -93,14 +93,10 @@ int readLine(int s, char *line, int *result_size) {
                     aux=strstr(line,"Content-Length");
                     int posicion_substring=aux-line;;          
                     char *xgh=line+posicion_substring;
-                    char *xgh2;
-                    printf("aSFD");
-                    strcpy(xgh2,xgh);
-                    printf("aSFD2");
                     char *token_pos1;
                     char *token_pos2;
                     char *token_pos3;
-                    token_pos1=strtok(xgh2," ");
+                    token_pos1=strtok(xgh," ");
                     token_pos1=strtok(NULL," ");
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
@@ -124,15 +120,14 @@ int readLine(int s, char *line, int *result_size) {
             }     
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
-        // //         // int j=0;
-        // //         // while(j<29){
+        //         // int j=0;
+        //         // while(j<29){
 
-        // //         // }
+        //         // }
                 printf("DOBLE SALTO ZI!");        
             }
-        //     // printf("BUFFER: %s\n",buffer);
-        //     break;
-            // printf("LINEA: %s\n",line);
+            // printf("BUFFER: %s\n",buffer);
+            break;
         }        
     }
 
@@ -415,7 +410,7 @@ int serve(int s) {
 
                 }else{
                     if(metodo==2){
-
+                        
                     }
                 }
 
