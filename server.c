@@ -118,9 +118,8 @@ int readLine(int s, char *line, int *result_size) {
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r' ) {
                 printf("POST ZI asdfajskdfh\n");
-                break;
+                printf("LINE: %s\n",line);
             }
-            break;
             // strcpy(residuos,line);             
         } 
 
