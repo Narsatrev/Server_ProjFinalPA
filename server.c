@@ -72,7 +72,7 @@ int readLine(int s, char *line, int *result_size) {
         strncat(residuos,buffer,8);
         // printf("BUFFER: %s\n",buffer);
         // printf("RESIDUOS: %s\n",residuos);
-        
+
         if(strstr(buffer,"POST")>0){
             esPost=1;
             printf("ES POST!!!\n");
@@ -85,6 +85,8 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }     
+        }else{
+            printf("BUFFER: %s\n",buffer);
         }        
     }
 
