@@ -66,6 +66,7 @@ int readLine(int s, char *line, int *result_size) {
     char buffer[SIZE];
 
     int esPost=0;
+    int longitudPost=0;
 
     // char buffer_
 
@@ -100,9 +101,8 @@ int readLine(int s, char *line, int *result_size) {
                     token_pos2=strtok(token_pos1,"C");
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
-                    int i=0;
-                    sscanf(buff, "%d", &i);
-                    printf("RES: %d\n",i);
+                    sscanf(buff, "%d", &longitudPost);
+                    printf("RES: %d\n",longitudPost);
 
                 }   
                 banderaUbicacionContentLength=1; 
@@ -120,10 +120,13 @@ int readLine(int s, char *line, int *result_size) {
             }     
         }else{
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r') {
-        //         // int j=0;
-        //         // while(j<29){
 
-        //         // }
+                // int j=0;
+                // while(j<longitudPost){
+
+                // }
+                printf("LINEA: %s\n",line);
+
                 // printf("DOBLE SALTO ZI!");        
             }
             // printf("BUFFER: %s\n",buffer);
