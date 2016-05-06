@@ -120,13 +120,13 @@ int readLine(int s, char *line, int *result_size) {
         }else{
             //cuando hay una doble linea significa que abajo viene el body de todo el documento
             if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r'){
-                
-                strcpy(residuos,line);                             
-                char shi[longitudPost];                
+                                
                 if(read(s, buffer, longitudPost)<0){
                     perror("read");
                 }
                 printf("POR FAVAR: %s\n",buffer);
+                strcpy(residuos,buffer,longitudPost);
+
                 procesamientoPostTerminado=1;
                 break;
             }            
@@ -234,6 +234,7 @@ int serve(int s) {
 
     //Si el uri de peticion contiene '?' o es de tipo POST 
     //debemos usar cgi para procesar los datos de la forma
+    //de lo contrario el metodo==0 indica servir un archivo estatico
 
     if(strcmp(tipo_metodo,"POST")==0){
         metodo=2;
@@ -242,10 +243,9 @@ int serve(int s) {
             if(strcmp(tipo_metodo,"GET")==0){
                 metodo=1;
             }else{
+                //para head supongo...
                     metodo=3;
             }
-            printf("METODO %s\n",tipo_metodo);
-            printf("MODO CGI: %d\n",metodo);
         }    
     }
 
