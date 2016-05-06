@@ -56,11 +56,7 @@ int contSaltos=0;
 
 char residuos[1024];
 
-int banderaUbicacionContentLength=0;
 int readLine(int s, char *line, int *result_size) {
-
-    //vaciar los residuos para permitir la entrada de los datos del post
-    memset(&residuos[0], 0, sizeof(residuos));
 
     int acum=0, size;
     char buffer[SIZE];
@@ -101,7 +97,7 @@ int readLine(int s, char *line, int *result_size) {
                     char buff[50];
                     strncpy(buff,token_pos2,strlen(token_pos2)-2);
                     sscanf(buff, "%d", &longitudPost);
-                    // printf("RES: %d\n",longitudPost);
+                    printf("RES: %d\n",longitudPost);
                 }   
                 banderaUbicacionContentLength=1; 
             }
@@ -112,11 +108,10 @@ int readLine(int s, char *line, int *result_size) {
 
         acum += size;
         // if(!esPost){
-            if(line[acum-1] == '\n' && line[acum-2] == '\r' && !esPost) {
+            if(line[acum-1] == '\n' && line[acum-2] == '\r') {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
-                break;
                     printf("shi");               
             } 
         // }else{
