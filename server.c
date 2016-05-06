@@ -84,9 +84,10 @@ int readLine(int s, char *line, int *result_size) {
 
         if(!banderaUbicacionContentLength){
             if(strstr(line,"Length")>0){
-                char * pos_cont_length=0; 
-                pos_cont_length=strstr(line,"Content-Length");
-                printf("Lugar donde zi: %s\n",pos_cont_length);                
+                char * aux; 
+                aux=strstr(line,"Content-Length");
+                int posicion_substring=aux-line;
+                printf("Lugar donde zi: %d\n",posicion_substring);                
                 banderaUbicacionContentLength=1;
             }    
         }
