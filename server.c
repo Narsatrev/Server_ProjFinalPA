@@ -85,6 +85,7 @@ int readLine(int s, char *line, int *result_size) {
         }
         strcpy(buffer_linea,line);
         printf("LINE: %s\n",buffer_linea);
+        printf("LINE: %s\n",line);
         //Sacer el content length.....
         if(!banderaUbicacionContentLength){
             //ya que aparezca el numero completo (Cache-control es la linea que sigue)
