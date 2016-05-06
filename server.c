@@ -107,7 +107,7 @@ int readLine(int s, char *line, int *result_size) {
         //         }   
         //         banderaUbicacionContentLength=1; 
         //     }
-        }
+        // }
 
         // printf("LINEA: %s\n",line);
 
