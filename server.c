@@ -56,6 +56,8 @@ int contSaltos=0;
 
 char residuos[1024];
 
+char buffer_post[2048];
+
 int readLine(int s, char *line, int *result_size) {
 
     //vaciar los residuos para permitir la entrada de los datos del post
@@ -66,7 +68,7 @@ int readLine(int s, char *line, int *result_size) {
 
     int esPost=0;
 
-    // char buffer_
+    
 
     while( (size=read(s, buffer, SIZE)) > 0) {
         if (size < 0) return -1;
@@ -81,6 +83,7 @@ int readLine(int s, char *line, int *result_size) {
         }
 
         printf("LINEA: %s\n",line);
+        strcat(buffer_post,line);
 
 
         acum += size;
@@ -179,6 +182,8 @@ int serve(int s) {
         }
         
     }
+
+    printf("\nbuffer_post: %s\n",buffer_post);
 
     char buff_aux[8192];
     strncpy(buff_aux,buff,8192);
