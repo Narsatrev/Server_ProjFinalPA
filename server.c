@@ -94,7 +94,9 @@ int readLine(int s, char *line, int *result_size) {
                     int posicion_substring=aux-line;;          
                     char *xgh=line+posicion_substring;
                     char *xgh2;
+                    printf("aSFD");
                     strcpy(xgh2,xgh);
+                    printf("aSFD2");
                     char *token_pos1;
                     char *token_pos2;
                     char *token_pos3;
