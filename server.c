@@ -120,6 +120,7 @@ int readLine(int s, char *line, int *result_size) {
                 printf("POST ZI asdfajskdfh\n");
                 break;
             }
+            break;
             // strcpy(residuos,line);             
         } 
 
