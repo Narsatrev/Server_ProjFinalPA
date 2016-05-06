@@ -175,11 +175,11 @@ int serve(int s) {
         strcat(buff,command);
         strcat(buff,"\n");
 
-        if(!esPost){
+        // if(!esPost){
             if(command[size-1] == '\n' && command[size-2] == '\r') {
                 break;               
             }    
-        }
+        // }
         
     }
 
