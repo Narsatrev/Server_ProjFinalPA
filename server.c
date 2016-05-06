@@ -107,7 +107,7 @@ int readLine(int s, char *line, int *result_size) {
             }
         }
 
-        // printf("LINEA: %s\n",line);
+        
 
 
         acum += size;
@@ -116,6 +116,7 @@ int readLine(int s, char *line, int *result_size) {
                 // printf("SUPONGO QUE ENCONTRE UN SALTO DE LINEA...");
                 break;    
             }else{
+                printf("LINEA: %s\n",line);
                     printf("shi");               
             } 
         // }else{
