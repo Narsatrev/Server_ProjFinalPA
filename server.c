@@ -426,6 +426,8 @@ int serve(int s) {
 
                 char content_length[100];
                 char *ctt="CONTENT_LENGTH=";
+                char nums[15];
+                snprintf(nums,15,"%d",longitudPost);
 
                 //separar las pipes para entender mejor que 
                 //esta pasando.. la sintaxis n_pipe[2][2]
@@ -455,7 +457,7 @@ int serve(int s) {
                 if(metodo=2){
                     strcat(ggg,residuos); 
                     strcat(content_length,ctt);
-                    strcat(content_length,longitudPost);
+                    strcat(content_length,nums);
                 }
                 
 
