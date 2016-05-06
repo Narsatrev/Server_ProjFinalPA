@@ -355,7 +355,6 @@ int serve(int s) {
                 pipe(pipe_entrada);
 
                 int i;
-
                 //////SUFFERING IS REAL.....
                 char *token_a;
                 char *token_b;
