@@ -98,14 +98,11 @@ int readLine(int s, char *line, int *result_size) {
                     int f=0;
                     char buff[50];
                     strcpy(buff,token_pos2);
-                    while(f<50){
-                        if(buff[f]=='\n'){
-                            break;
-                        }
+                    while(buff[f]!='\n'){
                         printf("%c",buff[f]);
                         f++;
                     }
-                    printf("TOKEN CHAK: %s\n",buff);                
+                    printf("TOKEN CHAK: %s",buff);                
                 }   
                 banderaUbicacionContentLength=1; 
             }
