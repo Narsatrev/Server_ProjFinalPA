@@ -122,11 +122,12 @@ int readLine(int s, char *line, int *result_size) {
                 break;    
             }
         }else{
-            if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r' ) {
+            if(line[acum-1] == '\n' && line[acum-2] == '\r' && line[acum-3] == '\n' && line[acum-4] == '\r'){
+                printf("LINEA RESIDUOS: %s\n",line);
+                strcpy(residuos,line);                             
                 printf("POST ZI asdfajskdfh\n");
-
             }
-            // strcpy(residuos,line);             
+            
         } 
 
 
