@@ -77,10 +77,10 @@ int readLine(int s, char *line, int *result_size) {
 
         if(strstr(buffer,"POST")>0){
             esPost=1;
-            printf("ES POST!!!\n");
+            printf("ES POST DESDE READLINE!!!\n");
         }
 
-        printf("LINEA: %s\n",line);
+        // printf("LINEA: %s\n",line);
 
 
         acum += size;
@@ -95,9 +95,9 @@ int readLine(int s, char *line, int *result_size) {
                 // while(j<29){
 
                 // }
-                printf("DOBLE SALTO ZI!");        
+                // printf("DOBLE SALTO ZI!");        
             }
-            printf("BUFFER: %s\n",buffer);
+            // printf("BUFFER: %s\n",buffer);
         }        
     }
 
