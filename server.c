@@ -511,7 +511,7 @@ int serve(int s) {
                 char c;
 
                 int t=0;
-                //leer del pipe de salida del proceso para pintarlo en pantalla
+                //leer del pipe de salida del php para pintarlo en pantalla
                 char buffx[120000];
                 while (read(pipe_salida[0], &c, 1) > 0){                    
                     buffx[t]=c;
