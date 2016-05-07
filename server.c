@@ -518,8 +518,8 @@ int serve(int s) {
                     t++;
                 }
 
-                close(pipe_salida[0]);
-                close(pipe_entrada[1]);
+                // close(pipe_salida[0]);
+                // close(pipe_entrada[1]);
 
                 char buffer[32];
                 int size = 0;
