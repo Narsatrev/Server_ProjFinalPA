@@ -110,8 +110,6 @@ int readLine(int s, char *line, int *result_size) {
             }
         }
 
-    
-
         acum += size;
         if(!esPost){
             if(line[acum-1] == '\n' && line[acum-2] == '\r' ) {
@@ -124,11 +122,10 @@ int readLine(int s, char *line, int *result_size) {
                 if(read(s, buffer, longitudPost)<0){
                     perror("read");
                 }
-                printf("POR FAVAR: %s\n",buffer);
+                //funciono!!! para obtener todo el documento en POST
+                printf("POR FAVAR FUNCIONA!: %s\n",buffer);
                 memset(&residuos, 0, sizeof(residuos));
                 strncpy(residuos,buffer,longitudPost);
-
-
                 procesamientoPostTerminado=1;
                 break;
             }            
@@ -471,6 +468,7 @@ int serve(int s) {
                     dup2(pipe_salida[1], 1);
                     dup2(pipe_entrada[0], 0);
                     
+                    //para el get
                     if(metodo==1){
                         putenv("REQUEST_METHOD=GET");
                         putenv(ggg);    
@@ -484,6 +482,7 @@ int serve(int s) {
                     
                     putenv("REDIRECT_STATUS=True"); 
 
+                    //scripts estaticos solo agregarle url_archivo arriba antes de hacer el fork
                     if(metodo==1){
                         putenv("SCRIPT_FILENAME=test.php");    
                     }                   
@@ -502,6 +501,7 @@ int serve(int s) {
                 close(pipe_salida[1]);
                 close(pipe_entrada[0]);
 
+                //mandarle los datos al script del post
                 if(metodo==2){
                     for (i = 0; i < longitudPost; i++) {
                         write(pipe_entrada[1], &residuos[i], 1);
@@ -517,6 +517,9 @@ int serve(int s) {
                     buffx[t]=c;
                     t++;
                 }
+
+                close(pipe_salida[0]);
+                close(pipe_entrada[1]);
 
                 char buffer[32];
                 int size = 0;
@@ -543,6 +546,8 @@ int serve(int s) {
                     write(s,&buffx[aux],1);
                     aux++;
                 }
+
+
 
             }
     }    
