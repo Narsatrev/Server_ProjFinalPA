@@ -24,22 +24,25 @@ int sdo;
 
 char buffFecha[1000];
 
+//metodo para calcular la fecha y hora actuales y mandarlas en el header de respuesta
 void calcularFecha(){
     time_t esteInstante = time(0);
     struct tm tm = *gmtime(&esteInstante);
     strftime(buffFecha, sizeof buffFecha, "%a, %d %b %Y %H:%M:%S %Z", &tm);
 }
 
+//guardar en el log cuando el servidor se cae por x razon
 void servidorCayo(){
     openlog("ServidorMurio", LOG_PID | LOG_CONS, LOG_USER);
     syslog(LOG_INFO, "El servidor fue apagado o termino su proceso de forma inesperada...\n");
     closelog();
 }
 
+//recuperar el mime type del archivo en funcion de su extension
 char *recuperarMimeType(char *extension){
     int i,j,x;
     char buffTipoMime[100];
-
+    //recorre un simple arreglo con extensiones y tipos mime
     for(i=0;i<83;i++){
         if(strncmp(mapaMimeTypes[i],extension,strlen(extension))==0){
             strncpy(buffTipoMime,mapaMimeTypes[i+1],strlen(mapaMimeTypes[i+1]));
@@ -168,6 +171,7 @@ int serve(int s) {
     char command[MSGSIZE];
     int size, r, nlc = 0;
     char *archivo_peticion;        
+    //buffer masivo para ir guardando los comandos
     char buff[8192];
 
     char query[512];            
@@ -205,6 +209,7 @@ int serve(int s) {
                 break;               
             }    
         }else{
+            //para saber cuando se termino de leer el documento en el post
             if(procesamientoPostTerminado){
                 break;
                 procesamientoPostTerminado=0;
@@ -248,6 +253,8 @@ int serve(int s) {
         }    
     }
 
+    //establecer la ruta por default (index) cuando el usuario
+    //ingrese el ip o dns name del servidor
     char nombre_archivo_uri[500];
     if(strncmp(token_header,"/",strlen(token_header))==0){
         strncpy(nombre_archivo_uri, "/index.html", 12);
@@ -298,17 +305,19 @@ int serve(int s) {
     }else{
 
         char *token_extension;
-            //primer token=>path del archivo        
+        //primer token=>path del archivo        
         char nombre_archivo_uri_copia[512];
 
         strncpy(nombre_archivo_uri_copia,nombre_archivo_uri,512);
 
         token_extension = strtok(nombre_archivo_uri,".");
-            //segundo token=>extension del archivo
+        //segundo token=>extension del archivo
         token_extension = strtok(NULL,".");
 
         char* tipoMime;
 
+        //recuperar el mime type del archivo, si es php
+        //se hace un text/html por default para mostrar la respuesta del script
         if(strstr(token_extension,"php")>0) {
             strncpy(token_extension,"php",strlen(token_extension));
             tipoMime="text/html";
@@ -323,8 +332,12 @@ int serve(int s) {
         FILE *da;
         int tamano;
 
+        //path por default para la busqueda de archivos
+        //misma estructura que en apache lol
         char *url_archivo="/home/ec2-user/var/www/html";
 
+        //construccion del path completo al archivo 
+        //que incluye el path por default
         char url_completo[1024];
         strcat(url_completo,url_archivo);
         strcat(url_completo,nombre_archivo_uri);
@@ -333,8 +346,7 @@ int serve(int s) {
 
         printf("URL COMPLETA: %s\n",url_completo);
 
-        char *path_ejecutable= url_completo;
-        
+        char *path_ejecutable= url_completo;        
 
         da=fopen(url_completo, "r");
 
@@ -346,15 +358,17 @@ int serve(int s) {
 
             FILE *error=fopen("/home/ec2-user/var/www/html/errores/error404.html", "r");
 
+            //tamano del archivo
             fseek(error, 0L, SEEK_END);
             tamano = ftell(error);
             fseek(error, 0L, SEEK_SET);
 
+            //es un archivo muy pequeno, da igual si lo cargamos todo en memoria
             char *archivo = malloc(tamano+1);
             fread(archivo, tamano, 1, error);
             fclose(error);
 
-                    //Mandar una respuesta con header 404, archivo no encontrado
+            //Mandar una respuesta con header 404, archivo no encontrado
             sprintf(command, "HTTP/1.0 404 NOT FOUND\r\n");
             writeLine(s, command, strlen(command));
             calcularFecha();
@@ -364,6 +378,7 @@ int serve(int s) {
             writeLine(s, command, strlen(command));
             sprintf(command, "Content-Length: %d\r\n",tamano);
             writeLine(s, command, strlen(command));
+            //lo enviamos todo de jalon, es muy pequeno
             sprintf(command, "\r\n%s",archivo);
             writeLine(s, command, strlen(command));
 
@@ -376,32 +391,29 @@ int serve(int s) {
                 //Si no hay datos que requieran procesamiento, solo regresa un archivo estatico
                printf("SI EXISTE EL ARCHIVO YAY!!!\n");
 
-
+               //determinar tamano del archivo
                fseek(da, 0L, SEEK_END);
                tamano = ftell(da);
                fseek(da, 0L, SEEK_SET);
 
-               sprintf(command, "HTTP/1.0 200 OK\r\n");
-               writeLine(s, command, strlen(command));
-
-               calcularFecha();
+               //headers de la respuesta
+                sprintf(command, "HTTP/1.0 200 OK\r\n");
+                writeLine(s, command, strlen(command));
+                calcularFecha();
                 sprintf(command, "Date: %s\r\n",buffFecha);
-               writeLine(s, command, strlen(command));
-
-               sprintf(command, "Content-Type: %s\r\n",tipoMime);
-               writeLine(s, command, strlen(command));
-
-               sprintf(command, "Content-Length: %d\r\n",tamano);
-               writeLine(s, command, strlen(command));
-
-               sprintf(command, "\r\n");
-               writeLine(s, command, strlen(command));
+                writeLine(s, command, strlen(command));
+                sprintf(command, "Content-Type: %s\r\n",tipoMime);
+                writeLine(s, command, strlen(command));
+                sprintf(command, "Content-Length: %d\r\n",tamano);
+                writeLine(s, command, strlen(command));
+                sprintf(command, "\r\n");
+                writeLine(s, command, strlen(command));
 
                char file[tamano];
                int suma=0;
                size=fread(file,1,tamano,da);
                printf("ARCHIVO: %d\n",size);
-
+               //leer el archivo por secciones
                while((size=write(s,&file[suma],MSGSIZE))>0){                
                     suma+=size;
                     if(suma>=tamano){
@@ -411,8 +423,8 @@ int serve(int s) {
             //si no es un archivo estatico, requiere procesamiento, seleccionar get o post
             }else{            
 
+                //para debuggeo nada mas
                 if(metodo==1){
-
 
                 }else{
                     if(metodo==2){
@@ -421,6 +433,7 @@ int serve(int s) {
                     }
                 }
 
+                //convertir numero a string para el content length del post
                 char content_length[100];
                 char *ctt="CONTENT_LENGTH=";
                 char nums[15];
@@ -518,25 +531,18 @@ int serve(int s) {
                     t++;
                 }
 
-                // close(pipe_salida[0]);
-                // close(pipe_entrada[1]);
-
                 char buffer[32];
                 int size = 0;
-
+                //headers de la respuesta da igual si es post o get
                 sprintf(command, "HTTP/1.0 200 OK\r\n");
                 writeLine(s, command, strlen(command));
-
                 calcularFecha();
                 sprintf(command, "Date: %s\r\n",buffFecha);
                 writeLine(s, command, strlen(command));
-
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
-
                 sprintf(command, "Content-Length: %d\r\n",t-50);
                 writeLine(s, command, strlen(command));
-
                 sprintf(command, "\r\n");
                 writeLine(s, command, strlen(command));
 
@@ -546,9 +552,6 @@ int serve(int s) {
                     write(s,&buffx[aux],1);
                     aux++;
                 }
-
-
-
             }
     }    
     fclose(da);
@@ -583,8 +586,7 @@ int main() {
         // 4. aceptar conexión
 
     pid_t pid;    
-
-        //FINALMENTE.... crudo pero funcional
+        
         //al padre no le va a importar que suceda con el hijo mientras
         //este termine, por lo tanto los hijos nunca se transformaran en zombies
     signal(SIGCHLD, SIG_IGN);
@@ -594,8 +596,8 @@ int main() {
         sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
 
         if (sdo == -1) {
-                //En coso de que suceda algo raro en el socket y el cliente
-                //no pueda conectarse, ingresar el error al log
+            //En coso de que suceda algo raro en el socket y el cliente
+            //no pueda conectarse, ingresar el error al log
             openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
             syslog(LOG_INFO, "Error: %s\n", strerror(errno));
             closelog();
