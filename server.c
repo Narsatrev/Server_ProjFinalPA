@@ -656,9 +656,66 @@ int main(int argc, char **argv) {
         }
         
     }else{
+        int sd_hijo; /* child socket */
+        int clientlen; /* byte size of client's address */
+        struct sockaddr_in clientaddr; /* client addr */
+        char buf[BUFSIZE]; /* message buffer */
+        int optval=1; /* flag value for setsockopt */
+        int n; /* message byte size */
+        int connectcnt; /* number of connection requests */
+        int notdone;
+        fd_set descriptor_sockets;
+
+        clientlen = sizeof(clientaddr);
+        notdone = 1;
+        connectcnt = 0;
+        printf("server> ");
+        fflush(stdout);
+
+        while (notdone) {
+
+            /* 
+             * select: Has the user typed something to stdin or 
+             * has a connection request arrived?
+             */
+            FD_ZERO(&descriptor_sockets);          /* initialize the fd set */
+            FD_SET(sd, &descriptor_sockets); /* add socket fd */
+             
+            if (select(sd+1, &descriptor_sockets, 0, 0, 0) < 0) {
+              error("ERROR in select");
+            }              
+            
+            /* if a connection request has arrived, process it */
+            if (FD_ISSET(sd, &descriptor_sockets)) {
+              /* 
+               * accept: wait for a connection request 
+               */
+              sd_hijo = accept(sd, (struct sockaddr *) &clientaddr, &clientlen);
+              if (sd_hijo < 0) 
+            error("ERROR on accept");
+              connectcnt++;
+              
+              /* 
+               * read: read input string from the client
+               */
+              bzero(buf, BUFSIZE);
+              n = read(sd_hijo, buf, BUFSIZE);
+              if (n < 0) 
+            error("ERROR reading from socket");
+              
+              /* 
+               * write: echo the input string back to the client 
+               */
+            n = write(sd_hijo, buf, strlen(buf));
+            if (n < 0) 
+                error("ERROR writing to socket");
+              
+                close(sd_hijo);
+            }
+        }
 
         printf("Falta implementar los sockets!\n");
-        
+
     }
 
     close(sd);    
