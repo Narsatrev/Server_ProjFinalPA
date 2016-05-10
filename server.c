@@ -303,10 +303,6 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: text/html\r\n");
         writeLine(s, command, strlen(command));
-        if(mantener_vivo){
-                sprintf(command, "Connection: keep-alive\r\n");
-                writeLine(s, command, strlen(command));    
-            }
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n%s",archivo);
@@ -388,10 +384,6 @@ int serve(int s) {
             calcularFecha();
             sprintf(command, "Date: %s\r\n",buffFecha);
             writeLine(s, command, strlen(command));
-            if(mantener_vivo){
-                sprintf(command, "Connection: keep-alive\r\n");
-                writeLine(s, command, strlen(command));    
-            }
             sprintf(command, "Content-Type: text/html\r\n");
             writeLine(s, command, strlen(command));
             sprintf(command, "Content-Length: %d\r\n",tamano);
@@ -420,10 +412,6 @@ int serve(int s) {
                 calcularFecha();
                 sprintf(command, "Date: %s\r\n",buffFecha);
                 writeLine(s, command, strlen(command));
-                if(mantener_vivo){
-                    sprintf(command, "Connection: keep-alive\r\n");
-                    writeLine(s, command, strlen(command));    
-                }
                 sprintf(command, "Content-Type: %s\r\n",tipoMime);
                 writeLine(s, command, strlen(command));
                 sprintf(command, "Content-Length: %d\r\n",tamano);
@@ -563,10 +551,6 @@ int serve(int s) {
                 writeLine(s, command, strlen(command));
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
-                if(mantener_vivo){
-                    sprintf(command, "Connection: keep-alive\r\n");
-                    writeLine(s, command, strlen(command));    
-                }
                 sprintf(command, "Content-Length: %d\r\n",t-50);
                 writeLine(s, command, strlen(command));
                 sprintf(command, "\r\n");
