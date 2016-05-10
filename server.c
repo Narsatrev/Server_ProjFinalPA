@@ -340,6 +340,7 @@ int serve(int s) {
         //construccion del path completo al archivo 
         //que incluye el path por default
         char url_completo[1024];
+        memset(&url_completo, 0, sizeof(url_completo));
         strcat(url_completo,url_archivo);
         strcat(url_completo,nombre_archivo_uri);
         strcat(url_completo,".");
