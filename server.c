@@ -26,31 +26,52 @@ int sdo;
 char buffFecha[1000];
 
 void crearDemonio(){
-    pid_t proceso_id;
+    pid_t pid;
 
-    //ignorar todos los handlers y se;nales 
+    /* Fork off the parent process */
+    pid = fork();
+
+    /* An error occurred */
+    if (pid < 0)
+        exit(EXIT_FAILURE);
+
+    /* Success: Let the parent terminate */
+    if (pid > 0)
+        exit(EXIT_SUCCESS);
+
+    /* On success: The child process becomes session leader */
+    if (setsid() < 0)
+        exit(EXIT_FAILURE);
+
+    /* Catch, ignore and handle signals */
+    //TODO: Implement a working signal handler */
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
 
-    //hacer fork por seguna ocasion
-    proceso_id = fork();
+    /* Fork off for the second time*/
+    pid = fork();
 
-    //terminar el proceso padre
-    if (proceso_id > 0){
-        exit(0);
-    }
+    /* An error occurred */
+    if (pid < 0)
+        exit(EXIT_FAILURE);
 
-    //cambiar los permisos de ejecucion a root
+    /* Success: Let the parent terminate */
+    if (pid > 0)
+        exit(EXIT_SUCCESS);
+
+    /* Set new file permissions */
     umask(0);
 
-    //cerrar todos los descriptores de archivo
-    close(0);
-    close(1);
-    close(2);
-    dup(0);
-    dup(0);
+    /* Change the working directory to the root directory */
+    /* or another appropriated directory */
+    chdir("/");
 
-    setsid();
+    /* Close all open file descriptors */
+    int x;
+    for (x = sysconf(_SC_OPEN_MAX); x>0; x--)
+    {
+        close (x);
+    }
 
     openlog ("CreacionDeDemonio", LOG_PID | LOG_CONS, LOG_DAEMON);
     syslog(LOG_INFO, "El proceso fue demonizado\n");
@@ -596,8 +617,6 @@ return 0;
 
 int main(int argc, char **argv) {
 
-    
-
     int sd, addrlen, size;
     struct sockaddr_in sin, pin;
     int modo_ejecucion=0;
@@ -619,8 +638,8 @@ int main(int argc, char **argv) {
         }else{
             printf("Proceso no demonizado\n");
         }     
-
     }
+    
     //si la persona indica que quiere demonziar el proceso
     if(demonizar){
         crearDemonio();
