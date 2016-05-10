@@ -662,9 +662,6 @@ int main(int argc, char **argv) {
         int clientlen; 
         struct sockaddr_in clientaddr;
         char buf[1024];
-        int optval=1;
-        int n;
-        int connectcnt;
 
         fd_set descriptor_sockets;
 
@@ -690,11 +687,10 @@ int main(int argc, char **argv) {
 
                 if (sd_hijo < 0) error("ERROR on accept");
 
-                connectcnt++;
-
                 printf("Conectado desde %s\n", inet_ntoa(clientaddr.sin_addr));
                 printf("Puerto %d\n", ntohs(clientaddr.sin_port));
                 serve(sd_hijo);
+                printf("SHI");
                 close(sd_hijo);              
             
             //   bzero(buf, 1024);
