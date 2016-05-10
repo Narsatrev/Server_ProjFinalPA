@@ -506,7 +506,7 @@ int serve(int s) {
                     }                   
                     
                     //ejecuta el script de php 
-                    if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
+                    if(execlp("php-cgi", "php-cgi",url_completo, 0) < 0 ){
                         openlog("ErrorEXECLP", LOG_PID | LOG_CONS, LOG_USER);
                         syslog(LOG_INFO, "Error: %s\n", strerror(errno));
                         closelog();
@@ -623,8 +623,6 @@ int main(int argc, char **argv) {
 
     }
 
-    
-
     if(modo_ejecucion == 1){
         // 4. aceptar conexión
         pid_t pid;            
@@ -669,6 +667,13 @@ int main(int argc, char **argv) {
         char buf[1024];
         int arr_sockets[MAX_CONEXIONES];
         int max_conexiones=MAX_CONEXIONES;
+        int cualfueElUltimoSocket;
+        int socket_aux, i;
+
+        for (i=0;i< MAX_CONEXIONES;i++) {
+            arr_sockets[i] = 0;
+        }
+
         //descriptores para el conjutno de sockets
         fd_set descriptor_sockets;
         tam = sizeof(dir_cliente);        
@@ -677,16 +682,33 @@ int main(int argc, char **argv) {
 
             FD_ZERO(&descriptor_sockets);    
             FD_SET(sd, &descriptor_sockets); 
+
+            cualfueElUltimoSocket = sd;
+
+            //add child sockets to set
+            for (i=0;i<MAX_CONEXIONES;i++) {
+                //socket descriptor
+                socket_aux = arr_sockets[i];
+                 
+                //if valid socket descriptor then add to read list
+                if(socket_aux > 0){
+                    FD_SET( socket_aux , &descriptor_sockets);
+                }                 
+                //highest file descriptor number, need it for the select function
+                if(socket_aux > cualfueElUltimoSocket){
+                    cualfueElUltimoSocket = socket_aux;
+                }
+            }
             
             if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0) {
                 openlog("ErrorEnSelect", LOG_PID | LOG_CONS, LOG_USER);
                 syslog(LOG_INFO, "Error: %s\n", strerror(errno));
                 closelog();
                 perror("select");
-                exit(1);            
-            }              
+                exit(1);
+            }
             
-            if (FD_ISSET(sd, &descriptor_sockets)) {
+            if (FD_ISSET(sd, &descriptor_sockets)){
               
                 sd_hijo = accept(sd, (struct sockaddr *) &dir_cliente, &tam);
 
@@ -698,28 +720,20 @@ int main(int argc, char **argv) {
                     exit(1);   
                 }
 
-
-
-
                 printf("Conectado desde %s\n", inet_ntoa(dir_cliente.sin_addr));
                 printf("Puerto %d\n", ntohs(dir_cliente.sin_port));
                 serve(sd_hijo);
                 printf("SHI");
-                close(sd_hijo);              
-            
-            //   bzero(buf, 1024);
-            //   n = read(sd_hijo, buf, 1024);
-            //   if (n < 0) 
-            // error("ERROR reading from socket");
-              
-              
-            // n = write(sd_hijo, buf, strlen(buf));
-            // if (n < 0) 
-            //     error("ERROR writing to socket");
-              
-            //     close(sd_hijo);
+
+                for (i=0; i<MAX_CONEXIONES; i++){
+                    if(arr_sockets[i]==0){
+                        arr_sockets[i]= sd_hijo;
+                        break;
+                    }
                 }
+                                
             }
+        }
 
         printf("Falta implementar los sockets!\n");
 
