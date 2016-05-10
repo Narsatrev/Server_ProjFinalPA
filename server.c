@@ -223,6 +223,13 @@ int serve(int s) {
     char buff_aux[8192];
     strncpy(buff_aux,buff,8192);
 
+    //para las conexiones persistentes 
+    int mantener_vivo=0;
+
+    if(strstr(buff_aux,"keep-alive")>0){
+        mantener_vivo=1;
+    }
+
     char *token_header;
 
     //primer token=>TIPO DE ACCION (GET, POST, ETC...
@@ -296,6 +303,10 @@ int serve(int s) {
         writeLine(s, command, strlen(command));
         sprintf(command, "Content-Type: text/html\r\n");
         writeLine(s, command, strlen(command));
+        if(mantener_vivo){
+                sprintf(command, "Connection: keep-alive\r\n");
+                writeLine(s, command, strlen(command));    
+            }
         sprintf(command, "Content-Length: %d\r\n",tamano);
         writeLine(s, command, strlen(command));
         sprintf(command, "\r\n%s",archivo);
@@ -377,6 +388,10 @@ int serve(int s) {
             calcularFecha();
             sprintf(command, "Date: %s\r\n",buffFecha);
             writeLine(s, command, strlen(command));
+            if(mantener_vivo){
+                sprintf(command, "Connection: keep-alive\r\n");
+                writeLine(s, command, strlen(command));    
+            }
             sprintf(command, "Content-Type: text/html\r\n");
             writeLine(s, command, strlen(command));
             sprintf(command, "Content-Length: %d\r\n",tamano);
@@ -405,6 +420,10 @@ int serve(int s) {
                 calcularFecha();
                 sprintf(command, "Date: %s\r\n",buffFecha);
                 writeLine(s, command, strlen(command));
+                if(mantener_vivo){
+                    sprintf(command, "Connection: keep-alive\r\n");
+                    writeLine(s, command, strlen(command));    
+                }
                 sprintf(command, "Content-Type: %s\r\n",tipoMime);
                 writeLine(s, command, strlen(command));
                 sprintf(command, "Content-Length: %d\r\n",tamano);
@@ -544,6 +563,10 @@ int serve(int s) {
                 writeLine(s, command, strlen(command));
                 sprintf(command, "Content-Type: text/html\r\n");
                 writeLine(s, command, strlen(command));
+                if(mantener_vivo){
+                    sprintf(command, "Connection: keep-alive\r\n");
+                    writeLine(s, command, strlen(command));    
+                }
                 sprintf(command, "Content-Length: %d\r\n",t-50);
                 writeLine(s, command, strlen(command));
                 sprintf(command, "\r\n");
