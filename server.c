@@ -671,8 +671,6 @@ int main(int argc, char **argv) {
         clientlen = sizeof(clientaddr);
         connectcnt = 0;
 
-        fflush(stdout);
-
         while (1) {
 
             FD_ZERO(&descriptor_sockets);    
@@ -694,11 +692,10 @@ int main(int argc, char **argv) {
 
                 connectcnt++;
 
-                printf("Conectado desde %s\n", inet_ntoa(sd_hijo.sin_addr));
-                printf("Puerto %d\n", ntohs(sd_hijo.sin_port));
-                serve(sdo);
-                close(sdo);
-              
+                printf("Conectado desde %s\n", inet_ntoa(clientaddr.sin_addr));
+                printf("Puerto %d\n", ntohs(clientaddr.sin_port));
+                serve(sd_hijo);
+                close(sd_hijo);              
             
             //   bzero(buf, 1024);
             //   n = read(sd_hijo, buf, 1024);
