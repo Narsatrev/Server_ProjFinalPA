@@ -659,7 +659,7 @@ int main(int argc, char **argv) {
         int sd_hijo; 
         int clientlen; 
         struct sockaddr_in clientaddr;
-        char buf[BUFSIZE];
+        char buf[1024];
         int optval=1;
         int n;
         int connectcnt;
@@ -689,8 +689,8 @@ int main(int argc, char **argv) {
               connectcnt++;
               
             
-              bzero(buf, BUFSIZE);
-              n = read(sd_hijo, buf, BUFSIZE);
+              bzero(buf, 1024);
+              n = read(sd_hijo, buf, 1024);
               if (n < 0) 
             error("ERROR reading from socket");
               
