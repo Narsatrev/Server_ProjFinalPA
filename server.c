@@ -621,7 +621,7 @@ int main(int argc, char **argv) {
 
     }
 
-    addrlen = sizeof(pin);
+    
 
     if(modo_ejecucion == 1){
         // 4. aceptar conexión
@@ -629,6 +629,8 @@ int main(int argc, char **argv) {
             //al padre no le va a importar que suceda con el hijo mientras
             //este termine, por lo tanto los hijos nunca se transformaran en zombies
         signal(SIGCHLD, SIG_IGN);
+
+        addrlen = sizeof(pin);
 
         while(1){
 
@@ -689,8 +691,8 @@ int main(int argc, char **argv) {
 
                 connectcnt++;
 
-                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-                printf("Puerto %d\n", ntohs(pin.sin_port));
+                printf("Conectado desde %s\n", inet_ntoa(sd_hijo.sin_addr));
+                printf("Puerto %d\n", ntohs(sd_hijo.sin_port));
                 serve(sdo);
                 close(sdo);
               
