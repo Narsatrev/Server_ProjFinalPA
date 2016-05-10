@@ -30,32 +30,24 @@ static void crearDemonio(){
 
     pid = fork();
 
-    if (pid < 0)
-        exit(EXIT_FAILURE);
-
-    if (pid > 0)
-        exit(EXIT_SUCCESS);
-
-    if (setsid() < 0)
-        exit(EXIT_FAILURE);
+    if (pid > 0){
+        exit(0);
+    }
 
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
 
     pid = fork();
 
-    if (pid < 0)
-        exit(EXIT_FAILURE);
-
-    if (pid > 0)
-        exit(EXIT_SUCCESS);
+    if (pid < 0){
+        exit(0);
+    }
 
     umask(0);
 
-    int x;
-    for (x = sysconf(_SC_OPEN_MAX); x>0; x--)
-    {
-        close (x);
+    int desc;
+    for (desc = sysconf(_SC_OPEN_MAX); desc>0; desc--){
+        close(desc);
     }
 
     openlog ("CreacionDeDemonio", LOG_PID | LOG_CONS, LOG_DAEMON);
