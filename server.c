@@ -125,7 +125,7 @@ int readLine(int s, char *line, int *result_size) {
                 if(read(s, buffer, longitudPost)<0){
                     perror("read");
                 }
-                
+
                 //funciono!!! para obtener todo el documento en POST
                 printf("POR FAVAR FUNCIONA!: %s\n",buffer);
                 memset(&residuos, 0, sizeof(residuos));
@@ -579,15 +579,14 @@ int main() {
 
         // 2. Asociar el socket a un IP/puerto
     bind(sd, (struct sockaddr *) &sin, sizeof(sin));
+    
         // 3. Configurar el backlog
     listen(sd, 5);
 
     addrlen = sizeof(pin);
 
         // 4. aceptar conexión
-
-    pid_t pid;    
-        
+    pid_t pid;            
         //al padre no le va a importar que suceda con el hijo mientras
         //este termine, por lo tanto los hijos nunca se transformaran en zombies
     signal(SIGCHLD, SIG_IGN);

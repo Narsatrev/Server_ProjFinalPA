@@ -28,13 +28,13 @@ Evaluación según la siguiente tabla:
 (DONE)+5 - usa syslog para loggear todo request/error.
 (DONE)+15 - Multithread, sin memory leaks.
 (DONE)+10 - Ejecuta  CGI mediante GET.
-+10 - Ejecuta CGI mediante POST.
-lll+20 - recibe archivos usando <input type="file"> (y se pueden consultar con un 
+(DONE)+10 - Ejecuta CGI mediante POST.
++20 - recibe archivos usando <input type="file"> (y se pueden consultar con un 
 directorio virtual).
 +20 - conexiones persistentes y respuestas parciales de HTTP/1.1.
 +20 - No es multithreaded ni multiproceso, usa select para atender eventos asíncronos.
-lll+30 - Auto scaling y load balancing en AWS, pruebas con JMeter.
-lll+30 - Implementar Simian Army.
+(DONE)+30 - Auto scaling y load balancing en AWS, pruebas con JMeter.
+(DONE)+30 - Implementar Simian Army.
  
 Nota: Para ejecutar los .php mediante exec es necesario definir las variables de 
 entorno REQUEST_METHOD=GET, REDIRECT_STATUS, QUERY_STRING=..., SCRIPT_FILENAME=... 
