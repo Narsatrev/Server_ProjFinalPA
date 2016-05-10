@@ -30,7 +30,7 @@ void crearDemonio(){
 
     proceso_id = fork();
 
-    //ignorar todos los handlers y se;nales de los hijos
+    //ignorar todos los handlers y se;nales 
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
 
@@ -48,7 +48,7 @@ void crearDemonio(){
     //cerrar todos los descriptores de archivo
     int descriptores;
     for(descriptores = sysconf(_SC_OPEN_MAX); descriptores>0; descriptores--){
-        close (x);
+        close (descriptores);
     }
 
     openlog ("CreacionDeDemonio", LOG_PID | LOG_CONS, LOG_DAEMON);
