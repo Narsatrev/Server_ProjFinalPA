@@ -654,9 +654,12 @@ int main(int argc, char **argv) {
 
             atexit(servidorCayo);
         }
-        close(sd);    
+        
     }else{
+
         printf("Falta implementar los sockets!\n");
+        
     }
-    
+
+    close(sd);    
 }
