@@ -613,8 +613,8 @@ int main(int argc, char **argv) {
             printf("Modo ejecucion: select()\n");
         }     
 
-        modo_ejecucion= atoi(argv[2]);
-        if(demonizar==1){
+        demonizar= atoi(argv[2]);
+        if(demonizar == 1){
             printf("Proceso demonizado\n");
         }else{
             printf("Proceso no demonizado\n");
