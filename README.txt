@@ -29,6 +29,7 @@ Evaluación según la siguiente tabla:
 (DONE)+15 - Multithread, sin memory leaks.
 (DONE)+10 - Ejecuta  CGI mediante GET.
 (DONE)+10 - Ejecuta CGI mediante POST.
++20 - URL Semanticas	
 +20 - recibe archivos usando <input type="file"> (y se pueden consultar con un 
 directorio virtual).
 +20 - conexiones persistentes y respuestas parciales de HTTP/1.1.

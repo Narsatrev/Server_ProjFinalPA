@@ -658,9 +658,11 @@ int main(int argc, char **argv) {
         }
         
     }else{
+
         //version de ejecucion del servidor
         //con varios sockets que realizan un multiplexing de 
         //las peticiones en 1 solo proceso
+
         int sd_hijo; 
         int tam; 
         struct sockaddr_in dir_cliente;
@@ -685,29 +687,26 @@ int main(int argc, char **argv) {
 
             cualfueElUltimoSocket = sd;
 
-            //add child sockets to set
             for (i=0;i<MAX_CONEXIONES;i++) {
-                //socket descriptor
                 socket_aux = arr_sockets[i];
-                 
-                //if valid socket descriptor then add to read list
+                
                 if(socket_aux > 0){
                     FD_SET( socket_aux , &descriptor_sockets);
                 }                 
-                //highest file descriptor number, need it for the select function
                 if(socket_aux > cualfueElUltimoSocket){
                     cualfueElUltimoSocket = socket_aux;
                 }
             }
             
-            if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0) {
+            if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0){
                 openlog("ErrorEnSelect", LOG_PID | LOG_CONS, LOG_USER);
                 syslog(LOG_INFO, "Error: %s\n", strerror(errno));
                 closelog();
                 perror("select");
                 exit(1);
             }
-            
+                
+            //checar si el nuevo socket se encuentra dentro del arreglo
             if (FD_ISSET(sd, &descriptor_sockets)){
               
                 sd_hijo = accept(sd, (struct sockaddr *) &dir_cliente, &tam);
@@ -722,8 +721,7 @@ int main(int argc, char **argv) {
 
                 printf("Conectado desde %s\n", inet_ntoa(dir_cliente.sin_addr));
                 printf("Puerto %d\n", ntohs(dir_cliente.sin_port));
-                serve(sd_hijo);
-                printf("SHI");
+                serve(sd_hijo);                
 
                 for (i=0; i<MAX_CONEXIONES; i++){
                     if(arr_sockets[i]==0){
@@ -731,13 +729,10 @@ int main(int argc, char **argv) {
                         break;
                     }
                 }
-                                
             }
         }
-
-        printf("Falta implementar los sockets!\n");
-
     }
 
     close(sd);    
+
 }
