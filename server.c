@@ -686,6 +686,9 @@ int main(int argc, char **argv) {
             if (FD_ISSET(sd, &descriptor_sockets)) {
               
                 sd_hijo = accept(sd, (struct sockaddr *) &clientaddr, &clientlen);
+                if(sd_hijo<0){
+                    perror("accept");
+                }
 
                 if (sd_hijo < 0) error("ERROR on accept");
 
