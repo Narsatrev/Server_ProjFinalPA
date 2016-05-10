@@ -677,7 +677,6 @@ int main(int argc, char **argv) {
             FD_SET(sd, &descriptor_sockets); 
 
             if (select(sd+1, &descriptor_sockets, 0, 0, 0) < 0) {
-                
               error("ERROR in select");
             }              
 
@@ -707,7 +706,7 @@ int main(int argc, char **argv) {
             //     error("ERROR writing to socket");
               
             //     close(sd_hijo);
-            // }
+                }
             }
 
         printf("Falta implementar los sockets!\n");
