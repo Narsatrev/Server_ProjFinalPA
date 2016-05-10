@@ -34,9 +34,6 @@ static void crearDemonio(){
         exit(0);
     }
 
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGHUP, SIG_IGN);
-
     pid = fork();
 
     if(pid > 0){
@@ -619,6 +616,7 @@ int main(int argc, char **argv) {
 
     //si la persona indica que quiere demonziar el proceso
     if(demonizar == 1){
+        printf("Demonizando...");
         crearDemonio();
     }
 
