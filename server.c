@@ -25,6 +25,37 @@ int sdo;
 
 char buffFecha[1000];
 
+void crearDemonio(){
+    pid_t proceso_id;
+
+    proceso_id = fork();
+
+    //ignorar todos los handlers y se;nales de los hijos
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGHUP, SIG_IGN);
+
+    //hacer fork por seguna ocasion
+    proceso_id = fork();
+
+    //terminar el proceso padre
+    if (proceso_id > 0){
+        exit(0);
+    }
+
+    //cambiar los permisos de ejecucion a root
+    umask(0);
+
+    //cerrar todos los descriptores de archivo
+    int descriptores;
+    for(descriptores = sysconf(_SC_OPEN_MAX); descriptores>0; descriptores--){
+        close (x);
+    }
+
+    openlog ("CreacionDeDemonio", LOG_PID | LOG_CONS, LOG_DAEMON);
+    syslog(LOG_INFO, "El proceso fue demonizado\n");
+    closelog();
+}
+
 //metodo para calcular la fecha y hora actuales y mandarlas en el header de respuesta
 void calcularFecha(){
     time_t esteInstante = time(0);
@@ -563,12 +594,16 @@ return 0;
 }
 
 int main(int argc, char **argv) {
+
+    
+
     int sd, addrlen, size;
     struct sockaddr_in sin, pin;
     int modo_ejecucion=0;
+    int demonizar=0;
 
-    if (argc != 2) {
-        fprintf(stderr, "Uso: %s <modo ejecucion: 1= multiproceso 2= select>\n", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "Uso: %s <modo ejecucion: 1= multiproceso 2= select> <demonizar: 1=si 0=no>\n", argv[0]);
         exit(1);
     }else{
         modo_ejecucion= atoi(argv[1]);
@@ -576,9 +611,20 @@ int main(int argc, char **argv) {
             printf("Modo ejecucion: Multiproceso\n");
         }else{
             printf("Modo ejecucion: select()\n");
-        }        
-    }
+        }     
 
+        modo_ejecucion= atoi(argv[2]);
+        if(demonizar==1){
+            printf("Proceso demonizado\n");
+        }else{
+            printf("Proceso no demonizado\n");
+        }     
+
+    }
+    //si la persona indica que quiere demonziar el proceso
+    if(demonizar){
+        crearDemonio();
+    }
 
         // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
