@@ -28,8 +28,6 @@ char buffFecha[1000];
 void crearDemonio(){
     pid_t proceso_id;
 
-    proceso_id = fork();
-
     //ignorar todos los handlers y se;nales 
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
@@ -46,10 +44,15 @@ void crearDemonio(){
     umask(0);
 
     //cerrar todos los descriptores de archivo
-    int descriptores;
-    for(descriptores = sysconf(_SC_OPEN_MAX); descriptores>0; descriptores--){
-        close (descriptores);
-    }
+    close(0);
+    close(1);
+    close(2);
+    //mandar a la basura todo el stdout etc.
+    open("/dev/null", O_RDWR);
+    dup(0);
+    dup(0);
+
+    setsid();
 
     openlog ("CreacionDeDemonio", LOG_PID | LOG_CONS, LOG_DAEMON);
     syslog(LOG_INFO, "El proceso fue demonizado\n");
