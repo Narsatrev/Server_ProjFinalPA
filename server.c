@@ -517,16 +517,17 @@ int serve(int s) {
 
                 //mandarle los datos al script del post
                 if(metodo==2){
-                    for (i = 0; i < longitudPost; i++) {
+                    for (i = 0; i < longitudPost; i++){
                         write(pipe_entrada[1], &residuos[i], 1);
                     }
                 }
 
                 char c;
                 int t=0;
-                //leer del pipe de salida del php para pintarlo en pantalla
+                //leer del pipe de salida del php para pintarlo en pantalla                
                 char buffx[120000];
-                while (read(pipe_salida[0], &c, 1) > 0){                    
+
+                while (read(pipe_salida[0], &c, 1) > 0){
                     buffx[t]=c;
                     t++;
                 }
@@ -569,7 +570,11 @@ int main(int argc, char **argv) {
         exit(1);
     }else{
         modo_ejecucion= atoi(argv[1]);
-        printf("Modo ejecucion: %d\n",modo_ejecucion);
+        if(modo_ejecucion==1){
+            printf("Modo ejecucion: Multiproceso\n");
+        }else{
+            printf("Modo ejecucion: select()\n");
+        }        
     }
 
 
@@ -618,35 +623,40 @@ int main(int argc, char **argv) {
 
     addrlen = sizeof(pin);
 
+    if(modo_ejecucion == 1){
         // 4. aceptar conexión
-    pid_t pid;            
-        //al padre no le va a importar que suceda con el hijo mientras
-        //este termine, por lo tanto los hijos nunca se transformaran en zombies
-    signal(SIGCHLD, SIG_IGN);
+        pid_t pid;            
+            //al padre no le va a importar que suceda con el hijo mientras
+            //este termine, por lo tanto los hijos nunca se transformaran en zombies
+        signal(SIGCHLD, SIG_IGN);
 
-    while(1){
+        while(1){
 
-        sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
+            sdo = accept(sd, (struct sockaddr *)  &pin, &addrlen);
 
-        if (sdo == -1) {
-            //En coso de que suceda algo raro en el socket y el cliente
-            //no pueda conectarse, ingresar el error al log
-            openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
-            syslog(LOG_INFO, "Error: %s\n", strerror(errno));
-            closelog();
-            perror("accept");
-            exit(1);
+            if (sdo == -1) {
+                //En coso de que suceda algo raro en el socket y el cliente
+                //no pueda conectarse, ingresar el error al log
+                openlog("ErrorAceptarConexion", LOG_PID | LOG_CONS, LOG_USER);
+                syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+                closelog();
+                perror("accept");
+                exit(1);
+            }
+
+            if(!fork()){
+                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+                printf("Puerto %d\n", ntohs(pin.sin_port));
+                serve(sdo);
+                close(sdo);
+                exit(0);
+            }
+
+            atexit(servidorCayo);
         }
-
-        if(!fork()){
-            printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
-            printf("Puerto %d\n", ntohs(pin.sin_port));
-            serve(sdo);
-            close(sdo);
-            exit(0);
-        }
-
-        atexit(servidorCayo);
+        close(sd);    
+    }else{
+        printf("Falta implementar los sockets!\n");
     }
-    close(sd);
+    
 }
