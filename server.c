@@ -125,6 +125,7 @@ int readLine(int s, char *line, int *result_size) {
                 if(read(s, buffer, longitudPost)<0){
                     perror("read");
                 }
+                
                 //funciono!!! para obtener todo el documento en POST
                 printf("POR FAVAR FUNCIONA!: %s\n",buffer);
                 memset(&residuos, 0, sizeof(residuos));
