@@ -47,8 +47,6 @@ void crearDemonio(){
     close(0);
     close(1);
     close(2);
-    //mandar a la basura todo el stdout etc.
-    open("/dev/null", O_RDWR);
     dup(0);
     dup(0);
 
