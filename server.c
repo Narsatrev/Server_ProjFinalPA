@@ -62,10 +62,6 @@ void crearDemonio(){
     /* Set new file permissions */
     umask(0);
 
-    /* Change the working directory to the root directory */
-    /* or another appropriated directory */
-    chdir("/");
-
     /* Close all open file descriptors */
     int x;
     for (x = sysconf(_SC_OPEN_MAX); x>0; x--)
@@ -639,7 +635,7 @@ int main(int argc, char **argv) {
             printf("Proceso no demonizado\n");
         }     
     }
-    
+
     //si la persona indica que quiere demonziar el proceso
     if(demonizar){
         crearDemonio();
