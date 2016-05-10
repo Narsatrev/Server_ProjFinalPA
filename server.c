@@ -662,11 +662,8 @@ int main(int argc, char **argv) {
         int clientlen; 
         struct sockaddr_in clientaddr;
         char buf[1024];
-
         fd_set descriptor_sockets;
-
         clientlen = sizeof(clientaddr);
-        connectcnt = 0;
 
         while (1) {
 
