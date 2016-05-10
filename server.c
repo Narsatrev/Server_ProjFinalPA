@@ -496,7 +496,6 @@ int serve(int s) {
                     
                     putenv("REDIRECT_STATUS=True"); 
 
-                    //scripts estaticos solo agregarle url_archivo arriba antes de hacer el fork
                     if(metodo==1){
                         putenv("SCRIPT_FILENAME=test.php");    
                     }                   
@@ -504,6 +503,7 @@ int serve(int s) {
                         putenv("SCRIPT_FILENAME=test2.php");    
                     }                   
                     
+                    //ejecuta el script de php 
                     if(execlp("php-cgi", "php-cgi",url_completo, 0)<0){
                         openlog("ErrorEXECLP", LOG_PID | LOG_CONS, LOG_USER);
                         syslog(LOG_INFO, "Error: %s\n", strerror(errno));
@@ -523,7 +523,6 @@ int serve(int s) {
                 }
 
                 char c;
-
                 int t=0;
                 //leer del pipe de salida del php para pintarlo en pantalla
                 char buffx[120000];
@@ -560,15 +559,37 @@ int serve(int s) {
 return 0;    
 }
 
-int main() {
+int main(int argc, char **argv) {
     int sd, addrlen, size;
     struct sockaddr_in sin, pin;
+    int modo_ejecucion=0;
+
+    if (argc != 2) {
+        fprintf(stderr, "Uso: %s <modo ejecucion: 1= multiproceso 2= select>\n", argv[0]);
+        exit(1);
+    }else{
+        modo_ejecucion= atoi(argv[1]);
+        printf("Modo ejecucion");
+    }
 
 
         // 1. Crear el socket
     sd = socket(AF_INET, SOCK_STREAM, 0);
+    if(sd<0){
+        openlog("ErrorCreacionSocket", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        closelog();
+        perror("socket");
+    }
+
     int habilitar = 1;
+
+    //SO_REUSEADOR permite reabrir la conexion inmediatamente despues de mapagar el servidor
+    //de lo contrario tendriamos que esperar 20 sec - 2 mins
     if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &habilitar, sizeof(int)) < 0){        
+        openlog("ErrorSocketOpciones", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        closelog();
         perror("setsockopt");
     }
 
@@ -578,10 +599,22 @@ int main() {
     sin.sin_port = htons(PORT);
 
         // 2. Asociar el socket a un IP/puerto
-    bind(sd, (struct sockaddr *) &sin, sizeof(sin));
-    
+    if(bind(sd, (struct sockaddr *) &sin, sizeof(sin))<0){
+        openlog("ErrorEnElBinding", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        closelog();
+        perror("bind");
+    }
+
+
         // 3. Configurar el backlog
-    listen(sd, 5);
+    if(listen(sd, 5)<0){
+        openlog("ErrorEnListen", LOG_PID | LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+        closelog();
+        perror("listen");
+
+    }
 
     addrlen = sizeof(pin);
 
