@@ -666,11 +666,11 @@ int main(int argc, char **argv) {
         fd_set descriptor_sockets;
         clientlen = sizeof(clientaddr);
 
+        FD_ZERO(&descriptor_sockets);    
+        FD_SET(sd, &descriptor_sockets); 
+
         while (1) {
-
-            FD_ZERO(&descriptor_sockets);    
-            FD_SET(sd, &descriptor_sockets); 
-
+            
             if (select(sd+1, &descriptor_sockets, 0, 0, 0) < 0) {
               error("ERROR in select");
             }              
@@ -689,7 +689,7 @@ int main(int argc, char **argv) {
                 printf("Puerto %d\n", ntohs(clientaddr.sin_port));
                 serve(sd_hijo);
                 printf("SHI");
-                // close(sd_hijo);              
+                close(sd_hijo);              
             
             //   bzero(buf, 1024);
             //   n = read(sd_hijo, buf, 1024);
