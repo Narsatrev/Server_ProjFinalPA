@@ -689,7 +689,7 @@ int main(int argc, char **argv) {
                 printf("Puerto %d\n", ntohs(clientaddr.sin_port));
                 serve(sd_hijo);
                 printf("SHI");
-                close(sd_hijo);              
+                // close(sd_hijo);              
             
             //   bzero(buf, 1024);
             //   n = read(sd_hijo, buf, 1024);
