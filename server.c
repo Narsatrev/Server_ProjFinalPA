@@ -677,31 +677,38 @@ int main(int argc, char **argv) {
             FD_SET(sd, &descriptor_sockets); 
 
             if (select(sd+1, &descriptor_sockets, 0, 0, 0) < 0) {
+                
               error("ERROR in select");
             }              
 
             
             if (FD_ISSET(sd, &descriptor_sockets)) {
               
-              sd_hijo = accept(sd, (struct sockaddr *) &clientaddr, &clientlen);
-              if (sd_hijo < 0) 
-            error("ERROR on accept");
-              connectcnt++;
+                sd_hijo = accept(sd, (struct sockaddr *) &clientaddr, &clientlen);
+
+                if (sd_hijo < 0) error("ERROR on accept");
+
+                connectcnt++;
+
+                printf("Conectado desde %s\n", inet_ntoa(pin.sin_addr));
+                printf("Puerto %d\n", ntohs(pin.sin_port));
+                serve(sdo);
+                close(sdo);
               
             
-              bzero(buf, 1024);
-              n = read(sd_hijo, buf, 1024);
-              if (n < 0) 
-            error("ERROR reading from socket");
+            //   bzero(buf, 1024);
+            //   n = read(sd_hijo, buf, 1024);
+            //   if (n < 0) 
+            // error("ERROR reading from socket");
               
               
-            n = write(sd_hijo, buf, strlen(buf));
-            if (n < 0) 
-                error("ERROR writing to socket");
+            // n = write(sd_hijo, buf, strlen(buf));
+            // if (n < 0) 
+            //     error("ERROR writing to socket");
               
-                close(sd_hijo);
+            //     close(sd_hijo);
+            // }
             }
-        }
 
         printf("Falta implementar los sockets!\n");
 
