@@ -1,24 +1,25 @@
 
-    #include <stdio.h>
-    #include <sys/types.h>
-    #include <sys/socket.h>
-    #include <sys/stat.h>
-    #include <netinet/in.h>
-    #include <netdb.h>
-    #include <string.h>
-    #include <signal.h>
-    #include <time.h>
-    #include <arpa/inet.h>
-    #include <stdlib.h>
-    #include "listaMimeTypes.h"
-    #include <syslog.h>
-    #include <errno.h>
-    #include <pthread.h>
-    #include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <string.h>
+#include <signal.h>
+#include <time.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include "listaMimeTypes.h"
+#include <syslog.h>
+#include <errno.h>
+#include <pthread.h>
+#include <unistd.h>
 
-    #define PORT 80
-    #define SIZE 8
-    #define MSGSIZE 1024
+#define PORT 80
+#define SIZE 8
+#define MSGSIZE 1024
+#define MAX_CONEXIONES 200
 
 int sdo;
 
@@ -659,33 +660,49 @@ int main(int argc, char **argv) {
         }
         
     }else{
+        //version de ejecucion del servidor
+        //con varios sockets que realizan un multiplexing de 
+        //las peticiones en 1 solo proceso
         int sd_hijo; 
-        int clientlen; 
-        struct sockaddr_in clientaddr;
+        int tam; 
+        struct sockaddr_in dir_cliente;
         char buf[1024];
+        int arr_sockets[MAX_CONEXIONES];
+        int max_conexiones=MAX_CONEXIONES;
+        //descriptores para el conjutno de sockets
         fd_set descriptor_sockets;
-        clientlen = sizeof(clientaddr);
-
-        FD_ZERO(&descriptor_sockets);    
-        FD_SET(sd, &descriptor_sockets); 
+        tam = sizeof(dir_cliente);        
 
         while (1) {
-            
-            if (select(sd+1, &descriptor_sockets, 0, 0, 0) < 0) {
-              error("ERROR in select");
-            }              
 
+            FD_ZERO(&descriptor_sockets);    
+            FD_SET(sd, &descriptor_sockets); 
+            
+            if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0) {
+                openlog("ErrorEnSelect", LOG_PID | LOG_CONS, LOG_USER);
+                syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+                closelog();
+                perror("select");
+                exit(1);            
+            }              
             
             if (FD_ISSET(sd, &descriptor_sockets)) {
               
-                sd_hijo = accept(sd, (struct sockaddr *) &clientaddr, &clientlen);
+                sd_hijo = accept(sd, (struct sockaddr *) &dir_cliente, &tam);
 
                 if(sd_hijo < 0){
+                    openlog("ErrorEnAcceptSocketSelect", LOG_PID | LOG_CONS, LOG_USER);
+                    syslog(LOG_INFO, "Error: %s\n", strerror(errno));
+                    closelog();
                     perror("accept");
+                    exit(1);   
                 }
 
-                printf("Conectado desde %s\n", inet_ntoa(clientaddr.sin_addr));
-                printf("Puerto %d\n", ntohs(clientaddr.sin_port));
+
+
+
+                printf("Conectado desde %s\n", inet_ntoa(dir_cliente.sin_addr));
+                printf("Puerto %d\n", ntohs(dir_cliente.sin_port));
                 serve(sd_hijo);
                 printf("SHI");
                 close(sd_hijo);              
