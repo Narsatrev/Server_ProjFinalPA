@@ -569,7 +569,7 @@ int main(int argc, char **argv) {
         exit(1);
     }else{
         modo_ejecucion= atoi(argv[1]);
-        printf("Modo ejecucion");
+        printf("Modo ejecucion: %d\n",modo_ejecucion);
     }
 
 
