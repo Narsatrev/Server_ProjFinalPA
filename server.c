@@ -223,13 +223,6 @@ int serve(int s) {
     char buff_aux[8192];
     strncpy(buff_aux,buff,8192);
 
-    //para las conexiones persistentes 
-    int mantener_vivo=0;
-
-    if(strstr(buff_aux,"keep-alive")>0){
-        mantener_vivo=1;
-    }
-
     char *token_header;
 
     //primer token=>TIPO DE ACCION (GET, POST, ETC...
@@ -705,7 +698,7 @@ int main(int argc, char **argv) {
                 }
             }
             
-            if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0){
+            if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0) {
                 openlog("ErrorEnSelect", LOG_PID | LOG_CONS, LOG_USER);
                 syslog(LOG_INFO, "Error: %s\n", strerror(errno));
                 closelog();
