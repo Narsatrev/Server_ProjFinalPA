@@ -25,28 +25,41 @@ int sdo;
 
 char buffFecha[1000];
 
-static void crearDemonio(){
-    pid_t pid;
+void crearDemonio(){
+    pid_t proceso_demonio;
 
-    pid = fork();
+    proceso_demonio= fork();
 
-    if(pid > 0){
+//eliminar a los procesos padre, por que despues
+    //el hijo se va a volver hijo del proceso principal
+    if(proceso_demonio > 0){
         exit(0);
     }
 
-    pid = fork();
+//procesos subsecuentes ignoran se;nales
+    //de sus hijos.. lol 
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGHUP, SIG_IGN);
 
-    if(pid > 0){
+    proceso_demonio= fork();
+
+    if(proceso_demonio > 0){
         exit(0);
     }
 
+//cambiar a root
     umask(0);
 
+//cerrar todos los descriptores de archivos
     int desc;
+    //SC_OPEN_MAX es el limite de descriptores de archivo
+    //que un proceso puede tener abiertos al mismo tiempo, en
+    //este caso stdin, stdout y stderr
     for (desc = sysconf(_SC_OPEN_MAX); desc>0; desc--){
         close(desc);
     }
 
+//mandar al log
     openlog ("CreacionDeDemonio", LOG_PID | LOG_CONS, LOG_DAEMON);
     syslog(LOG_INFO, "El proceso fue demonizado\n");
     closelog();
@@ -703,6 +716,8 @@ int main(int argc, char **argv) {
         //con varios sockets que realizan un multiplexing de 
         //las peticiones en 1 solo proceso
 
+        //aqui el socket principal fue inicializado antes de la disyuntiva
+        //de ejecuciones
         int sd_hijo; 
         int tam; 
         struct sockaddr_in dir_cliente;
@@ -712,6 +727,8 @@ int main(int argc, char **argv) {
         int cualfueElUltimoSocket;
         int socket_aux, i;
 
+        //inicializar el arreglo donde estaran los sockets
+        //que atenderan las siguientes conexiones
         for (i=0;i< MAX_CONEXIONES;i++) {
             arr_sockets[i] = 0;
         }
@@ -720,12 +737,18 @@ int main(int argc, char **argv) {
         fd_set descriptor_sockets;
         tam = sizeof(dir_cliente);        
 
+        //ciclo principal de ejecucion
         while (1) {
-
+            //creacion del conjunto de sockets
             FD_ZERO(&descriptor_sockets);    
-            FD_SET(sd, &descriptor_sockets); 
 
+            //aqui se agrega el socket principal
+            //al conjunto de sockets
+            FD_SET(sd, &descriptor_sockets); 
+            //este representa el socket maximo 
+            //para llevar la cuenta de las conexiones
             cualfueElUltimoSocket = sd;
+
 
             for (i=0;i<MAX_CONEXIONES;i++) {
                 socket_aux = arr_sockets[i];
@@ -738,6 +761,8 @@ int main(int argc, char **argv) {
                 }
             }
             
+            //detecta si hay alguna llamada de clientes, aka cambio de actividad
+            //en el socket principal
             if (select(sd + 1, &descriptor_sockets, NULL, NULL, NULL) < 0) {
                 openlog("ErrorEnSelect", LOG_PID | LOG_CONS, LOG_USER);
                 syslog(LOG_INFO, "Error: %s\n", strerror(errno));
@@ -746,11 +771,12 @@ int main(int argc, char **argv) {
                 exit(1);
             }
                 
-            //checar si el nuevo socket se encuentra dentro del arreglo
+            //checar si el nuevo socket se encuentra dentro del arreglo y 
+            //crear socket que le ayude a manejar la peticion
             if (FD_ISSET(sd, &descriptor_sockets)){
-              
-                sd_hijo = accept(sd, (struct sockaddr *) &dir_cliente, &tam);
 
+                //creacion de un nuevo socket hijo para recibir llamada de cliente
+                sd_hijo = accept(sd, (struct sockaddr *) &dir_cliente, &tam);
                 if(sd_hijo < 0){
                     openlog("ErrorEnAcceptSocketSelect", LOG_PID | LOG_CONS, LOG_USER);
                     syslog(LOG_INFO, "Error: %s\n", strerror(errno));
@@ -763,12 +789,16 @@ int main(int argc, char **argv) {
                 printf("Puerto %d\n", ntohs(dir_cliente.sin_port));
                 serve(sd_hijo);                
 
+                //volver a checar si hubo algun cambio en alguno de los sockets hijos
+
                 for (i=0; i<MAX_CONEXIONES; i++){
                     if(arr_sockets[i]==0){
                         arr_sockets[i]= sd_hijo;
                         break;
                     }
                 }
+                //falla terriblemente falta la coordinacion entre sockets pero
+                //no estoy seguro de su implementacion...lol
             }
         }
     }
